@@ -3,15 +3,12 @@ import { Box, Container, Heading } from '@chakra-ui/react'
 
 import MainLayout from 'layouts/main-layout'
 
-const Home: NextPage = () => {
+const Blog: NextPage = () => {
   return (
     <MainLayout>
-      <Container
-        pt={4}
-      >
+      <Container>
         <Box>
-          <Heading>Ryan Chang</Heading>
-          <p>CS / Math / Econ student at MIT</p>
+          <Heading>Blog</Heading>
         </Box>
       </Container>
 
@@ -22,4 +19,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default Blog
