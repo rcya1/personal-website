@@ -28,7 +28,8 @@ const Navbar: FC<NavbarProps> = ({ }) => {
       py={4}
       backgroundColor={navbarColor}
       backdropFilter='auto'
-      backdropBlur='6px'
+      backdropBlur='8px'
+      zIndex={100}
     >
       <Flex
         direction='row'
@@ -49,7 +50,7 @@ const Navbar: FC<NavbarProps> = ({ }) => {
         >
           { 
             Object.entries(links).map(entry => 
-              <NavbarItem title={entry[0]} href={entry[1]} active={router.asPath === entry[1]} />)
+              <NavbarItem key={entry[0]} title={entry[0]} href={entry[1]} active={router.asPath === entry[1]} />)
           }
         </HStack>
         <Box>

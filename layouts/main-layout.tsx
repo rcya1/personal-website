@@ -1,15 +1,11 @@
 import React, { FC } from 'react'
 import { Box, Container } from '@chakra-ui/react'
 import Head from 'next/head'
-
+import { BasicProps } from 'lib/react-utils'
 import Navbar from 'components/navbar'
 import Footer from 'components/footer'
 
-interface MainLayoutProps {
-  children: React.ReactNode
-}
-
-const MainLayout: FC<MainLayoutProps> = ({ children }) => {
+const MainLayout: FC<BasicProps> = ({ children }) => {
   return (
     <Box 
       as='main'

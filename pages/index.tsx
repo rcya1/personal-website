@@ -1,20 +1,20 @@
 import React, { FC } from 'react'
 import type { NextPage } from 'next'
-import { Avatar, Box, Container, Divider, Flex, Heading, Text, chakra } from '@chakra-ui/react'
+import { Avatar, Box, Container, Divider, Flex, Heading, Text, VStack } from '@chakra-ui/react'
+import { AiFillGithub, AiFillLinkedin } from 'react-icons/ai'
 
 import MainLayout from 'layouts/main-layout'
+import SocialMediaButton from 'components/social-media-button'
+import { BasicProps } from 'lib/react-utils'
+import HistoryTimeline from 'components/history-timeline'
 
-interface StyledHeadingProps {
-  children: React.ReactNode
-}
-
-const StyledHeading: FC<StyledHeadingProps> = ({ children }: StyledHeadingProps) => {
+const IndexHeading: FC<BasicProps> = ({ children }: BasicProps) => {
   return (<Heading
     size='md'
     mb={4}
     textDecoration='underline'
     textUnderlineOffset='6px'
-    textDecorationThickness='3px'
+    textDecorationThickness='2px'
   >
     { children }
   </Heading>)
@@ -58,9 +58,9 @@ const Home: NextPage = () => {
         <Box
           mb={8}
         >
-          <StyledHeading>
+          <IndexHeading>
             Background
-          </StyledHeading>
+          </IndexHeading>
           <Text
             textAlign='justify'
           >
@@ -77,16 +77,35 @@ const Home: NextPage = () => {
           </Text>
         </Box>
 
-        <Box>
-          <StyledHeading>
+        <Box
+          mb={8}
+        >
+          <IndexHeading>
             History
-          </StyledHeading>
+          </IndexHeading>
+          <HistoryTimeline/>
         </Box>
 
         <Box>
-          <StyledHeading>
+          <IndexHeading>
             Social Media
-          </StyledHeading>
+          </IndexHeading>
+          <VStack
+            spacing={2}
+            mt={6}
+            align='start'
+          >
+            <SocialMediaButton
+              icon={<AiFillGithub/>}
+            >
+              ryan10145
+            </SocialMediaButton>
+            <SocialMediaButton
+              icon={<AiFillLinkedin/>}
+            >
+              Ryan Chang
+            </SocialMediaButton>
+          </VStack>
         </Box>
 
       </Container>

@@ -9,8 +9,8 @@ const config: ThemeConfig = {
 const theme = extendTheme({
   config,
   colors: {
-    'navbar-light': baseTheme.colors.green[100] + '40',
-    'navbar-dark': baseTheme.colors.gray[800] + '40'
+    'navbar-light': baseTheme.colors.green[100] + 'A0',
+    'navbar-dark': baseTheme.colors.gray[800] + 'A0',
   },
   styles: {
     global: (props: StyleFunctionProps) => ({
