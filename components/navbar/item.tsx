@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import NextLink from 'next/link'
-import { Link } from '@chakra-ui/react'
+import { Box, Link } from '@chakra-ui/react'
 
 interface NavbarItemProps {
   title: string
@@ -10,25 +10,31 @@ interface NavbarItemProps {
 
 const NavbarItem: FC<NavbarItemProps> = ({ title, href, active }) => {
   return (
-    <NextLink
-      href={href}
-      passHref
+    <Box
+      px={3}
     >
-      <Link
-        paddingX={2}
-        fontWeight={active ? 'black' : 'normal'}
-        textDecoration={active ? 'underline' : 'none'}
-        textUnderlineOffset={'1.5px'}
-        textDecorationThickness={'0.7px'}
-        _hover={{
-          textDecoration: 'underline',
-          textUnderlineOffset: '1.5px',
-          textDecorationThickness: '0.7px',
-        }}
+      <NextLink
+        href={href}
+        passHref
       >
-        { title }
-      </Link>
-    </NextLink>
+        <Link
+          mx='auto'
+          textAlign='center'
+          fontWeight={active ? 'black' : 'normal'}
+          fontSize='md'
+          textDecoration={active ? 'underline' : 'none'}
+          textUnderlineOffset={'1.5px'}
+          textDecorationThickness={'0.7px'}
+          _hover={{
+            textDecoration: 'underline',
+            textUnderlineOffset: '1.5px',
+            textDecorationThickness: '0.7px',
+          }}
+        >
+          { title }
+        </Link>
+      </NextLink>
+    </Box>
   )
 }
 

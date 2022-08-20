@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { useRouter } from 'next/router'
-import { Box, Flex, Heading, HStack, useColorModeValue } from '@chakra-ui/react'
+import { Box, Divider, Flex, Heading, HStack, Icon, useColorModeValue } from '@chakra-ui/react'
 
 import ThemeToggle from 'components/theme-toggle'
 import NavbarItem from './item'
@@ -12,6 +12,7 @@ interface NavbarProps {
 const Navbar: FC<NavbarProps> = ({ }) => {
   const router = useRouter()
   const navbarColor = useColorModeValue('navbar-light', 'navbar-dark')
+  const dividerColor = useColorModeValue('navbar-light', 'white')
 
   const links = {
     'About Me': '/',
@@ -33,27 +34,33 @@ const Navbar: FC<NavbarProps> = ({ }) => {
     >
       <Flex
         direction='row'
-        justify='space-between'
+        justify='center'
         maxW="container.md"
         mx="auto"
         wrap="wrap"
+        position='relative'
       >
         <Heading
           size='md'
-          mr={6}
+          position='absolute'
+          left='0'
         >
           Ryan Chang
         </Heading>
         <HStack
           display="flex"
-          flexGrow={1}
+          my='auto'
+          justify='center'
         >
           { 
             Object.entries(links).map(entry => 
               <NavbarItem key={entry[0]} title={entry[0]} href={entry[1]} active={router.asPath === entry[1]} />)
           }
         </HStack>
-        <Box>
+        <Box
+          position='absolute'
+          right='0'
+        >
           <ThemeToggle></ThemeToggle>
         </Box>
       </Flex>
