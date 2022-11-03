@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { useRouter } from 'next/router'
-import { Box, Divider, Flex, Heading, HStack, Icon, useColorModeValue } from '@chakra-ui/react'
+import { Box, Flex, Heading, HStack, useColorModeValue } from '@chakra-ui/react'
 
 import ThemeToggle from 'components/theme-toggle'
 import NavbarItem from './item'
@@ -12,7 +12,6 @@ interface NavbarProps {
 const Navbar: FC<NavbarProps> = ({ }) => {
   const router = useRouter()
   const navbarColor = useColorModeValue('navbar-light', 'navbar-dark')
-  const dividerColor = useColorModeValue('navbar-light', 'white')
 
   const links = {
     'About Me': '/',

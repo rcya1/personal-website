@@ -4,6 +4,8 @@ import { Box, Container, Heading, SimpleGrid } from '@chakra-ui/react'
 import MainLayout from 'layouts/main-layout'
 import ProjectPreview from 'components/project-preview'
 
+import yipThumbnail from 'public/projects/year-in-pixels/thumbnail.png'
+
 const Projects: NextPage = () => {
   return (
     <MainLayout>
@@ -26,23 +28,27 @@ const Projects: NextPage = () => {
         >
           <SimpleGrid
             columns={[1, null, 2]}
-            spacing='20px'
+            spacing='50px'
           >
             <ProjectPreview
               title="Year in Pixels Creator"
               href="/projects/year-in-pixels"
+              thumbnail={yipThumbnail}
             />
             <ProjectPreview
               title="Test 2"
               href="https://google.com"
+              thumbnail={yipThumbnail}
             />
             <ProjectPreview
               title="Test 3"
               href="https://google.com"
+              thumbnail={yipThumbnail}
             />
             <ProjectPreview
               title="Test 4"
               href="https://google.com"
+              thumbnail={yipThumbnail}
             />
           </SimpleGrid>
         </Box>

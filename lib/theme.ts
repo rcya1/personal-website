@@ -9,13 +9,13 @@ const config: ThemeConfig = {
 const theme = extendTheme({
   config,
   colors: {
-    'navbar-light': baseTheme.colors.green[100] + 'A0',
-    'navbar-dark': baseTheme.colors.gray[800] + 'A0',
+    'navbar-light': baseTheme.colors.orange[100] + 'A0',
+    'navbar-dark': baseTheme.colors.blue[700] + 'A0',
   },
   styles: {
     global: (props: StyleFunctionProps) => ({
       body: {
-        bg: mode('green.50', 'gray.700')(props)
+        bg: mode('yellow.50', 'gray.700')(props)
       }
     })
   },
