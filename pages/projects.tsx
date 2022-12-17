@@ -10,26 +10,19 @@ const Projects: NextPage = () => {
   return (
     <MainLayout>
       <Container>
-        <Box
-          pt={4}
-        >
+        <Box pt={4}>
           <Heading
-            size='lg'
-            textAlign='center'
-            textDecoration='underline'
-            textDecorationThickness='3px'
-            textUnderlineOffset='8px'
+            size="lg"
+            textAlign="center"
+            textDecoration="underline"
+            textDecorationThickness="3px"
+            textUnderlineOffset="8px"
           >
             Projects
           </Heading>
         </Box>
-        <Box
-          mt={7}
-        >
-          <SimpleGrid
-            columns={[1, null, 2]}
-            spacing='50px'
-          >
+        <Box mt={7}>
+          <SimpleGrid columns={[1, null, 2]} spacing="50px">
             <ProjectPreview
               title="Year in Pixels Creator"
               href="/projects/year-in-pixels"
@@ -58,4 +51,3 @@ const Projects: NextPage = () => {
 }
 
 export default Projects
-

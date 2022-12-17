@@ -8,7 +8,11 @@ interface SocialMediaButtonProps {
   children: React.ReactNode
 }
 
-const SocialMediaButton: FC<SocialMediaButtonProps> = ({ icon, href, children }: SocialMediaButtonProps) => {
+const SocialMediaButton: FC<SocialMediaButtonProps> = ({
+  icon,
+  href,
+  children
+}: SocialMediaButtonProps) => {
   const normalColor = useColorModeValue('#f0b6a8', 'blue.700')
   const hoverColor = useColorModeValue('#d8a497', 'blue.800')
   const activeColor = useColorModeValue('#c09286', 'blue.900')
@@ -17,7 +21,7 @@ const SocialMediaButton: FC<SocialMediaButtonProps> = ({ icon, href, children }:
   return (
     <NextLink href={href} passHref>
       <Button
-        as='a'
+        as="a"
         leftIcon={icon}
         backgroundColor={normalColor}
         _hover={{
@@ -38,4 +42,3 @@ const SocialMediaButton: FC<SocialMediaButtonProps> = ({ icon, href, children }:
 }
 
 export default SocialMediaButton
-

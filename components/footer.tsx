@@ -1,14 +1,9 @@
 import React, { FC } from 'react'
 
-interface FooterProps {
-
-}
+interface FooterProps {}
 
 const Footer: FC<FooterProps> = () => {
-  return (
-    <>
-    </>
-  )
+  return <></>
 }
 
 export default Footer

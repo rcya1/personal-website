@@ -5,61 +5,52 @@ import { Box, Flex, Heading, HStack, useColorModeValue } from '@chakra-ui/react'
 import ThemeToggle from 'components/theme-toggle'
 import NavbarItem from './item'
 
-interface NavbarProps {
+interface NavbarProps {}
 
-}
-
-const Navbar: FC<NavbarProps> = ({ }) => {
+const Navbar: FC<NavbarProps> = ({}) => {
   const router = useRouter()
   const navbarColor = useColorModeValue('navbar-light', 'navbar-dark')
 
   const links = {
     'About Me': '/',
-    'Projects': '/projects',
-    'Blog': '/blog'
+    Projects: '/projects',
+    Blog: '/blog'
   }
 
   return (
     <Box
-      position='fixed'
-      top='0'
-      w='100%'
-      as='nav'
+      position="fixed"
+      top="0"
+      w="100%"
+      as="nav"
       py={4}
       backgroundColor={navbarColor}
-      backdropFilter='auto'
-      backdropBlur='8px'
+      backdropFilter="auto"
+      backdropBlur="8px"
       zIndex={100}
     >
       <Flex
-        direction='row'
-        justify='center'
+        direction="row"
+        justify="center"
         maxW="container.md"
         mx="auto"
         wrap="wrap"
-        position='relative'
+        position="relative"
       >
-        <Heading
-          size='md'
-          position='absolute'
-          left='0'
-        >
+        <Heading size="md" position="absolute" left="0">
           Ryan Chang
         </Heading>
-        <HStack
-          display="flex"
-          my='auto'
-          justify='center'
-        >
-          { 
-            Object.entries(links).map(entry => 
-              <NavbarItem key={entry[0]} title={entry[0]} href={entry[1]} active={router.asPath === entry[1]} />)
-          }
+        <HStack display="flex" my="auto" justify="center">
+          {Object.entries(links).map((entry) => (
+            <NavbarItem
+              key={entry[0]}
+              title={entry[0]}
+              href={entry[1]}
+              active={router.asPath === entry[1]}
+            />
+          ))}
         </HStack>
-        <Box
-          position='absolute'
-          right='0'
-        >
+        <Box position="absolute" right="0">
           <ThemeToggle></ThemeToggle>
         </Box>
       </Flex>

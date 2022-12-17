@@ -7,23 +7,20 @@ const YearInPixels: NextPage = () => {
   return (
     <MainLayout>
       <Container>
-          <Box
-            pt={4}
+        <Box pt={4}>
+          <Heading
+            size="lg"
+            textAlign="center"
+            textDecoration="underline"
+            textDecorationThickness="3px"
+            textUnderlineOffset="8px"
           >
-            <Heading
-              size='lg'
-              textAlign='center'
-              textDecoration='underline'
-              textDecorationThickness='3px'
-              textUnderlineOffset='8px'
-            >
-              Year in Pixels Creator
-            </Heading>
-          </Box>
+            Year in Pixels Creator
+          </Heading>
+        </Box>
       </Container>
     </MainLayout>
   )
 }
 
 export default YearInPixels
-
