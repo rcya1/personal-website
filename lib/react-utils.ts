@@ -1,6 +1,5 @@
-import React from "react"
+import React from 'react'
 
 export interface BasicProps {
   children: React.ReactNode
 }
-

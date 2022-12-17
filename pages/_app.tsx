@@ -13,18 +13,21 @@ if (typeof window !== 'undefined') {
 }
 
 function App({ Component, pageProps, router }: AppProps) {
-  return <ChakraProvider theme={theme}>
-    <AnimatePresence
-      mode='wait'
-      initial={true}
-      onExitComplete={() => {
-        if (typeof window !== 'undefined') {
-          window.scrollTo({ top: 0 })
-        }
-      }}>
-      <Component key={router.route} {...pageProps} />
-    </AnimatePresence>
-  </ChakraProvider>
+  return (
+    <ChakraProvider theme={theme}>
+      <AnimatePresence
+        mode="wait"
+        initial={true}
+        onExitComplete={() => {
+          if (typeof window !== 'undefined') {
+            window.scrollTo({ top: 0 })
+          }
+        }}
+      >
+        <Component key={router.route} {...pageProps} />
+      </AnimatePresence>
+    </ChakraProvider>
+  )
 }
 
 export default App

@@ -14,25 +14,16 @@ const variants = {
 
 const MainLayout: FC<BasicProps> = ({ children }) => {
   return (
-    <Box
-      as='main'
-      pb={8}
-    >
-      <Head>
-      </Head>
-
+    <Box as="main" pb={8}>
       <Navbar />
 
-      <Container
-        maxW='container.md'
-        mt={16}
-      >
+      <Container maxW="container.md" mt={16}>
         <ChakraAnimate
           initial="hidden"
           animate="enter"
           exit="exit"
           variants={variants}
-          // @ts-ignore 
+          // @ts-ignore
           transition={{ duration: 0.4 }}
           style={{ position: 'relative' }}
         >
@@ -46,4 +37,3 @@ const MainLayout: FC<BasicProps> = ({ children }) => {
 }
 
 export default MainLayout
-

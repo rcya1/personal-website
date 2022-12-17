@@ -1,4 +1,8 @@
-import { extendTheme, type ThemeConfig, theme as baseTheme } from '@chakra-ui/react';
+import {
+  extendTheme,
+  type ThemeConfig,
+  theme as baseTheme
+} from '@chakra-ui/react'
 import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools'
 
 const config: ThemeConfig = {
@@ -31,4 +35,3 @@ const theme = extendTheme({
 })
 
 export default theme
-
