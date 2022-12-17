@@ -39,7 +39,7 @@ const Home: NextPage = () => {
             >
               Ryan Chang
             </Heading>
-            <p>CS / Math / Econ student at MIT</p>
+            <p>CS / Math student at MIT</p>
           </Box>
           <Avatar
             size='xl'
@@ -97,11 +97,13 @@ const Home: NextPage = () => {
           >
             <SocialMediaButton
               icon={<AiFillGithub/>}
+              href='https://github.com/rcya1'
             >
-              ryan10145
+              rcya1
             </SocialMediaButton>
             <SocialMediaButton
               icon={<AiFillLinkedin/>}
+              href='https://www.linkedin.com/in/ryan-chang-105495215/'
             >
               Ryan Chang
             </SocialMediaButton>

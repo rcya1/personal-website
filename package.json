@@ -17,7 +17,7 @@
     "@fontsource/montserrat": "^4.5.11",
     "@fontsource/open-sans": "^4.5.10",
     "@fontsource/raleway": "^4.5.9",
-    "framer-motion": "^6.5.1",
+    "framer-motion": "^7.10.2",
     "next": "12.2.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",

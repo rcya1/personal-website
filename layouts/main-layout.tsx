@@ -4,10 +4,17 @@ import Head from 'next/head'
 import { BasicProps } from 'lib/react-utils'
 import Navbar from 'components/navbar'
 import Footer from 'components/footer'
+import { ChakraAnimate } from 'lib/animate'
+
+const variants = {
+  hidden: { opacity: 0, x: 0, y: 20 },
+  enter: { opacity: 1, x: 0, y: 0 },
+  exit: { opacity: 0, x: 0, y: 20 }
+}
 
 const MainLayout: FC<BasicProps> = ({ children }) => {
   return (
-    <Box 
+    <Box
       as='main'
       pb={8}
     >
@@ -16,11 +23,21 @@ const MainLayout: FC<BasicProps> = ({ children }) => {
 
       <Navbar />
 
-      <Container 
+      <Container
         maxW='container.md'
         mt={16}
       >
-        { children }
+        <ChakraAnimate
+          initial="hidden"
+          animate="enter"
+          exit="exit"
+          variants={variants}
+          // @ts-ignore 
+          transition={{ duration: 0.4 }}
+          style={{ position: 'relative' }}
+        >
+          {children}
+        </ChakraAnimate>
       </Container>
 
       <Footer />

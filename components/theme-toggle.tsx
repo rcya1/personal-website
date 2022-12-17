@@ -19,6 +19,7 @@ const ThemeToggle: FC<ThemeToggleProps> = () => {
         size='lg'
         colorScheme='purple'
         isChecked={colorMode === 'dark'}
+        id='test'
         onChange={() => {
           toggleColorMode()
         }}
