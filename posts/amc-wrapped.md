@@ -1,6 +1,6 @@
 ---
 title: Four Years of AMC, Wrapped
-date: 2021-04-17 23:30:00 -0400
+date: '2022-01-02'
 math: true
 toc: true
 toc_sticky: true
@@ -46,7 +46,7 @@ There are further awards beyond USAMO, but for me, USAMO was the ultimate goal. 
 | 11th Grade | Take AMC 12 | Qualify for AIME, do well                    | Make USAMO                 |
 | 12th Grade | Take AMC 12 | Qualify for AIME, do well                    | Make USAMO again           |
 
-My target was making USAMO by 11th grade, with the primary reason being college applications. Making USAMO in 12th grade wouldn't effect my college applications, so I wanted to make it by 11th grade. During 9th and 10th grade, I set my goal to qualifying for the junior version of the USAMO, or USAJMO. Qualifying for it was easier than making it to USAMO, but I was only allowed to qualify for it until a max of 10th grade. Since qualifying for the USAJMO test was my priority for the first half of high school and involved scoring high on the AMC 10 test, I began grinding more AMC 10 practice tests. I would eventually have to switch to the harder AMC 12 test if I wanted to qualify for USAMO, but my focus was entirely set on going from AMC 10 to AIME to USAJMO at the time.
+My target was making USAMO by 11th grade, with the primary reason being college applications. Making USAMO in 12th grade wouldn't affect my college applications, so I wanted to make it by 11th grade. During 9th and 10th grade, I set my goal to qualifying for the junior version of the USAMO, or USAJMO. Qualifying for it was easier than making it to USAMO, but I was only allowed to qualify for it until a max of 10th grade. Since qualifying for the USAJMO test was my priority for the first half of high school and involved scoring high on the AMC 10 test, I began grinding more AMC 10 practice tests. I would eventually have to switch to the harder AMC 12 test if I wanted to qualify for USAMO, but my focus was entirely set on going from AMC 10 to AIME to USAJMO at the time.
 
 ## 9th Grade
 
@@ -117,11 +117,11 @@ For this question, I forgot to consider that negative integers could be used as 
 > What is the value of 
 > $$2^{\left(0^{\left(1^9\right)}\right)} + \left(\left(2^0\right)^1\right)^9$$?
 
-Yes, you read that number correctly, and no, I'm not joking. During the test, I simplified this to $2^0 + 1^1 = 1 + 1$. From here, this is basic arithmetic. And I wrote the answer as 1. And I moved on, and never checked my work. With that, my score sunk to 118.5. A good score still, but qualifying for USAJMO had just become so much harder by these series of mistakes. While with a 132 I could've squeaked by with a 9 or maybe even an 8 in a good year, I would now need an 11 or 10. Since the questions on AIME got much harder as you, getting such a high score, especially with my incredible propensity for making silly mistakes, seemed impossible.
+Yes, you read that number correctly, and no, I'm not joking. During the test, I simplified this to $2^0 + 1^1 = 1 + 1$. From here, this is basic arithmetic. And I wrote the answer as 1. And I moved on and never checked my work. With that, my score sunk to 118.5. A good score still, but qualifying for USAJMO had just become so much harder by these series of mistakes. While with a 132 I could've squeaked by with a 9 or maybe even an 8 in a good year, I would now need an 11 or 10. Since the questions on AIME got much harder later in the test, getting such a high score, especially with my incredible propensity for making silly mistakes, seemed impossible.
 
 However, the thought that after doing so well so far in my sophomore year just to make the silliest of silly mistakes tormented me for weeks. Just a single check back to that #1 could've improved my score by 6 full points. Another few minuts could have saved me another 6 points from #5.
 
-The AMC 12B the next week was rather uneventful. I don't even remember my score, it was ok and qualified for AIME through it, but my goals were set on USAJMO. I had no expectations of making USAMO that year, so I didn't pay much attention to the AMC 12B.
+The AMC 12B the next week was rather uneventful. I don't even remember my score; it was ok and qualified for AIME through it, but my goals were set on USAJMO. I had no expectations of making USAMO that year, so I didn't pay much attention to the AMC 12B.
 
 On the day of the AIME that year, I went in not expecting much. I had never scored above 9 on a practice test, so I had no expectations of doing so here. However, when I opened the test, I was pleasantly surprised. In the end, I answered 10 questions, skipping #6 and answering question #14. When I saw #14 on the test, I was shocked at how short it was:
 
