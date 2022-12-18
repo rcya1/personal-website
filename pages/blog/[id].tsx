@@ -2,6 +2,8 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import MainLayout from 'layouts/main-layout'
 import { getAllPostIds, getPostData } from 'lib/blog'
 import BlogRenderer from 'components/blog-renderer'
+import { Text, Box, Heading } from '@chakra-ui/react'
+import { parseISO, format } from 'date-fns'
 
 interface PostData {
   title: string
@@ -11,14 +13,31 @@ interface PostData {
 }
 
 const Post = ({ postData }: { postData: PostData }) => {
+  const date = parseISO(postData.date)
+
   return (
     <MainLayout>
-      {postData.title}
-      <br />
-      {postData.id}
-      <br />
-      {postData.date}
-      <br />
+      <Box
+        pt={4}
+        mb={10}
+      >
+        <Heading
+          size='xl'
+          textAlign='center'
+        >
+          {postData.title}
+        </Heading>
+        <Box
+          mt={2}
+        >
+          <Text
+            size='sm'
+            textAlign='center'
+          >
+            <time dateTime={postData.date}>{format(date, 'LLLL d, yyyy')}</time>
+          </Text>
+        </Box>
+      </Box>
       <BlogRenderer
         children={postData.content}
       />
