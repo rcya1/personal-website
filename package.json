@@ -20,14 +20,17 @@
     "date-fns": "^2.29.3",
     "framer-motion": "^7.10.2",
     "gray-matter": "^4.0.3",
+    "katex": "^0.16.4",
     "next": "12.2.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
     "react-markdown": "^8.0.4",
+    "rehype-katex": "^6.0.2",
     "remark": "^14.0.2",
     "remark-gfm": "^3.0.1",
-    "remark-html": "^15.0.1"
+    "remark-html": "^15.0.1",
+    "remark-math": "^5.1.1"
   },
   "devDependencies": {
     "@types/node": "18.6.3",
