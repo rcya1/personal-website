@@ -2,6 +2,10 @@ import ReactMarkdown from 'react-markdown'
 import { Heading, Table, Td, Text, Th, Thead, Tr } from '@chakra-ui/react'
 import { BasicProps } from 'lib/react-utils'
 import remarkGfm from 'remark-gfm'
+import remarkMath from 'remark-math'
+import rehypeKatex from 'rehype-katex'
+
+import 'katex/dist/katex.min.css'
 
 const HeadingWrapper = (size: string) => {
   return ({ children }: BasicProps) => {
@@ -83,8 +87,8 @@ const BlogRenderer = ({ children }: { children: string }) => {
         tr   : TrWrapper,
         td   : TdWrapper
       }}
-      remarkPlugins={[remarkGfm]}
-      rehypePlugins={[]}
+      remarkPlugins={[remarkGfm, remarkMath]}
+      rehypePlugins={[rehypeKatex]}
     />
   )
 }
