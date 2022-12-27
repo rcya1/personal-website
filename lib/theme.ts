@@ -1,7 +1,6 @@
 import {
   extendTheme,
   type ThemeConfig,
-  theme as baseTheme
 } from '@chakra-ui/react'
 import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools'
 
@@ -18,7 +17,15 @@ const theme = extendTheme({
     'background-light': '#f0e7db',
     'background-dark': '#202023',
     'text-light': '#000000',
-    'text-dark': '#e6e6e6'
+    'text-dark': 'rgb(212, 212, 216)',
+
+    'highlight-light': '#f0b6a8',
+    'highlight-dark-light': '#d8a497',
+    'highlight-darker-light': '#c09286',
+
+    'highlight-dark': 'blue.700',
+    'highlight-dark-dark': 'blue.800',
+    'highlight-darker-dark': 'blue.900',
   },
   styles: {
     global: (props: StyleFunctionProps) => ({
@@ -30,8 +37,8 @@ const theme = extendTheme({
   },
   fonts: {
     heading: `'Raleway', sans-serif`,
-    body: `'Open Sans', sans-serif`
-  }
+    body: `'Noto Sans', sans-serif`
+  },
 })
 
 export default theme

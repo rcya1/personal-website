@@ -34,7 +34,7 @@ const Post = ({ postData }: { postData: PostData }) => {
             size='sm'
             textAlign='center'
           >
-            <time dateTime={postData.date}>{format(date, 'LLLL d, yyyy')}</time>
+            <time dateTime={postData.date}>Posted {format(date, 'LLLL do, yyyy')}</time>
           </Text>
         </Box>
       </Box>

@@ -13,9 +13,9 @@ const SocialMediaButton: FC<SocialMediaButtonProps> = ({
   href,
   children
 }: SocialMediaButtonProps) => {
-  const normalColor = useColorModeValue('#f0b6a8', 'blue.700')
-  const hoverColor = useColorModeValue('#d8a497', 'blue.800')
-  const activeColor = useColorModeValue('#c09286', 'blue.900')
+  const normalColor = useColorModeValue('highlight-light', 'highlight-dark')
+  const hoverColor = useColorModeValue('highlight-dark-light', 'highlight-darker-dark')
+  const activeColor = useColorModeValue('highlight-darker-light', 'highlight-darker-dark')
   const fontWeight = useColorModeValue('bold', 'semibold')
 
   return (

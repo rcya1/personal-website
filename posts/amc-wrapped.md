@@ -1,9 +1,7 @@
 ---
 title: Four Years of AMC, Wrapped
-date: '2022-01-02'
-math: true
-toc: true
-toc_sticky: true
+date: '2021-04-17'
+toc: false
 excerpt: It’s finally over now. After four years of taking the American Math Competition (AMC) contest series, I’m finally done. In a way, it feels liberating. No longer will I have to grind out test after test, fill countless notebooks with scrap work, or waste hundreds of sheets of paper printing out practice tests.
 ---
 
@@ -101,19 +99,25 @@ That day, I answered 21 questions, for a score of up to 132. After taking the te
 However, of course, I didn't get 21 questions correct. The first question I realized was wrong was the following:
 
 > **2019 AMC 10A #12**
+> 
 > Melanie computes the mean $\mu$, the median $M$, and the modes of the $365$ values that are the dates in the months of $2019$. Thus her data consists of $12$ $1\text{s}$, $12$ $2\text{s}$, . . . , $12$ $28\text{s}$, $11$ $29\text{s}$, $11$ $30\text{s}$, and $7$ $31\text{s}$. Let $d$ be the median of the modes. Which of the following statements is true?
-> $\textbf{(A) } \mu < d < M \qquad\textbf{(B) } M < d < \mu \qquad\textbf{(C) } d = M =\mu \qquad\textbf{(D) } d < M < \mu \qquad\textbf{(E) } d < \mu < M$
+> 
+> $\textbf{(A) } \mu < d < M \qquad\textbf{(B) } M < d < \mu \qquad\textbf{(C) } > d = M =\mu $
+> 
+> $\textbf{(D) } d < M < \mu \qquad\textbf{(E) } d < \mu < M$
 
 My thought process at the time was that $d$ was clearly less than both of the other values since it only considered the lower segment of the data. Therefore, I just had to compare $\mu$ and $M$. I knew from statistics that while the mean can be affected by outliers, the median is more resistant to outliers, so I thought the answer was $d < M < \mu$, as I considered the block of days from 1-28 as the dataset with 29-31 being "outliers". But the correct answer was $d < \mu < M$. There were enough values to significantly shift the median, as the days 29-31 were not actually outliers.
 
 The next question was this:
 
 > **2019 AMC 10A #5**
+> 
 > What is the greatest number of consecutive integers whose sum is 45?
 
 For this question, I forgot to consider that negative integers could be used as well, so I calculated the wrong answer. However, the final question that I got wrong was the worst:
 
 > **2019 AMC 10A #1**
+> 
 > What is the value of 
 > $$2^{\left(0^{\left(1^9\right)}\right)} + \left(\left(2^0\right)^1\right)^9$$?
 
@@ -126,13 +130,15 @@ The AMC 12B the next week was rather uneventful. I don't even remember my score;
 On the day of the AIME that year, I went in not expecting much. I had never scored above 9 on a practice test, so I had no expectations of doing so here. However, when I opened the test, I was pleasantly surprised. In the end, I answered 10 questions, skipping #6 and answering question #14. When I saw #14 on the test, I was shocked at how short it was:
 
 > **2019 AIME I #14**
-> Find the least odd prime factor of 2019^8 + 1.
+> 
+> Find the least odd prime factor of $2019^8 + 1$.
 
 With just a few short number theory formulas, one could find that the answer had to be 1 above a multiple of 16. After bashing out 17 and realizing it didn't work, I came across 97 as an answer. And it worked. For the first time, I had solved a "final five" on the AIME. I realized that I had a chance of making USAJMO. A score of 10 had a good chance of making it!
 
 But alas, it wasn't meant to be. After the test, I realized I got #8 wrong:
 
 > **2019 AIME I #8**
+> 
 > Let $x$ be a real number such that $\sin^{10}x+\cos^{10} x = \tfrac{11}{36}$. Then $\sin^{12}x+\cos^{12} x = \tfrac{m}{n}$ where $m$ and $n$ are relatively prime positive integers. Find $m+n$.
 
 By combining the given with the Pythagorean identity: $\sin^2(x) + \cos^2(x) = 1$, I bashed the problem and got an answer of 056. The correct answer was 067. I had gotten so close, but my answer was just a bit off due to a calculation error. As a result, I scored a 9 on the 2019 AIME.
