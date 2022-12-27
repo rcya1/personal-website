@@ -1,5 +1,5 @@
 {
-  "name": "portfolio",
+  "name": "personal-website",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,11 +13,7 @@
     "@chakra-ui/react": "^2.2.4",
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
-    "@fontsource/inter": "^4.5.14",
-    "@fontsource/league-spartan": "^4.5.10",
-    "@fontsource/montserrat": "^4.5.11",
     "@fontsource/noto-sans": "^4.5.11",
-    "@fontsource/open-sans": "^4.5.10",
     "@fontsource/raleway": "^4.5.9",
     "date-fns": "^2.29.3",
     "framer-motion": "^7.10.2",
