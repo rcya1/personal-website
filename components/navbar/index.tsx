@@ -26,7 +26,6 @@ const Navbar: FC<NavbarProps> = ({}) => {
   const router = useRouter()
   const navbarColor = useColorModeValue('navbar-light', 'navbar-dark')
   const mobileButtonColor = useColorModeValue('blackAlpha', 'white')
-  const mobileMode = useBreakpointValue({ base: true, md: false })
 
   const links = {
     'About Me': '/',
@@ -58,7 +57,7 @@ const Navbar: FC<NavbarProps> = ({}) => {
       />
       <MenuList>
         {Object.entries(links).map((entry) => (
-          <NextLink href={entry[1]} passHref>
+          <NextLink key={entry[0]} href={entry[1]} passHref>
             <MenuItem
               as={Link}
               textDecoration={router.asPath === entry[1] ? 'underline' : 'none'}
@@ -72,7 +71,7 @@ const Navbar: FC<NavbarProps> = ({}) => {
     </Menu>
   )
 
-  const mainContent = mobileMode ? (
+  const mobileContent = (
     <Flex
       direction="row"
       justify="space-between"
@@ -92,7 +91,9 @@ const Navbar: FC<NavbarProps> = ({}) => {
         <Box>{mobileMenu}</Box>
       </HStack>
     </Flex>
-  ) : (
+  )
+  
+  const desktopContent = (
     <Flex
       direction="row"
       justify="center"
@@ -123,7 +124,12 @@ const Navbar: FC<NavbarProps> = ({}) => {
       backdropBlur="8px"
       zIndex={100}
     >
-      {mainContent}
+      <Box w="100%" display={{ base: 'none', md: 'inline-block' }}>
+        { desktopContent }
+      </Box>
+      <Box w="100%" display={{ base: 'inline-block', md: 'none' }}>
+        { mobileContent }
+      </Box>
     </Box>
   )
 }
