@@ -2,7 +2,7 @@
 title: Four Years of AMC, Wrapped
 date: '2021-04-17'
 toc: false
-excerpt: It’s finally over now. After four years of taking the American Math Competition (AMC) contest series, I’m finally done. In a way, it feels liberating. No longer will I have to grind out test after test, fill countless notebooks with scrap work, or waste hundreds of sheets of paper printing out practice tests.
+blurb: A reflection on my experience with the American Math Competitions throughout high school
 ---
 
 ## The End of Four Seasons

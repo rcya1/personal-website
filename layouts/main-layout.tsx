@@ -4,6 +4,7 @@ import useWindowDimensions, { BasicProps } from 'lib/react-utils'
 import Navbar from 'components/navbar'
 import Footer from 'components/footer'
 import { ChakraAnimate } from 'lib/animate'
+// @ts-ignore
 import Scrollbars from 'react-custom-scrollbars'
 
 const variants = {
