@@ -1,6 +1,7 @@
 ---
 title: Roots of Unity Filter Part 2 - Roots of Unity
 date: '2021-04-15'
+category: Math
 excerpt: The second part of a three-part series about the roots of unity filter. Covers the basics of roots of unities and goes over some algebra and geometry problems using them.
 ---
 

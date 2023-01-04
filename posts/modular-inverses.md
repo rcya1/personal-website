@@ -1,6 +1,7 @@
 ---
 title: Modular Inverses
 date: '2021-04-19'
+category: Math
 excerpt: How to take inverses in modular arithmetic by hand through the extended Euclidean algorithm
 ---
 

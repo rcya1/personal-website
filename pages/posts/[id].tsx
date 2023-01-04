@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import MainLayout from 'layouts/main-layout'
-import { getAllPostIds, getPostData, PostData } from 'lib/blog'
-import BlogRenderer from 'components/blog-renderer'
+import { getAllPostIds, getPostData, PostData } from 'lib/posts'
+import BlogRenderer from 'components/post-renderer'
 import { Text, Box, Heading } from '@chakra-ui/react'
 import { parseISO, format } from 'date-fns'
 

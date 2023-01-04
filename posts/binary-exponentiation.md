@@ -1,6 +1,7 @@
 ---
 title: Binary Exponentiation
 date: '2021-04-19'
+category: Math
 excerpt: How you can calculate 7^39 mod 1000 by hand.
 ---
 
