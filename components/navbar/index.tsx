@@ -30,7 +30,7 @@ const Navbar: FC<NavbarProps> = ({}) => {
   const links = {
     'About Me': '/',
     Projects: '/projects',
-    Blog: '/blog'
+    Posts: '/posts'
   }
 
   const desktopLinks = (
@@ -40,7 +40,7 @@ const Navbar: FC<NavbarProps> = ({}) => {
           key={entry[0]}
           title={entry[0]}
           href={entry[1]}
-          active={router.asPath === entry[1]}
+          active={entry[1] == '/' ? router.asPath == entry[1] : router.asPath.startsWith(entry[1])}
         />
       ))}
     </HStack>

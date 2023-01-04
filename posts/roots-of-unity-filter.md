@@ -1,6 +1,7 @@
 ---
 title: Roots of Unity Filter Part 3 - Roots of Unity Filter
 date: '2021-04-16'
+category: Math
 excerpt: The final part of a three part series about roots of unity filter. We go over the roots of unity filter, which is a technique used for summing a subset of the coefficients of a polynomial.
 ---
 

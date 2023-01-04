@@ -48,6 +48,8 @@ export interface PostData {
   date: string
   content: string
   id: string
+  excerpt: string
+  category: string
 }
 
 

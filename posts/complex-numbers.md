@@ -1,6 +1,7 @@
 ---
 title: Roots of Unity Filter Part 1 - Complex Numbers
 date: '2021-04-14'
+category: Math
 excerpt: The first part of a three-part series about the roots of unity filter. Covers the basic operations associated with complex numbers.
 ---
 

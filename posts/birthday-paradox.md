@@ -1,6 +1,7 @@
 ---
 title: Birthday Paradox + Meet in the Middle
 date: '2022-05-09'
+category: Math
 excerpt: A presentation I gave to my high school during spring break of college covering how the birthday paradox can be applied to a nice competitive programming problem
 ---
 

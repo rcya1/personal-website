@@ -1,6 +1,7 @@
 ---
 title: Solving Linear Recurrences
 date: '2021-05-10'
+category: Math
 blurb: How to derive close-formed expressions for all kinds of linear recurrences with constant coefficients
 ---
 
