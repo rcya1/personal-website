@@ -1,7 +1,14 @@
+import { useState } from 'react'
+import NextLink from 'next/link'
+import NextImage from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import {
   Box,
+  Container,
+  Flex,
   Heading,
+  Icon,
+  Link,
   ListItem,
   OrderedList,
   Table,
@@ -20,12 +27,25 @@ import rehypeKatex from 'rehype-katex'
 import rehypeRaw from 'rehype-raw'
 // @ts-ignore
 import { Document, Page, pdfjs } from 'react-pdf'
+// @ts-ignore
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import {
+  onelight,
+  atomDark
+// @ts-ignore
+} from 'react-syntax-highlighter/dist/cjs/styles/prism'
+// @ts-ignore
+
+import { HiOutlineBookmark } from 'react-icons/hi'
+import { TbBook2 } from 'react-icons/tb'
+import { FiEdit } from 'react-icons/fi'
+import { BiNote } from 'react-icons/bi'
+import { IconType } from 'react-icons'
 
 import 'katex/dist/katex.min.css'
 import 'react-pdf/dist/esm/Page/TextLayer.css'
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
-
-import { useState } from 'react'
+import { AiOutlineWarning } from 'react-icons/ai'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
@@ -49,9 +69,11 @@ const TextWrapper = ({ children }: BasicProps) => {
 
 const TableWrapper = ({ children }: BasicProps) => {
   return (
-    <Table mt={5} mb={5} variant="striped" colorScheme="black" size="sm">
-      {children}
-    </Table>
+    <Container maxW="container.md" overflowX="auto">
+      <Table mt={5} mb={5} variant="striped" colorScheme="black" size="sm">
+        {children}
+      </Table>
+    </Container>
   )
 }
 
@@ -118,7 +140,7 @@ const ListItemWrapper = ({ children }: BasicProps) => {
 
 const PDFWrapper = ({ children }: BasicProps) => {
   const [numPages, setNumPages] = useState<null | number>(null)
-  const {width, height} = useWindowDimensions()
+  const { width, height } = useWindowDimensions()
 
   return (
     <Document
@@ -128,13 +150,47 @@ const PDFWrapper = ({ children }: BasicProps) => {
       }}
     >
       {Array.from(new Array(numPages), (el, index) => (
-        <Page key={`page_${index + 1}`} pageNumber={index + 1} width={Math.min(width * 0.9, 736)} />
+        <Page
+          key={`page_${index + 1}`}
+          pageNumber={index + 1}
+          width={Math.min(width * 0.9, 736)}
+        />
       ))}
     </Document>
   )
 }
 
+const CustomBlockQuoteWrapper = (heading: string, icon: IconType) => {
+  return (contents: string) => (
+    <BlockquoteWrapper>
+      <Heading
+        size="md"
+        textDecoration="underline"
+        textUnderlineOffset="6px"
+        mb={3}
+      >
+        <Icon boxSize={5} as={icon} mr={2} verticalAlign="middle" />
+        {heading}
+      </Heading>
+      <BlogRenderer>{contents}</BlogRenderer>
+    </BlockquoteWrapper>
+  )
+}
+
+const languageComponentMap = {
+  pdf: (contents: string) => {
+    return <PDFWrapper>{contents.replace('\n', '')}</PDFWrapper>
+  },
+  definition: CustomBlockQuoteWrapper('Definition', TbBook2),
+  example: CustomBlockQuoteWrapper('Example', FiEdit),
+  theorem: CustomBlockQuoteWrapper('Theorem', HiOutlineBookmark),
+  note: CustomBlockQuoteWrapper('Note', BiNote),
+  warning: CustomBlockQuoteWrapper('Warning', AiOutlineWarning)
+}
+
 const BlogRenderer = ({ children }: { children: string }) => {
+  const codeStyle = useColorModeValue(onelight, atomDark)
+
   return (
     <ReactMarkdown
       children={children}
@@ -154,18 +210,61 @@ const BlogRenderer = ({ children }: { children: string }) => {
         ul: UnorderedListWrapper,
         ol: OrderedListWrapper,
         li: ListItemWrapper,
+        img({ src, alt }) {
+          if (!src) return <Text>{alt}</Text>
+
+          const hashPosition = src.indexOf('#')
+          let actualSource: string, width: number, height: number
+          if (!hashPosition) {
+            actualSource = src
+            width = 400
+            height = 400
+          }
+          else {
+            actualSource = src.substring(0, hashPosition)
+            const rest = src.substring(hashPosition + 1)
+            const xPosition = rest.indexOf('x')
+
+            width = parseInt(rest.substring(0, xPosition))
+            height = parseInt(rest.substring(xPosition + 1))
+          }
+
+          return (
+            <Flex as="span" justify="center">
+              <NextImage src={actualSource} alt={alt} width={width} height={height} />
+            </Flex>
+          )
+        },
+        a({ href, children }) {
+          if (!href) return <Text>{children}</Text>
+
+          return (
+            <NextLink href={href} passHref>
+              <Link>{children}</Link>
+            </NextLink>
+          )
+        },
+        pre({ children }) {
+          return <>{children}</>
+        },
         code({ node, inline, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || '')
           if (match) {
-            const language = match[1]
-            const contents = children[0]
-            if (language === 'pdf') {
-              return (
-                <PDFWrapper>
-                  {(contents as string).replace('\n', '')}
-                </PDFWrapper>
-              )
+            const language = match[1] as keyof typeof languageComponentMap
+            const contents = children[0] as string
+            if (language in languageComponentMap) {
+              return languageComponentMap[language](contents)
             }
+
+            return (
+              <SyntaxHighlighter
+                children={String(children).replace(/\n$/, '')}
+                style={codeStyle}
+                language={match[1]}
+                PreTag="div"
+                {...props}
+              />
+            )
           }
 
           return (
@@ -175,7 +274,7 @@ const BlogRenderer = ({ children }: { children: string }) => {
           )
         }
       }}
-      remarkPlugins={[remarkGfm, remarkMath]}
+      remarkPlugins={[remarkMath, remarkGfm]}
       rehypePlugins={[rehypeKatex, rehypeRaw]}
     />
   )
