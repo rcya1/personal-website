@@ -13,36 +13,31 @@ const HistoryTimeline = () => {
   let markingsColor = useColorModeValue('black', 'white')
   let secondaryColor = useColorModeValue('gray.600', 'gray.400')
 
+  const events = [
+    ['May - Aug 2023', 'Upcoming Software Engineering Internship at Citadel'],
+    ['June - Aug 2022', 'Software Engineering Internship at OPT Industries'],
+    ['Jan 2022', 'Software Engineering Internship at Conservation X Labs'],
+    ['Sep 2021', 'Started school at Massachusetts Institute of Technology'],
+    ['Jun 2021', 'Graduated from Union County Magnet High School'],
+    ['Jul 2018 - Aug 2020', 'Research at Stevens Institute of Technology'],
+  ]
+
   return (
     <Box>
       <UnorderedList position="relative" listStyleType="none">
-        <ListItem mb={2}>
-          <Text fontSize="xs" textColor={secondaryColor}>
-            <ListIcon as={BsFillDiamondFill} color={markingsColor} />
-            2022
-          </Text>
-          <Text ml={5} fontSize="md">
-            Did some stuff
-          </Text>
-        </ListItem>
-        <ListItem mb={2}>
-          <Text fontSize="xs" textColor={secondaryColor}>
-            <ListIcon as={BsFillDiamondFill} color={markingsColor} />
-            2022
-          </Text>
-          <Text ml={5} fontSize="md">
-            Did some stuff
-          </Text>
-        </ListItem>
-        <ListItem mb={2}>
-          <Text fontSize="xs" textColor={secondaryColor}>
-            <ListIcon as={BsFillDiamondFill} color={markingsColor} />
-            2022
-          </Text>
-          <Text ml={5} fontSize="md">
-            Did some stuff
-          </Text>
-        </ListItem>
+        {events.map((event) => {
+          return (
+            <ListItem mb={2}>
+              <Text fontSize="xs" textColor={secondaryColor}>
+                <ListIcon as={BsFillDiamondFill} color={markingsColor} />
+                {event[0]}
+              </Text>
+              <Text ml={5} fontSize="md">
+                {event[1]}
+              </Text>
+            </ListItem>
+          )
+        })}
 
         <Box
           position="absolute"

@@ -7,7 +7,9 @@ import {
   Divider,
   Flex,
   Heading,
+  ListItem,
   Text,
+  UnorderedList,
   VStack
 } from '@chakra-ui/react'
 import { AiFillGithub, AiFillLinkedin } from 'react-icons/ai'
@@ -32,10 +34,53 @@ const IndexHeading: FC<BasicProps> = ({ children }: BasicProps) => {
 }
 
 const Home: NextPage = () => {
+  const workExperience = [
+    [
+      'Incoming Software Engineering Intern at Citadel LLC',
+      'May 2023 - August 2023',
+      ['Working on the post-trade engineering team']
+    ],
+    [
+      'Software Engineering Intern at OPT Industries',
+      'June 2022 - August 2022',
+      [
+        'Designed data analysis dashboard in Angular to create interactive visualizations of sensor data for 3D printers',
+        'Migrated backend from REST API to GraphQL API, improving code performance, readability, and maintainability',
+        'Designed efficient algorithms for processing millions of sensor readings to calculate printer productivity',
+      ]
+    ],
+    [
+      'Software Engineering Intern at Conservation X Labs',
+      'January 2022',
+      [
+        'Developed user dashboard in React deployed to conservationists in Costa Rica in May 2022',
+        'Created notification system to alert conservationists when endangered species were sighted on cameras',
+        'Implemented shop that allowed users to purchase AI models over the cloud and deploy them to wildlife cameras',
+      ]
+    ],
+    [
+      'Research Assistant at Stevens Institute of Technology',
+      'June 2018 - August 2020',
+      [
+        'Helped develop machine learning algorithm for processing ocean data with greater accuracy than NASA’s algorithm',
+        'Optimized the runtime and memory usage to be competitive with NASA’s algorithm',
+        'Coauthor of paper published in Volume 253 of Remote Sensing of Environment in 2020',
+      ]
+    ]
+  ]
+
+  const awards = [
+    [
+      'Google Code Jam Round 2 Qualifier in 2021 and 2022',
+      'USA Computing Olympiad Platinum Qualifier',
+      'USA Math Olympiad Qualifier in 2021'
+    ]
+  ]
+
   return (
     <MainLayout>
       <Container pt={4}>
-        <Flex direction="row" justifyContent="center">
+        <Flex direction="row" justifyContent="center" mb={12}>
           <Box mr={12}>
             <Heading size="xl" mb={2}>
               Ryan Chang
@@ -49,28 +94,36 @@ const Home: NextPage = () => {
           ></Avatar>
         </Flex>
 
-        <Divider orientation="horizontal" mt={4} mb={8} />
-
         <Box mb={8}>
           <IndexHeading>Background</IndexHeading>
-          <Text textAlign="justify">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-            mollis ipsum luctus eros fringilla, non tristique justo lacinia.
-            Integer faucibus aliquam quam sed hendrerit. Curabitur id risus
-            ipsum. Curabitur malesuada urna nec arcu suscipit interdum.
-            Phasellus in sapien eros. Phasellus vel eleifend enim. Donec mattis
-            lacinia imperdiet. Etiam dignissim libero et augue bibendum aliquam.
-            Fusce feugiat maximus leo eu pulvinar. Morbi luctus porta dolor,
-            vitae suscipit augue facilisis sit amet. Sed lobortis, nisl ac
-            scelerisque venenatis, velit nulla tincidunt purus, non tristique
-            tortor arcu et nunc. Donec eleifend justo at sagittis laoreet.
-            Aenean porta nunc non arcu elementum sollicitudin.
+          <Text>
+            Hi, I'm Ryan! I'm currently attending the Massachusetts Institute of
+            Technology double majoring in computer science and math, and I'm
+            graduating in May 2025. I'm currently interested in computer systems
+            and optimizing software performance. Outside of school, I enjoy
+            playing video games, solving math / programming problems, and
+            working on random projects while learning new things.
           </Text>
         </Box>
 
         <Box mb={8}>
-          <IndexHeading>History</IndexHeading>
-          <HistoryTimeline />
+          <IndexHeading>Work Experience</IndexHeading>
+
+          <Box mt={2}>
+            {workExperience.map((workExp) => {
+              return (
+                <Box mt={6}>
+                  <Heading size="sm">{workExp[0]}</Heading>
+                  <Text fontSize="sm">{workExp[1]}</Text>
+                  <UnorderedList ml={5} mt={1}>
+                    {(workExp[2] as string[]).map((bullet) => {
+                      return <ListItem>{bullet} </ListItem>
+                    })}
+                  </UnorderedList>
+                </Box>
+              )
+            })}
+          </Box>
         </Box>
 
         <Box>
