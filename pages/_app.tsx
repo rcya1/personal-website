@@ -7,7 +7,7 @@ import '@fontsource/raleway/700.css'
 import '@fontsource/noto-sans/400.css'
 import '@fontsource/noto-sans/600.css'
 import '@fontsource/noto-sans/700.css'
-import '../components/post-renderer.css'
+import './global.css'
 
 if (typeof window !== 'undefined') {
   window.history.scrollRestoration = 'manual'
