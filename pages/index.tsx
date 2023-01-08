@@ -8,6 +8,7 @@ import {
   Flex,
   Heading,
   ListItem,
+  Spacer,
   Text,
   UnorderedList,
   VStack
@@ -46,7 +47,7 @@ const Home: NextPage = () => {
       [
         'Designed data analysis dashboard in Angular to create interactive visualizations of sensor data for 3D printers',
         'Migrated backend from REST API to GraphQL API, improving code performance, readability, and maintainability',
-        'Designed efficient algorithms for processing millions of sensor readings to calculate printer productivity',
+        'Designed efficient algorithms for processing millions of sensor readings to calculate printer productivity'
       ]
     ],
     [
@@ -55,7 +56,7 @@ const Home: NextPage = () => {
       [
         'Developed user dashboard in React deployed to conservationists in Costa Rica in May 2022',
         'Created notification system to alert conservationists when endangered species were sighted on cameras',
-        'Implemented shop that allowed users to purchase AI models over the cloud and deploy them to wildlife cameras',
+        'Implemented shop that allowed users to purchase AI models over the cloud and deploy them to wildlife cameras'
       ]
     ],
     [
@@ -64,22 +65,31 @@ const Home: NextPage = () => {
       [
         'Helped develop machine learning algorithm for processing ocean data with greater accuracy than NASA’s algorithm',
         'Optimized the runtime and memory usage to be competitive with NASA’s algorithm',
-        'Coauthor of paper published in Volume 253 of Remote Sensing of Environment in 2020',
+        'Coauthor of paper published in Volume 253 of Remote Sensing of Environment in 2020'
       ]
     ]
   ]
 
+  const coursework = [
+    'Advanced Algorithms (6.854)',
+    'Distributed Computer Systems Engineering (6.824)',
+    'Software Construction (6.031)',
+    'Advances in Computer Vision (6.819)',
+    '',
+    'Theory of Computation (18.404)',
+    'Linear Algebra (18.06)',
+    'Probability and Random Variables (18.600)',
+  ]
+
   const awards = [
-    [
-      'Google Code Jam Round 2 Qualifier in 2021 and 2022',
-      'USA Computing Olympiad Platinum Qualifier',
-      'USA Math Olympiad Qualifier in 2021'
-    ]
+    'Google Code Jam Round 2 Qualifier in 2021 and 2022',
+    'USA Computing Olympiad Platinum Qualifier',
+    'USA Math Olympiad Qualifier in 2021'
   ]
 
   return (
     <MainLayout>
-      <Container pt={4}>
+      <Container pt={8}>
         <Flex direction="row" justifyContent="center" mb={12}>
           <Box mr={12}>
             <Heading size="xl" mb={2}>
@@ -123,6 +133,31 @@ const Home: NextPage = () => {
                 </Box>
               )
             })}
+          </Box>
+        </Box>
+
+        <Box mb={8}>
+          <IndexHeading>Coursework</IndexHeading>
+          <Box mt={2}>
+            <UnorderedList ml={5} mt={-1}>
+              {coursework.map((course) => {
+                if (course.length == 0) {
+                  return <Spacer mt={3}/>
+                }
+                return <ListItem key={course}>{course}</ListItem>
+              })}
+            </UnorderedList>
+          </Box>
+        </Box>
+
+        <Box mb={8}>
+          <IndexHeading>Awards</IndexHeading>
+          <Box mt={2}>
+            <UnorderedList ml={5} mt={-1}>
+              {awards.map((award) => {
+                return <ListItem key={award}>{award}</ListItem>
+              })}
+            </UnorderedList>
           </Box>
         </Box>
 
