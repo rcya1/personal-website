@@ -3,7 +3,11 @@ import {
   Heading,
   LinkBox,
   LinkOverlay,
-  AspectRatio
+  AspectRatio,
+  Card,
+  CardBody,
+  Stack,
+  Text
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import Image, { StaticImageData } from 'next/image'
@@ -22,19 +26,33 @@ const ProjectPreview: FC<ProjectPreviewProps> = ({
   href,
   thumbnail,
   ...htmlProps
-}: ProjectPreviewProps) => {
-  return (
-    <ChakraAnimate
-      whileHover={{
-        scale: 1.05,
-        transition: {
-          duration: 0.25,
-          ease: 'easeInOut'
-        }
-      }}
-    >
-      <LinkBox>
-        <AspectRatio ratio={5 / 3}>
+}: ProjectPreviewProps) => (
+  <ChakraAnimate
+    whileHover={{
+      scale: 1.05,
+      transition: {
+        duration: 0.25,
+        ease: 'easeInOut'
+      }
+    }}
+  >
+    <LinkBox>
+      <Card direction={{ base: 'column', md: 'row' }}>
+        <Image width="250px" height="150px" src={thumbnail} alt={title} objectFit="cover" />
+        <Stack>
+          <CardBody>
+            <Heading size="md">
+              <NextLink href={href} passHref>
+                <LinkOverlay>{title}</LinkOverlay>
+              </NextLink>
+            </Heading>
+            <Text py={2}>
+              Caffe latte is a coffee beverage
+            </Text>
+          </CardBody>
+        </Stack>
+      </Card>
+      {/* <AspectRatio ratio={5 / 3}>
           <Box
             width="250px"
             height="250px"
@@ -49,10 +67,9 @@ const ProjectPreview: FC<ProjectPreviewProps> = ({
           <NextLink href={href} passHref>
             <LinkOverlay>{title}</LinkOverlay>
           </NextLink>
-        </Heading>
-      </LinkBox>
-    </ChakraAnimate>
-  )
-}
+        </Heading> */}
+    </LinkBox>
+  </ChakraAnimate>
+)
 
 export default ProjectPreview
