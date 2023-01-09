@@ -24,6 +24,7 @@ const MainLayout: FC<BasicProps> = ({ children }) => {
       autoHideDuration={200}
       autoHeight
       autoHeightMax={height}
+      autoHeightMin={height}
     >
       <Box as="main" pb={8}>
         <Navbar />

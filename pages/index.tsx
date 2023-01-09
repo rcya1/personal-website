@@ -120,12 +120,12 @@ const Home: NextPage = () => {
           <Box mt={2}>
             {workExperience.map((workExp) => {
               return (
-                <Box mt={6}>
+                <Box key={workExp[0] as string} mt={6}>
                   <Heading size="sm">{workExp[0]}</Heading>
                   <Text fontSize="sm">{workExp[1]}</Text>
                   <UnorderedList ml={5} mt={1}>
                     {(workExp[2] as string[]).map((bullet) => {
-                      return <ListItem>{bullet} </ListItem>
+                      return <ListItem key={bullet as string}>{bullet} </ListItem>
                     })}
                   </UnorderedList>
                 </Box>
