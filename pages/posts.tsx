@@ -47,6 +47,7 @@ const Posts = ({
   const textColor = useColorModeValue(textLight, textDark)
   const backgroundColor = useColorModeValue(backgroundLight, backgroundDark)
   const cardColor = useColorModeValue('navbar-light', 'navbar-dark')
+  const cardFontColor = useColorModeValue('text-light', 'text-dark')
   const tagColors = useColorModeValue(
     [highlightLight, highlightDarkLight, highlightDarkerLight],
     [highlightDark, highlightDarkDark, highlightDarkerDark]
@@ -131,7 +132,7 @@ const Posts = ({
                       duration: '0.25'
                     }}
                   >
-                    <Card backgroundColor={cardColor}>
+                    <Card backgroundColor={cardColor} color={cardFontColor}>
                       <CardHeader pb={4}>
                         <ChakraAnimate
                           initial={{
