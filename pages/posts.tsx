@@ -62,7 +62,7 @@ const Posts = ({
   return (
     <MainLayout>
       <Container>
-        <Box pt={4}>
+        <Box pt={6}>
           <Heading
             size="lg"
             textAlign="center"
