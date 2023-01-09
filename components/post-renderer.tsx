@@ -30,9 +30,9 @@ import { Document, Page, pdfjs } from 'react-pdf'
 // @ts-ignore
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import {
-  onelight,
+  oneLight,
   atomDark
-// @ts-ignore
+  // @ts-ignore
 } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 // @ts-ignore
 
@@ -49,14 +49,16 @@ import { AiOutlineWarning } from 'react-icons/ai'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
-const HeadingWrapper = (size: string) => {
-  return ({ children }: BasicProps) => {
+const CreateHeadingWrapper = (size: string) => {
+  const HeadingWrapper = ({ children }: BasicProps) => {
     return (
       <Heading size={size} mt={8} mb={2}>
         {children}
       </Heading>
     )
   }
+
+  return HeadingWrapper
 }
 
 const TextWrapper = ({ children }: BasicProps) => {
@@ -160,8 +162,8 @@ const PDFWrapper = ({ children }: BasicProps) => {
   )
 }
 
-const CustomBlockQuoteWrapper = (heading: string, icon: IconType) => {
-  return (contents: string) => (
+const CreateCustomBlockQuoteWrapper = (heading: string, icon: IconType) => {
+  const CustomBlockQuoteWrapper = (contents: string) => (
     <BlockquoteWrapper>
       <Heading
         size="md"
@@ -175,31 +177,32 @@ const CustomBlockQuoteWrapper = (heading: string, icon: IconType) => {
       <BlogRenderer>{contents}</BlogRenderer>
     </BlockquoteWrapper>
   )
+
+  return CustomBlockQuoteWrapper
 }
 
 const languageComponentMap = {
   pdf: (contents: string) => {
     return <PDFWrapper>{contents.replace('\n', '')}</PDFWrapper>
   },
-  definition: CustomBlockQuoteWrapper('Definition', TbBook2),
-  example: CustomBlockQuoteWrapper('Example', FiEdit),
-  theorem: CustomBlockQuoteWrapper('Theorem', HiOutlineBookmark),
-  note: CustomBlockQuoteWrapper('Note', BiNote),
-  warning: CustomBlockQuoteWrapper('Warning', AiOutlineWarning)
+  definition: CreateCustomBlockQuoteWrapper('Definition', TbBook2),
+  example: CreateCustomBlockQuoteWrapper('Example', FiEdit),
+  theorem: CreateCustomBlockQuoteWrapper('Theorem', HiOutlineBookmark),
+  note: CreateCustomBlockQuoteWrapper('Note', BiNote),
+  warning: CreateCustomBlockQuoteWrapper('Warning', AiOutlineWarning)
 }
 
 const BlogRenderer = ({ children }: { children: string }) => {
-  const codeStyle = useColorModeValue(onelight, atomDark)
+  const codeStyle = useColorModeValue(oneLight, atomDark)
 
   return (
     <ReactMarkdown
-      children={children}
       components={{
-        h1: HeadingWrapper('xl'),
-        h2: HeadingWrapper('lg'),
-        h3: HeadingWrapper('md'),
-        h4: HeadingWrapper('sm'),
-        h5: HeadingWrapper('xs'),
+        h1: CreateHeadingWrapper('xl'),
+        h2: CreateHeadingWrapper('lg'),
+        h3: CreateHeadingWrapper('md'),
+        h4: CreateHeadingWrapper('sm'),
+        h5: CreateHeadingWrapper('xs'),
         p: TextWrapper,
         table: TableWrapper,
         thead: TheadWrapper,
@@ -219,8 +222,7 @@ const BlogRenderer = ({ children }: { children: string }) => {
             actualSource = src
             width = 400
             height = 400
-          }
-          else {
+          } else {
             actualSource = src.substring(0, hashPosition)
             const rest = src.substring(hashPosition + 1)
             const xPosition = rest.indexOf('x')
@@ -231,7 +233,12 @@ const BlogRenderer = ({ children }: { children: string }) => {
 
           return (
             <Flex as="span" justify="center">
-              <NextImage src={actualSource} alt={alt} width={width} height={height} />
+              <NextImage
+                src={actualSource}
+                alt={alt}
+                width={width}
+                height={height}
+              />
             </Flex>
           )
         },
@@ -258,12 +265,13 @@ const BlogRenderer = ({ children }: { children: string }) => {
 
             return (
               <SyntaxHighlighter
-                children={String(children).replace(/\n$/, '')}
                 style={codeStyle}
                 language={match[1]}
                 PreTag="div"
                 {...props}
-              />
+              >
+                {String(children).replace(/\n$/, '')}
+              </SyntaxHighlighter>
             )
           }
 
@@ -276,7 +284,9 @@ const BlogRenderer = ({ children }: { children: string }) => {
       }}
       remarkPlugins={[remarkMath, remarkGfm]}
       rehypePlugins={[rehypeKatex, rehypeRaw]}
-    />
+    >
+      {children}
+    </ReactMarkdown>
   )
 }
 

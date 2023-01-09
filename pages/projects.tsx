@@ -23,6 +23,7 @@ import gpsThumbnail from 'public/projects/golf-parameter-solver.webp'
 import ppvThumbnail from 'public/projects/pure-pursuit-visualizer.webp'
 import { ChakraAnimate } from 'lib/animate'
 import { StaticImageData } from 'next/image'
+import { Key } from 'react'
 
 const Projects: NextPage = () => {
   const projects = [
@@ -78,6 +79,7 @@ const Projects: NextPage = () => {
                       ease: 'easeInOut'
                     }
                   }}
+                  key={project[0] as Key}
                 >
                   <LinkBox>
                     <Card
