@@ -4,7 +4,6 @@ import {
   Avatar,
   Box,
   Container,
-  Divider,
   Flex,
   Heading,
   ListItem,
@@ -18,7 +17,6 @@ import { AiFillGithub, AiFillLinkedin } from 'react-icons/ai'
 import MainLayout from 'layouts/main-layout'
 import SocialMediaButton from 'components/social-media-button'
 import { BasicProps } from 'lib/react-utils'
-import HistoryTimeline from 'components/history-timeline'
 
 const IndexHeading: FC<BasicProps> = ({ children }: BasicProps) => {
   return (
@@ -142,7 +140,7 @@ const Home: NextPage = () => {
             <UnorderedList ml={5} mt={-1}>
               {coursework.map((course) => {
                 if (course.length == 0) {
-                  return <Spacer mt={3}/>
+                  return <Spacer key={course} mt={3}/>
                 }
                 return <ListItem key={course}>{course}</ListItem>
               })}

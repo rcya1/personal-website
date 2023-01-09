@@ -4,9 +4,9 @@ import { Box, Container, Heading, SimpleGrid } from '@chakra-ui/react'
 import MainLayout from 'layouts/main-layout'
 import ProjectPreview from 'components/project-preview'
 
-import yipThumbnail from 'public/projects/year-in-pixels.png'
-import gpsThumbnail from 'public/projects/golf-parameter-solver.png'
-import ppvThumbnail from 'public/projects/pure-pursuit-visualizer.png'
+import yipThumbnail from 'public/projects/year-in-pixels.webp'
+import gpsThumbnail from 'public/projects/golf-parameter-solver.webp'
+import ppvThumbnail from 'public/projects/pure-pursuit-visualizer.webp'
 
 // TODO: redo this page so that each project is a card with one half being a thumbnail and the other half being the title and the description
 // every other row alternates which side is the thing
@@ -27,7 +27,7 @@ const Projects: NextPage = () => {
           </Heading>
         </Box>
         <Box mt={10}>
-          <SimpleGrid columns={[1, null, 2]} spacing="30px 40px">
+          {/* <SimpleGrid columns={[1, null, 2]} spacing="30px 40px"> */}
             <ProjectPreview
               title="Year in Pixels Creator"
               href="https://year-in-pixels-creator.herokuapp.com/#/"
@@ -43,7 +43,7 @@ const Projects: NextPage = () => {
               href="https://github.com/rcya1/pure-pursuit-visualizer"
               thumbnail={ppvThumbnail}
             />
-          </SimpleGrid>
+          {/* </SimpleGrid> */}
         </Box>
       </Container>
     </MainLayout>
