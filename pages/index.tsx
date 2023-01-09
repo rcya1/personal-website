@@ -105,9 +105,9 @@ const Home: NextPage = () => {
         <Box mb={8}>
           <IndexHeading>Background</IndexHeading>
           <Text>
-            Hi, I'm Ryan! I'm currently attending the Massachusetts Institute of
-            Technology double majoring in computer science and math, and I'm
-            graduating in May 2025. I'm currently interested in computer systems
+            Hi, I&apos;m Ryan! I&apos;m currently attending the Massachusetts Institute of
+            Technology double majoring in computer science and math, and I&apos;m
+            graduating in May 2025. I&apos;m currently interested in computer systems
             and optimizing software performance. Outside of school, I enjoy
             playing video games, solving math / programming problems, and
             working on random projects while learning new things.

@@ -31,10 +31,11 @@ const Post = ({ postData }: { postData: PostData }) => {
           </Text>
         </Box>
       </Box>
-      <BlogRenderer
-        children={postData.content}
-      />
-    </MainLayout>
+      <BlogRenderer> 
+        { postData.content }
+      </BlogRenderer>
+      
+      </MainLayout>
   )
 }
 

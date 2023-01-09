@@ -27,7 +27,7 @@ const HistoryTimeline = () => {
       <UnorderedList position="relative" listStyleType="none">
         {events.map((event) => {
           return (
-            <ListItem mb={2}>
+            <ListItem mb={2} key={event[1]}>
               <Text fontSize="xs" textColor={secondaryColor}>
                 <ListIcon as={BsFillDiamondFill} color={markingsColor} />
                 {event[0]}
