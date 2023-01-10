@@ -46,7 +46,7 @@ const Projects: NextPage = () => {
       ppvThumbnail,
       'https://rcya1.github.io/pure-pursuit-visualizer/',
       'An interactive implentation of the adaptive pure pursuit algorithm for path following that allows the user to customize the path and parameters \
-       to visualize. Originally made for my high school robotics team to test the code and also learn more about the limitations of the algorithm.h'
+       to visualize. Originally made for my high school robotics team to test the code and also learn more about the limitations of the algorithm.'
     ]
   ]
 

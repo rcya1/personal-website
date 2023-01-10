@@ -93,7 +93,7 @@ const Home: NextPage = () => {
       <Container pt={8}>
         <Flex direction="row" justifyContent="center" mb={12}>
           <Box mr={12}>
-            <Heading size="xl" mb={2}>
+            <Heading size="xl" mb={2} as="h1">
               Ryan Chang
             </Heading>
             <p>CS / Math student at MIT</p>
@@ -170,13 +170,13 @@ const Home: NextPage = () => {
               icon={<AiFillGithub />}
               href="https://github.com/rcya1"
             >
-              rcya1
+              GitHub
             </SocialMediaButton>
             <SocialMediaButton
               icon={<AiFillLinkedin />}
               href="https://www.linkedin.com/in/ryan-chang-105495215/"
             >
-              Ryan Chang
+              Linkedin
             </SocialMediaButton>
           </VStack>
         </Box>

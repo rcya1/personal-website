@@ -80,7 +80,7 @@ const Navbar: FC<NavbarProps> = ({}) => {
       wrap="wrap"
       position="relative"
     >
-      <Heading size="md" mt={2} ml={5} alignSelf="flex-start">
+      <Heading as="p" size="md" mt={2} ml={5} alignSelf="flex-start">
         Ryan Chang
       </Heading>
 
