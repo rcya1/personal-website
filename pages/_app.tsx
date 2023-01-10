@@ -18,11 +18,11 @@ function App({ Component, pageProps, router }: AppProps) {
   return (
     <>
       <Head>
-        <title>Ryan Chang</title>
+        <title>Ryan Chang's Personal Website</title>
         <meta
           name="description"
-          content="Personal website for Ryan Chang, a student at the Massachusetts Institute of Technology majoring in computer science \
-            and math who is interested in computer systems and optimizing software performance"
+          content="Personal website for Ryan Chang, a student at the MIT majoring in computer science \
+            and math interested in computer systems and optimizing software"
           key="desc"
         />
       </Head>
