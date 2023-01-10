@@ -18,6 +18,9 @@ import MainLayout from 'layouts/main-layout'
 import SocialMediaButton from 'components/social-media-button'
 import { BasicProps } from 'lib/react-utils'
 
+import Image from 'next/image'
+import profile from 'public/profile.webp'
+
 const IndexHeading: FC<BasicProps> = ({ children }: BasicProps) => {
   return (
     <Heading
@@ -95,11 +98,11 @@ const Home: NextPage = () => {
             </Heading>
             <p>CS / Math student at MIT</p>
           </Box>
-          <Avatar
-            size="xl"
-            name="Ryan Chang"
-            src="https://bit.ly/dan-abramov"
-          ></Avatar>
+          <Box borderRadius="50px" width="100px" height="100px" overflow="hidden"> 
+            <Image
+              src={profile}
+            />
+          </Box>
         </Flex>
 
         <Box mb={8}>
