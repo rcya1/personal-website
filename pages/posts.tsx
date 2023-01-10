@@ -42,7 +42,7 @@ const Posts = ({
   allPostsData: PostData[]
   categories: String[]
 }) => {
-  const [activeTags, setActiveTags] = useState(new Set(categories))
+  const [selectedCategory, setSelectedCategory] = useState<String>('All')
 
   const textColor = useColorModeValue(textLight, textDark)
   const backgroundColor = useColorModeValue(backgroundLight, backgroundDark)
@@ -76,7 +76,7 @@ const Posts = ({
         </Box>
         <HStack mt={8} mb={-2} justifyContent="center" spacing={4}>
           {categories.map((category) => {
-            const active = activeTags.has(category)
+            const active = selectedCategory == category
 
             return (
               <Button
@@ -98,17 +98,7 @@ const Posts = ({
                 fontWeight="bold"
                 textColor={textColor.toString()}
                 onClick={() => {
-                  setActiveTags((currActiveTags) => {
-                    let newActiveTags = new Set(currActiveTags)
-
-                    if (newActiveTags.has(category)) {
-                      newActiveTags.delete(category)
-                    } else {
-                      newActiveTags.add(category)
-                    }
-
-                    return newActiveTags
-                  })
+                  setSelectedCategory(category)
                 }}
               >
                 {category}
@@ -118,7 +108,7 @@ const Posts = ({
         </HStack>
         <Box>
           {allPostsData
-            .filter((postData) => activeTags.has(postData.category))
+            .filter((postData) => selectedCategory == 'All' || postData.category == selectedCategory)
             .map((postData) => {
               const date = parseISO(postData.date)
 
@@ -183,6 +173,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const categories = Array.from(
     new Set(allPostsData.map((postData) => postData.category))
   ).sort()
+  categories.unshift('All')
 
   return {
     props: {
