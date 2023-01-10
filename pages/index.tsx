@@ -101,6 +101,7 @@ const Home: NextPage = () => {
           <Box borderRadius="50px" width="100px" height="100px" overflow="hidden"> 
             <Image
               src={profile}
+              alt="Profile Picture"
             />
           </Box>
         </Flex>
