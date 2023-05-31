@@ -1,7 +1,6 @@
 import React, { FC } from 'react'
 import type { NextPage } from 'next'
 import {
-  Avatar,
   Box,
   Container,
   Flex,
@@ -38,8 +37,8 @@ const IndexHeading: FC<BasicProps> = ({ children }: BasicProps) => {
 const Home: NextPage = () => {
   const workExperience = [
     [
-      'Incoming Software Engineering Intern at Citadel LLC',
-      'May 2023 - August 2023',
+      'Software Engineering Intern at Citadel',
+      'June 2023 - August 2023',
       ['Working on the post-trade engineering team']
     ],
     [
@@ -75,11 +74,14 @@ const Home: NextPage = () => {
     'Advanced Algorithms (6.854)',
     'Distributed Computer Systems Engineering (6.824)',
     'Software Construction (6.031)',
+    'Computer Systems Engineering (6.033)',
     'Advances in Computer Vision (6.819)',
     '',
     'Theory of Computation (18.404)',
     'Linear Algebra (18.06)',
     'Probability and Random Variables (18.600)',
+    '',
+    'Chinese II'
   ]
 
   const awards = [
