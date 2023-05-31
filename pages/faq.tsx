@@ -1,24 +1,16 @@
-import React, { FC } from 'react'
+import React, { FC, Key } from 'react'
 import type { NextPage } from 'next'
 import {
-  Avatar,
   Box,
   Container,
-  Flex,
   Heading,
   ListItem,
-  Spacer,
   Text,
   UnorderedList,
-  VStack
 } from '@chakra-ui/react'
-import { AiFillGithub, AiFillLinkedin } from 'react-icons/ai'
 
 import MainLayout from 'layouts/main-layout'
 import { BasicProps } from 'lib/react-utils'
-
-import Image from 'next/image'
-import profile from 'public/profile.webp'
 
 const IndexHeading: FC<BasicProps> = ({ children }: BasicProps) => {
   return (
@@ -181,10 +173,10 @@ const Home: NextPage = () => {
         </Box>
 
         {
-          data.map(section => <Box mb={8}>
+          data.map(section => <Box mb={8} key={section[0] as Key}>
             <IndexHeading>{section[0]}</IndexHeading>
             <UnorderedList ml={5} mt={1}>
-            {section[1].map(qa => <ListItem>
+            {section[1].map(qa => <ListItem key={qa[0] as Key}>
               <Heading
                 size="sm"
               >
