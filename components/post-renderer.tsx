@@ -3,6 +3,7 @@ import NextLink from 'next/link'
 import NextImage from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import {
+  AspectRatio,
   Box,
   Container,
   Flex,
@@ -18,7 +19,8 @@ import {
   Thead,
   Tr,
   UnorderedList,
-  useColorModeValue
+  useColorModeValue,
+  VStack
 } from '@chakra-ui/react'
 import useWindowDimensions, { BasicProps } from 'lib/react-utils'
 import remarkGfm from 'remark-gfm'
@@ -185,6 +187,19 @@ const languageComponentMap = {
   pdf: (contents: string) => {
     return <PDFWrapper>{contents.replace('\n', '')}</PDFWrapper>
   },
+  youtube: (contents: string) => {
+    return (
+      <AspectRatio mx="auto" width="70%" ratio={16 / 9} mb={4}>
+        <iframe
+          width="100%%"
+          height="100%"
+          src={contents}
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        ></iframe>
+      </AspectRatio>
+    )
+  },
   definition: CreateCustomBlockQuoteWrapper('Definition', TbBook2),
   example: CreateCustomBlockQuoteWrapper('Example', FiEdit),
   theorem: CreateCustomBlockQuoteWrapper('Theorem', HiOutlineBookmark),
@@ -232,14 +247,17 @@ const BlogRenderer = ({ children }: { children: string }) => {
           }
 
           return (
-            <Flex as="span" justify="center">
-              <NextImage
-                src={actualSource}
-                alt={alt}
-                width={width}
-                height={height}
-              />
-            </Flex>
+            <VStack as="span">
+              <Flex as="span" justify="center">
+                <NextImage
+                  src={actualSource}
+                  alt=""
+                  width={width}
+                  height={height}
+                />
+              </Flex>
+              <Text as="span"> {alt}</Text>
+            </VStack>
           )
         },
         a({ href, children }) {

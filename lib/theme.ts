@@ -7,24 +7,24 @@ const config: ThemeConfig = {
   useSystemColorMode: false
 }
 
-export const backgroundLight = Color('#f0e7db')
-export const backgroundDark = Color('#263340')
-export const textLight = Color('#000000')
-export const textDark = Color('rgb(204, 208, 212)')
+export const backgroundLight = Color('rgb(250, 252, 253)')
+export const backgroundDark = Color('rgb(13, 17, 23)')
+export const textLight = Color('rgb(0, 0, 0)')
+export const textDark = Color('rgb(230, 237, 243)')
 
-export const highlightLight = Color('#f0b6a8')
+export const highlightLight = Color('rgb(198, 240, 209)')
 export const highlightDarkLight = highlightLight.darken(0.075)
 export const highlightDarkerLight = highlightLight.darken(0.15)
 
-export const highlightDark = Color('#2c5282')
+export const highlightDark = Color('rgb(35, 134, 54)')
 export const highlightDarkDark = highlightDark.darken(0.075)
 export const highlightDarkerDark = highlightDark.darken(0.15)
 
 const theme = extendTheme({
   config,
   colors: {
-    'navbar-light': '#eee0cb',
-    'navbar-dark': '#1d2833',
+    'navbar-light': 'rgb(214, 237, 244)',
+    'navbar-dark': 'rgb(32, 37, 44)',
     'background-light': backgroundLight.string(),
     'background-dark': backgroundDark.string(),
     'text-light': textLight.string(),

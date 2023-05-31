@@ -344,7 +344,9 @@ $$
 
 For another worked out example, check out this video:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/6KmhCKxFWOs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block; margin: auto"></iframe>
+```youtube
+https://www.youtube.com/embed/6KmhCKxFWOs
+```
 
 ### Applying to Linear Diophantine Equations
 

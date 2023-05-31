@@ -3,7 +3,7 @@ title: Four Years of AMC, Wrapped
 date: '2021-04-17'
 toc: false
 category: Blog
-blurb: A reflection on my experience with the American Math Competitions throughout high school
+excerpt: A reflection on my experience with the American Math Competitions throughout high school
 ---
 
 ## The End of Four Seasons
