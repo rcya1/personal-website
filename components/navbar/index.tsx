@@ -12,7 +12,6 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  useBreakpointValue,
   useColorModeValue
 } from '@chakra-ui/react'
 
@@ -29,6 +28,7 @@ const Navbar: FC<NavbarProps> = ({}) => {
 
   const links = {
     'About Me': '/',
+    FAQ: '/faq',
     Projects: '/projects',
     Posts: '/posts'
   }

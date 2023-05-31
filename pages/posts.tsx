@@ -108,7 +108,7 @@ const Posts = ({
         </HStack>
         <Box>
           {allPostsData
-            .filter((postData) => selectedCategory == 'All' || postData.category == selectedCategory)
+            .filter((postData) => postData.id.charAt(0) !== '_' && (selectedCategory == 'All' || postData.category == selectedCategory))
             .map((postData) => {
               const date = parseISO(postData.date)
 
