@@ -18,6 +18,7 @@ import NextImage from 'next/image'
 
 import MainLayout from 'layouts/main-layout'
 
+import lilyThumbnail from 'public/projects/lilypad.webp'
 import yipThumbnail from 'public/projects/year-in-pixels.webp'
 import gpsThumbnail from 'public/projects/golf-parameter-solver.webp'
 import ppvThumbnail from 'public/projects/pure-pursuit-visualizer.webp'
@@ -33,6 +34,13 @@ const Projects: NextPage = () => {
       'https://year-in-pixels-creator.herokuapp.com/#/',
       'A journaling web app for keeping track of your mood throughout the year through colors. Each day, you put in a color representing how the day went \
        and write a note about it. At the end of the year, you have a grid full of colors representing your entire year in a colorful board of pixels.'
+    ],
+    [
+      'Lilypad',
+      lilyThumbnail,
+      'https://github.com/rcya1/lilypad',
+      'My collection of notes throughout college, including a custom Markdown compiler, a VSCode extension for previewing and browsing notes, and a website \
+      for hosting the notes online.'
     ],
     [
       'Golf Parameter Solver',
@@ -69,57 +77,57 @@ const Projects: NextPage = () => {
         </Box>
         <Box mt={-2}>
           {/* <SimpleGrid columns={[1, null, 2]} spacing="30px 40px"> */}
-            {projects.map((project) => {
-              return (
-                <ChakraAnimate
-                  whileHover={{
-                    scale: 1.05,
-                    transition: {
-                      duration: 0.25,
-                      ease: 'easeInOut'
-                    }
-                  }}
-                  key={project[0] as Key}
-                >
-                  <LinkBox>
-                    <Card
-                      direction="column"
-                      mt={12}
-                      borderRadius={10}
-                      backgroundColor={cardColor}
-                      color={cardFontColor}
-                      width={{ base: '100%', md: '90%' }}
-                      mx="auto"
-                    >
-                      <CardBody>
-                        <Stack>
-                          <AspectRatio ratio={5 / 3}>
-                            <Box
-                              width="100%"
-                              borderRadius="10px"
-                              overflow="hidden"
-                              mx="auto"
-                            >
-                              <NextImage
-                                src={project[1] as StaticImageData}
-                                alt={project[0] as string}
-                                objectFit="cover"
-                              />
-                            </Box>
-                          </AspectRatio>
-                          <Heading pt={2} size="md" textAlign="center">
-                            <NextLink href={project[2] as string} passHref>
-                              <LinkOverlay>{project[0] as string}</LinkOverlay>
-                            </NextLink>
-                          </Heading>
-                          <Text py={0}>{project[3] as string} </Text>
-                        </Stack>
-                      </CardBody>
-                    </Card>
-                  </LinkBox>
-                </ChakraAnimate>
-              )
-            })}
+          {projects.map((project) => {
+            return (
+              <ChakraAnimate
+                whileHover={{
+                  scale: 1.05,
+                  transition: {
+                    duration: 0.25,
+                    ease: 'easeInOut'
+                  }
+                }}
+                key={project[0] as Key}
+              >
+                <LinkBox>
+                  <Card
+                    direction="column"
+                    mt={12}
+                    borderRadius={10}
+                    backgroundColor={cardColor}
+                    color={cardFontColor}
+                    width={{ base: '100%', md: '90%' }}
+                    mx="auto"
+                  >
+                    <CardBody>
+                      <Stack>
+                        <AspectRatio ratio={5 / 3}>
+                          <Box
+                            width="100%"
+                            borderRadius="10px"
+                            overflow="hidden"
+                            mx="auto"
+                          >
+                            <NextImage
+                              src={project[1] as StaticImageData}
+                              alt={project[0] as string}
+                              objectFit="cover"
+                            />
+                          </Box>
+                        </AspectRatio>
+                        <Heading pt={2} size="md" textAlign="center">
+                          <NextLink href={project[2] as string} passHref>
+                            <LinkOverlay>{project[0] as string}</LinkOverlay>
+                          </NextLink>
+                        </Heading>
+                        <Text py={0}>{project[3] as string} </Text>
+                      </Stack>
+                    </CardBody>
+                  </Card>
+                </LinkBox>
+              </ChakraAnimate>
+            )
+          })}
           {/* </SimpleGrid> */}
         </Box>
       </Container>

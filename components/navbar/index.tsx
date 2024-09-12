@@ -28,7 +28,6 @@ const Navbar: FC<NavbarProps> = ({}) => {
 
   const links = {
     'About Me': '/',
-    FAQ: '/faq',
     Projects: '/projects',
     Posts: '/posts'
   }
@@ -40,7 +39,11 @@ const Navbar: FC<NavbarProps> = ({}) => {
           key={entry[0]}
           title={entry[0]}
           href={entry[1]}
-          active={entry[1] == '/' ? router.asPath == entry[1] : router.asPath.startsWith(entry[1])}
+          active={
+            entry[1] == '/'
+              ? router.asPath == entry[1]
+              : router.asPath.startsWith(entry[1])
+          }
         />
       ))}
     </HStack>
@@ -92,7 +95,7 @@ const Navbar: FC<NavbarProps> = ({}) => {
       </HStack>
     </Flex>
   )
-  
+
   const desktopContent = (
     <Flex
       direction="row"
@@ -125,10 +128,10 @@ const Navbar: FC<NavbarProps> = ({}) => {
       zIndex={100}
     >
       <Box w="100%" display={{ base: 'none', md: 'inline-block' }}>
-        { desktopContent }
+        {desktopContent}
       </Box>
       <Box w="100%" display={{ base: 'inline-block', md: 'none' }}>
-        { mobileContent }
+        {mobileContent}
       </Box>
     </Box>
   )

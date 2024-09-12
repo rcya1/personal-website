@@ -12,11 +12,11 @@ export const backgroundDark = Color('rgb(13, 17, 23)')
 export const textLight = Color('rgb(0, 0, 0)')
 export const textDark = Color('rgb(230, 237, 243)')
 
-export const highlightLight = Color('rgb(198, 240, 209)')
+export const highlightLight = Color('rgb(214, 237, 244)')
 export const highlightDarkLight = highlightLight.darken(0.075)
 export const highlightDarkerLight = highlightLight.darken(0.15)
 
-export const highlightDark = Color('rgb(35, 134, 54)')
+export const highlightDark = Color('rgb(100, 100, 244)')
 export const highlightDarkDark = highlightDark.darken(0.075)
 export const highlightDarkerDark = highlightDark.darken(0.15)
 
