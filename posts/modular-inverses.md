@@ -550,7 +550,7 @@ $$
 $$
 
 $$
-13^-1 \equiv 5^-1 \equiv 5^{\phi(8) - 1} \equiv 5^{3} \equiv 5 \pmod{8}
+13^{-1} \equiv 5^{-1} \equiv 5^{\phi(8) - 1} \equiv 5^{3} \equiv 5 \pmod{8}
 $$
 
 Therefore, we can multiply both sides of the equation by $5$ to obtain our answer:
