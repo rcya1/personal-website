@@ -23,7 +23,7 @@ const ThemeToggle: FC<ThemeToggleProps> = () => {
       ></Switch>
       <Box>
         {colorMode === 'light' && <SunIcon w={6} h={6} />}
-        {colorMode === 'dark' && <MoonIcon w={6} h={6} color="purple.400" />}
+        {colorMode === 'dark' && <MoonIcon w={6} h={6} color="purple.300" />}
       </Box>
     </Flex>
   )

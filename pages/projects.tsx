@@ -62,8 +62,8 @@ const Projects: NextPage = () => {
   const cardFontColor = useColorModeValue('text-light', 'text-dark')
 
   return (
-    <MainLayout>
-      <Container>
+    <MainLayout maxW="container.lg">
+      <Container maxW="container.lg">
         <Box pt={6}>
           <Heading
             size="lg"
@@ -75,10 +75,15 @@ const Projects: NextPage = () => {
             Projects
           </Heading>
         </Box>
-        <Box mt={-2}>
-          {/* <SimpleGrid columns={[1, null, 2]} spacing="30px 40px"> */}
-          {projects.map((project) => {
-            return (
+        <Box mt={8}>
+          <SimpleGrid
+            columns={{ base: 1, md: 2 }}
+            spacing={{ base: 6, md: 10 }}
+            maxW="80%"
+            mx="auto"
+            alignItems="stretch"
+          >
+            {projects.map((project) => (
               <ChakraAnimate
                 whileHover={{
                   scale: 1.05,
@@ -89,15 +94,15 @@ const Projects: NextPage = () => {
                 }}
                 key={project[0] as Key}
               >
-                <LinkBox>
+                <LinkBox height="100%">
                   <Card
                     direction="column"
-                    mt={12}
                     borderRadius={10}
                     backgroundColor={cardColor}
                     color={cardFontColor}
-                    width={{ base: '100%', md: '90%' }}
-                    mx="auto"
+                    height="100%"
+                    display="flex"
+                    flexDirection="column"
                   >
                     <CardBody>
                       <Stack>
@@ -115,20 +120,21 @@ const Projects: NextPage = () => {
                             />
                           </Box>
                         </AspectRatio>
+
                         <Heading pt={2} size="md" textAlign="center">
                           <NextLink href={project[2] as string} passHref>
                             <LinkOverlay>{project[0] as string}</LinkOverlay>
                           </NextLink>
                         </Heading>
-                        <Text py={0}>{project[3] as string} </Text>
+
+                        <Text py={0}>{project[3] as string}</Text>
                       </Stack>
                     </CardBody>
                   </Card>
                 </LinkBox>
               </ChakraAnimate>
-            )
-          })}
-          {/* </SimpleGrid> */}
+            ))}
+          </SimpleGrid>
         </Box>
       </Container>
     </MainLayout>

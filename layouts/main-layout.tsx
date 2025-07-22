@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { Box, Container } from '@chakra-ui/react'
 import useWindowDimensions, { BasicProps } from 'lib/react-utils'
 import Navbar from 'components/navbar'
@@ -13,10 +13,41 @@ const variants = {
   exit: { opacity: 0, x: 0, y: 20 }
 }
 
-const MainLayout: FC<BasicProps> = ({ children }) => {
-  const { width, height } = useWindowDimensions()
+interface Props extends BasicProps {
+  maxW?: string
+}
 
-  return (
+const MainLayout: FC<Props> = ({ children, maxW }) => {
+  const [isClient, setIsClient] = useState(false)
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  const { height } = useWindowDimensions()
+
+  const content = (
+    <Box as="main" pb={8}>
+      <Navbar />
+
+      <Container maxW={maxW ? maxW : 'container.md'} mt={16}>
+        <ChakraAnimate
+          initial="hidden"
+          animate="enter"
+          exit="exit"
+          variants={variants}
+          // @ts-ignore
+          transition={{ duration: 0.4 }}
+          style={{ position: 'relative' }}
+        >
+          {children}
+        </ChakraAnimate>
+      </Container>
+
+      <Footer />
+    </Box>
+  )
+
+  return isClient ? (
     <Scrollbars
       universal={true}
       autoHide
@@ -26,26 +57,10 @@ const MainLayout: FC<BasicProps> = ({ children }) => {
       autoHeightMax={height}
       autoHeightMin={height}
     >
-      <Box as="main" pb={8}>
-        <Navbar />
-
-        <Container maxW="container.md" mt={16}>
-          <ChakraAnimate
-            initial="hidden"
-            animate="enter"
-            exit="exit"
-            variants={variants}
-            // @ts-ignore
-            transition={{ duration: 0.4 }}
-            style={{ position: 'relative' }}
-          >
-            {children}
-          </ChakraAnimate>
-        </Container>
-
-        <Footer />
-      </Box>
+      {content}
     </Scrollbars>
+  ) : (
+    <div>{content} </div>
   )
 }
 
