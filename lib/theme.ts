@@ -10,13 +10,13 @@ const config: ThemeConfig = {
 export const backgroundLight = Color('rgb(250, 252, 253)')
 export const backgroundDark = Color('rgb(13, 17, 23)')
 export const textLight = Color('rgb(0, 0, 0)')
-export const textDark = Color('rgb(230, 237, 243)')
+export const textDark = Color('rgb(210, 217, 223)')
 
-export const highlightLight = Color('rgb(214, 237, 244)')
+export const highlightLight = Color('rgb(174, 219, 233)')
 export const highlightDarkLight = highlightLight.darken(0.075)
 export const highlightDarkerLight = highlightLight.darken(0.15)
 
-export const highlightDark = Color('rgb(100, 100, 244)')
+export const highlightDark = Color('rgb(159, 122, 234)').darken(0.15)
 export const highlightDarkDark = highlightDark.darken(0.075)
 export const highlightDarkerDark = highlightDark.darken(0.15)
 
@@ -46,9 +46,16 @@ const theme = extendTheme({
       }
     })
   },
+  components: {
+    Link: {
+      baseStyle: (props: StyleFunctionProps) => ({
+        color: mode('blue.500', 'blue.300')(props)
+      })
+    }
+  },
   fonts: {
     heading: `'Raleway', sans-serif`,
-    body: `'Noto Sans', sans-serif`
+    body: `'Noto Sans', 'Noto Color Emoji', sans-serif`
   }
 })
 

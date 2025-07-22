@@ -21,7 +21,7 @@ function App({ Component, pageProps, router }: AppProps) {
         <title>Ryan Chang Personal Website</title>
         <meta
           name="description"
-          content="Personal website for Ryan Chang, a student at the MIT majoring in computer science and math interested in computer systems"
+          content="Personal website for Ryan Chang, an incoming SWE at Jane Street and former student at the MIT majoring in computer science and math"
           key="desc"
         />
       </Head>
