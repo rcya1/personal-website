@@ -84,14 +84,18 @@ const TableWrapper = ({ children }: BasicProps) => {
 const TheadWrapper = ({ children }: BasicProps) => {
   const bgColor = useColorModeValue('blackAlpha.300', 'whiteAlpha.200')
 
-  return <Thead bgColor={bgColor}>{children}</Thead>
+  return (
+    <Thead bgColor={bgColor} textTransform="none">
+      {children}
+    </Thead>
+  )
 }
 
 const ThWrapper = ({ children }: BasicProps) => {
   const color = useColorModeValue('text-light', 'text-dark')
 
   return (
-    <Th py={2} color={color}>
+    <Th py={2} color={color} textTransform="none">
       {children}
     </Th>
   )

@@ -2,16 +2,12 @@
 title: Roots of Unity Filter Part 3 - Roots of Unity Filter
 date: '2021-04-16'
 category: Math
-excerpt: The final part of a three part series about roots of unity filter. We go over the roots of unity filter, which is a technique used for summing a subset of the coefficients of a polynomial.
+excerpt: The third part of a four part series about roots of unity filter. We go over the roots of unity filter, which is a technique used for summing a subset of the coefficients of a polynomial.
 ---
 
 ## Note
 
-This is a three part series I wrote back in 2019 on a technique applicable to certain competitive math problems: roots of unity filters. See the first two parts for a recap of complex numbers and roots of unity respectively. This post will actually go over the technique as well as what kind of problems it can be applied to.
-
-```warning
-Many of the explanations for this section will not be rigorous proofs.
-```
+This is a three part series I wrote back in 2019 on a technique applicable to certain competitive math problems: roots of unity filters. See the first two parts for a recap of complex numbers and roots of unity respectively. This post will go over the technique as well as what kind of problems it can be applied to. This post will **not** go over the proof of this technique, and I've written a separate followup post going over it: [Roots of Unity Filter Proof](https://rcya1.vercel.app/posts/roots-of-unity-filter-proof).
 
 ## Guiding Problem
 
@@ -27,7 +23,7 @@ $$
 Determine $S$
 ```
 
-We can tackle this problem in a variety of ways, but the approach we will be using here is a technique known as **roots of unity filter**.
+We can tackle this problem in a variety of ways, but the approach discussed here is a technique known as **roots of unity filter**.
 
 ## Description
 
@@ -36,34 +32,34 @@ Roots of unity filter is a technique that allows us to find the sum of every $k$
 While on its own the roots of unity filter doesn't have a lot of applications, it is especially powerful when applied to the binomial theorem. For instance, with the guiding problem, we can expand the summation to find the following;
 
 $$
-{2004 \choose 0} - {2004 \choose 3} + {2004 \choose 6} - {2004 \choose 9} + ... + {2004 \choose 2004} = 
+{2004 \choose 0} - {2004 \choose 3} + {2004 \choose 6} - {2004 \choose 9} + ... + {2004 \choose 2004} =
 $$
 
 $$
 {2004 \choose 0} + {2004 \choose 6} + ... + {2004 \choose 2004} - \left({2004 \choose 3} + {2004 \choose 9} + ... + {2004 \choose 2001}\right)
 $$
 
-We can see that this problem is asking us to calculate the sum of every 6th binomial coefficient with an offset of $0$ and then subtract the sum of every 6th binomial coefficient with an offset of $3$.
+From this, we see the problem is asking us to calculate the sum of every 6th binomial coefficient with an offset of $0$ and then subtract the sum of every 6th binomial coefficient with an offset of $3$.
 
 We can apply the roots of unity filter if we had a polynomial that had binomial coefficients as its coefficients. We can obtain this with the following polynomial:
 
 $$
-(x + 1)^n = {n \choose 0} + {n \choose 1} + {n \choose 2} + ... + {n \choose n}
+(x + 1)^n = {n \choose 0} + {n \choose 1}x + {n \choose 2}x^2 + ... + {n \choose n}x^n
 $$
 
 To solve our problem from above, we can utilize the root of unity filter on this polynomial with $n = 2004$ to determine the sum of every 6th coefficient with offset $0$ and the sum of every 6th coefficient with offset $3$. Then, we can subtract the latter from the former and obtain the answer.
 
 ## No Offset Version
 
-The simplest method to apply roots of unity filter is when you're dealing with an offset of $0$ since you don't have to do much work. If you want to find the sum of every $n$th coefficient with an offset of $0$ for a polynomial $P(x)$, you can calculate it with the following expression, where $\omega$ represents the smallest $nth$ root of unity:
+The simplest method to apply roots of unity filter is when you're dealing with an offset of $0$. If you want to find the sum of every $n$th coefficient with an offset of $0$ for a polynomial $P(x)$, you can calculate it with the following expression, where $\omega$ represents the smallest $nth$ root of unity:
 
 $$
 \dfrac{P(1) + P(\omega) + P(\omega^2) + ... + P(\omega^{n - 1})}{n}
 $$
 
-Essentially, we just have to plug in the $n$th roots of unity, where $n$ is the desired cycle length, and then take the average of the results.
+Essentially, we plug in the $n$th roots of unity, where $n$ is the desired cycle length and take the average of the results.
 
-### Explanation
+### Intuitive Explanation
 
 To see why this works, we can utilize the following two facts that we proved previously about roots of unity:
 
@@ -75,7 +71,7 @@ $$
 1 + \omega + \omega^2 + ... + \omega^{n - 1} = 0
 $$
 
-Armed with this information, we can examine what happens when we plug the roots of unity into the polynomial $P(x)$. For this section, we're going to use a polynomial $P(x)$ with a degree of $10$ and calculate the sum of every third term. However, this can be generalized to any degree polynomial for any cycle length. First of all, let's write a polynomial $P(x)$ with a degree of $10$ as the following:
+With this, we examine what happens when we plug the roots of unity into the polynomial $P(x)$. For this section, we're going to use a polynomial $P(x)$ with a degree of $10$ and calculate the sum of every third term. However, this can be generalized to any degree polynomial for any cycle length. First of all, let's write a polynomial $P(x)$ with a degree of $10$ as the following:
 
 $$
 P(x) = a_0 + a_1x + a_2x^2 + a_3x^3 + ... + a_{10}x^{10}
@@ -87,35 +83,37 @@ $$
 P(\omega) = a_0 + a_1\omega + a_2\omega^2 + a_3\omega^3 + ... + a_{10}\omega^{10}
 $$
 
-However, note that when the power of $\omega$ exceeds $3$, we can factor out $\omega^3 = 1$. This means that after the term $\omega^2$, the powers of $\omega$ will repeat in a cycle of length $3$. We can show this result with the other powers of $\omega$ we are plugging in as well. Whenever we pass $\omega^{3i}$ in our polynomial after passing in $\omega^i$ to the polynomial, we can factor out that $\omega^{3i} = 1$.
+Using $\omega^3 = 1$, we can simplify this as:
 
-Since the terms of all of the polynomials are cyclic when plugging in the roots of unities, if we can show that summing all of the polynomials makes it so that only the coefficient of $a_0$ remain, it will necessarily apply to $a_3, a_6, ...$ as well. Therefore, we can direct our focus to what happens with the first $3$ terms of the polynomial when we pass in $1, \omega$, and $\omega^2$.
+$$
+P(\omega) = a_0 + a_1\omega + a_2\omega^2 + a_3 + a_2\omega^2 ... + a_{10}\omega
+$$
 
-We can make the following chart to look at what happens:
+We first just focus on the first three terms and show that under this consideration, $P(1) + P(\omega) + P(\omega^2) = 3a_0$.
 
-| Root of Unity | $a_0$ | $a_1$        | $a_2$        |   |
-|----------|---|----------|----------|---|
-| $1$        | $1$ | $1$        | $1$        |   |
-| $\omega$   | $1$ | $\omega$   | $\omega^2$ |   |
-| $\omega^2$ | $1$ | $\omega^2$ | $\omega^4$ |   |
-| **Total Sum** | **$3$** | **$0$** | **$0$** | |
+We can make the following chart to look at what happens: the columns each correspond to each term of the polynomial, while the rows each correspond to a root of unity we plug in. If we sum all of the columns, we obtain how much each coefficient we shall receive in the sum $P(1) + P(\omega) + P(\omega^2)$. From the identity
 
-The columns each correspond to what power we are raising each of the roots of unity, while the rows indicate each of the roots of unity. If we sum all of the columns, we will obtain how much of each coefficient we shall receive in the final sum.
-
-Note that from the equation
 $$
 1 + \omega + \omega^2 + ... + \omega^{n - 1} = 0
 $$
-all of the columns except for the one corresponding to $a_0$ end up with a sum of $0$. In the third column, the equation is applied with just $\omega$ plugged in, and in the fourth column, the equation is applied with $\omega^2$ plugged in. Therefore, our result is just $a_0$ added $3$ times, so we can divide by $3$ to obtain our desired sum.
 
-Again, remember that since the roots of unity are cyclic with a period of $3$, the same values and chart will apply for $a_3$ through $a_5$, $a_6$ through $a_8$, etc. To see this, looking at the entire chart is useful, which is placed below for your convenience.
+all of the columns except for the one for $a_0$ end up with a sum of $0$.
 
-|            | $a_0$ |      $a_1$ |      $a_2$ |          $a_3$ |                 $a_4$ |                    $a_5$ |             $a_6$ |                    $a_7$ |                    $a_8$ |             $a_9$ |                      $a_{10}$ |
-|------------|------:|-----------:|-----------:|---------------:|----------------------:|-------------------------:|------------------:|-------------------------:|-------------------------:|------------------:|----------------------------:|
-| $1$        |   $1$ |        $1$ |        $1$ |            $1$ |                   $1$ |                      $1$ |               $1$ |                      $1$ |                      $1$ |               $1$ |                         $1$ |
-| $\omega$   |   $1$ |   $\omega$ | $\omega^2$ | $\omega^3 = 1$ |   $\omega^4 = \omega$ |    $\omega^5 = \omega^2$ |    $\omega^6 = 1$ |      $\omega^7 = \omega$ |    $\omega^8 = \omega^2$ |    $\omega^6 = 1$ |         $\omega^7 = \omega$ |
-| $\omega^2$ |   $1$ | $\omega^2$ | $\omega^4$ | $\omega^6 = 1$ | $\omega^8 = \omega^2$ | $\omega^{10} = \omega^4$ | $\omega^{12} = 1$ | $\omega^{14} = \omega^2$ | $\omega^{16} = \omega^4$ | $\omega^{18} = 1$ | $\omega^{20} = \omega^{20}$ |
-| **Total Sum** | **$3$** | **$0$** | **$0$** | **$3$** | **$0$** | **$0$** | **$3$** | **$0$** | **$0$** | **$3$** | **$0$** | |
+|               | $a_0$   | $a_1x$     | $a_2x^2$   |     |
+| ------------- | ------- | ---------- | ---------- | --- |
+| $1$           | $1$     | $1$        | $1$        |     |
+| $\omega$      | $1$     | $\omega$   | $\omega^2$ |     |
+| $\omega^2$    | $1$     | $\omega^2$ | $\omega^4$ |     |
+| **Total Sum** | **$3$** | **$0$**    | **$0$**    |     |
+
+Again, remember that since the roots of unity are cyclic with a period of $3$, the same values and chart will apply for $a_3$ through $a_5$, $a_6$ through $a_8$ to conclude $P(1) + P(\omega) + P(\omega^2)$ will result in $3(a_0 + a_3 + a_6 + a_9)$. To see this, looking at the entire chart is useful.
+
+|               |   $a_0$ |     $a_1x$ |   $a_2x^2$ |       $a_3x^3$ |              $a_4x^4$ |                 $a_5x^5$ |          $a_6x^6$ |                 $a_7x^7$ |                 $a_8x^8$ |          $a_9x^9$ |              $a_{10}x^{10}$ |
+| ------------- | ------: | ---------: | ---------: | -------------: | --------------------: | -----------------------: | ----------------: | -----------------------: | -----------------------: | ----------------: | --------------------------: |
+| $1$           |     $1$ |        $1$ |        $1$ |            $1$ |                   $1$ |                      $1$ |               $1$ |                      $1$ |                      $1$ |               $1$ |                         $1$ |
+| $\omega$      |     $1$ |   $\omega$ | $\omega^2$ | $\omega^3 = 1$ |   $\omega^4 = \omega$ |    $\omega^5 = \omega^2$ |    $\omega^6 = 1$ |      $\omega^7 = \omega$ |    $\omega^8 = \omega^2$ |    $\omega^6 = 1$ |         $\omega^7 = \omega$ |
+| $\omega^2$    |     $1$ | $\omega^2$ | $\omega^4$ | $\omega^6 = 1$ | $\omega^8 = \omega^2$ | $\omega^{10} = \omega^4$ | $\omega^{12} = 1$ | $\omega^{14} = \omega^2$ | $\omega^{16} = \omega^4$ | $\omega^{18} = 1$ | $\omega^{20} = \omega^{20}$ |
+| **Total Sum** | **$3$** |    **$0$** |    **$0$** |        **$3$** |               **$0$** |                  **$0$** |           **$3$** |                  **$0$** |                  **$0$** |           **$3$** |                     **$0$** |
 
 ```example
 Find $S = {10 \choose 0} + {10 \choose 4} + {10 \choose 8}$ without calculating any binary coefficients
@@ -165,59 +163,58 @@ A frequent math competition technique is to plug $1$ and $-1$ into a polynomial 
 
 ## With Offset Version
 
-While the previous version of roots of unity filter is already pretty powerful and can solve a lot of math problems, the more general version to find sums with offsets. Note that we still cannot solve our guiding problem because, in that problem, we have to be able to calculate the sum of the coefficients with a period pf $6$, but with an offset of $3$.
+While the previous version of roots of unity filter is already pretty powerful and can solve a lot of math problems, the more general version to find sums with offsets. Note that we still cannot solve our guiding problem because, in that problem, we have to be able to calculate the sum of the coefficients with a period of $6$, but with an offset of $3$.
 
-To get an idea of how this will work, we can once again look at the chart we created earlier that matches up what happens when we plug in each of the roots of unity for the terms in our polynomial.
+To get an idea of how this will work, we look at the chart we created earlier.
 
-| Root of Unity | $a_0$ | $a_1$        | $a_2$        |   |
-|----------|---|----------|----------|---|
-| $1$        | $1$ | $1$        | $1$        |   |
-| $\omega$   | $1$ | $\omega$   | $\omega^2$ |   |
-| $\omega^2$ | $1$ | $\omega^2$ | $\omega^4$ |   |
-| **Total Sum** | **$3$** | **$0$** | **$0$** | |
+|               | $a_0$   | $a_1$      | $a_2$      |     |
+| ------------- | ------- | ---------- | ---------- | --- |
+| $1$           | $1$     | $1$        | $1$        |     |
+| $\omega$      | $1$     | $\omega$   | $\omega^2$ |     |
+| $\omega^2$    | $1$     | $\omega^2$ | $\omega^4$ |     |
+| **Total Sum** | **$3$** | **$0$**    | **$0$**    |     |
 
-Note that the main reason this worked out was that we had $1$ appear in every row for the term we wanted: $a_0$. That way, when we summed up the polynomial evaluated at each of the roots of unity, everything else would cancel out via the crucial identity 
+Note that the main reason this worked out was that we had $1$ appear in every row for the term we wanted: $a_0$. This time, say that our the desired coefficient is $a_1$, meaning that we want an offset of $1$ instead of $0$. The key is to add some coefficient in front of each term in our sum to ensure that our sum has $1$s in the column for our desired term: $a_1$. Then, if we called those coefficients $b_i$, the sum of every 3rd term with an offset of 1 would look like this:
 
-$$
-1 + \omega + \omega^2 + ... + \omega^{n - 1} = 0
-$$ 
-
-but the $1$s would not.
-
-This time, say that the desired coefficient is $a_1$, meaning that we want an offset of $1$ instead of $0$. To do this, the key is to add some coefficient in front of each term in our sum to ensure that our sum has $1$s in the column for our desired term: $a_1$. Then, if we called those coefficients $b_i$, the sum of every 3rd term with an offset of 1 would look like this:
 $$
 \dfrac{b_0P(1) + b_1P(\omega) + b_2(\omega^2)}{3}
 $$
 
 To calculate these coefficients, we can use our table from above. Currently, it would look something like this, where all of our coefficients would be $1$, meaning that the values for each row are not being changed.
 
-| Root of Unity | $b_i$ | $a_0$ | $a_1$        | $a_2$        |   |
-|----------|---|---|----------|----------|---|
-| $1$        | $1$ | $1$ | $1$        | $1$        |   |
-| $\omega$   | $1$ | $1$ | $\omega$   | $\omega^2$ |   |
-| $\omega^2$ | $1$ | $1$ | $\omega^2$ | $\omega^4$ |   |
-| **Total Sum** | | **$3$** | **$0$** | **$0$** | |
+|               | $b_i$ | $a_0$   | $a_1$      | $a_2$      |     |
+| ------------- | ----- | ------- | ---------- | ---------- | --- |
+| $1$           | $1$   | $1$     | $1$        | $1$        |     |
+| $\omega$      | $1$   | $1$     | $\omega$   | $\omega^2$ |     |
+| $\omega^2$    | $1$   | $1$     | $\omega^2$ | $\omega^4$ |     |
+| **Total Sum** |       | **$3$** | **$0$**    | **$0$**    |     |
 
-However, by using the crucial property that $\omega^n = 1$, we can adjust the coefficients for each row so that the $1$s appear in the column for $a_1$ instead:
+However, by using the crucial property that $\omega^n = 1$, we can adjust the coefficients for each row so that the $1$s appear in the column for $a_1$:
 
-| Root of Unity | $b_i$ | $a_0$ | $a_1$        | $a_2$        |   |
-|----------|---|---|----------|----------|---|
-| $1$        | $1$ | $1$ | $1$        | $1$        |   |
-| $\omega$   | $\omega^2$ | $\omega^2$ | $1$   | $\omega^4$ |   |
-| $\omega^2$ | $\omega$ | $\omega$ | $1$ | $\omega^2$ |   |
-| **Total Sum** | | **$0$** | **$3$** | **$0$** | |
+|               | $b_i$      | $a_0$      | $a_1$   | $a_2$      |     |
+| ------------- | ---------- | ---------- | ------- | ---------- | --- |
+| $1$           | $1$        | $1$        | $1$     | $1$        |     |
+| $\omega$      | $\omega^2$ | $\omega^2$ | $1$     | $\omega^4$ |     |
+| $\omega^2$    | $\omega$   | $\omega$   | $1$     | $\omega^2$ |     |
+| **Total Sum** |            | **$0$**    | **$3$** | **$0$**    |     |
 
-With these coefficients chosen carefully, each sum now conveniently produces the values for $a_1$!
-
-```note
-I currently don't have a good explanation for why all of the other columns conveniently end up still canceling each other out no matter which column you choose to make the $1$s generate in. To show that they do cancel out to $0$ (they don't nicely use the equation shown before anymore), you have to do a bit of work, but it does work out.
-```
-
-With this, our equation to find the sum of every 3rd term with an offset of $1$ looks like the following:
+Then, each sum now produces the values for $a_1$! With this, our equation to find the sum of every 3rd term with an offset of $1$ looks like the following:
 
 $$
 \dfrac{P(1) + \omega^2 P(\omega) + \omega P(\omega^2)}{3}
 $$
+
+Formally, we can provide the formula for $b_i$ for an offset $b$ and cycle length $n$ as:
+
+$$
+b_i = \omega^{- (b \cdot i \% n)}
+$$
+
+where $\%$ represents the modulo operator.
+
+```note
+I have a followup post that goes over why this is guaranteed to work for any cycle length or any offset since here it seems like magic. Including it in this post would just make this one too long since I just wanted to leave it as a reference / intro to the technique. The general intuition is that these $b_i$ terms have the effect of "shifting" the entire table over $b$ spots.
+```
 
 ## Solving the Guiding Problem
 
@@ -246,7 +243,7 @@ $$
 While we could plug this in and solve for $S_1$ directly, it would be incredibly difficult. However, we can proceed with calculating $S_2$ to see if we get any nice cancellations. We can apply our offsetted roots of unity filter to calculate $S_2$. To do so, we first need to find what our coefficients will be to get our column of $1$s to shift to $a_3$, which will give us the offset of $3$ that we need.
 
 | Root of Unity | $b_i$      | Original $a_3$ | Modified $a_3$ |
-|---------------|------------|----------------|----------------|
+| ------------- | ---------- | -------------- | -------------- |
 | $1$           | $1$        | $1$            | $1$            |
 | $\omega$      | $\omega^3$ | $\omega^3$     | $1$            |
 | $\omega^2$    | $1$        | $\omega^6$     | $1$            |
@@ -334,6 +331,8 @@ The original problem was part of a mock AIME and asked for the answer mod $1000$
 
 ## Final Notes
 
-Roots of unity filter is a super useful technique on some problems, but it can involve a lot of calculations and is not applicable to everything. For our guiding problem, we were fortunate enough to have all of our complex roots of unities dissipate nicely, which is something that you will frequently see for math competition problems that use roots of unity filter. Roots of unity filter can also be especially powerful when combined with **generating functions**. I might write an article on generating functions later, so stay tuned for that!
+Roots of unity filter is a super useful technique on some problems, but it can involve a lot of calculations and is not applicable to everything. For our guiding problem, we were fortunate enough to have all of our complex roots of unities dissipate nicely, which is something that you will frequently see for math competition problems that use roots of unity filter. Roots of unity filter can also be especially powerful when combined with **generating functions**.
 
 Generally, most problems will use the 4th roots of unity, which makes it incredibly convenient since all of the roots of unities are either entirely imaginary or entirely real. For less convenient problems, a calculator or some other clever insight may be necessary to evaluate the result.
+
+As mentioned previously, the technique was just introduced here without much proof that it works in all cases. I've written a follow up here that goes over proofs so you can safely apply this technique: [Roots of Unity Filter Proof](https://rcya1.vercel.app/posts/roots-of-unity-filter-proof).
