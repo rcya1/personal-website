@@ -2,7 +2,7 @@
 title: Roots of Unity Filter Part 2 - Roots of Unity
 date: '2021-04-15'
 category: Math
-excerpt: The second part of a three-part series about the roots of unity filter. Covers the basics of roots of unities and goes over some algebra and geometry problems using them.
+excerpt: The second part of a four part series about the roots of unity filter. Covers the basics of roots of unities and goes over some algebra and geometry problems using them.
 ---
 
 ## Note
@@ -88,11 +88,13 @@ Note that for this theorem, $\omega$ does **not** have to be the smallest $n$th 
 ## Calculating Roots of Unity
 
 We can calculate roots of unity using de Moivre's Theorem. Consider the equation
+
 $$
 x^n = 1
 $$
 
 We can rewrite $1$ in its polar form as $\text{cis}(2\pi k)$, where $k$ is any integer. Then, by applying de Moivre's Theorem with the exponent $-n$, we obtain the following:
+
 $$
 x = \text{cis}\left(\dfrac{2\pi k}{n}\right)
 $$
@@ -100,6 +102,7 @@ $$
 Note that a negative exponent with de Moivre's Theorem corresponds to dividing the angle by $n$, not multiplying it by $-n$.
 
 By ranging $k$ in the interval $[0, n - 1]$, all $n$ roots of unity can be obtained. By setting $k = 1$, we can show that the smallest $n$th root of unity is:
+
 $$
 \omega = \text{cis}\left(\dfrac{2\pi}{n}\right)
 $$
@@ -148,6 +151,7 @@ The $n$th roots of unity will produce a regular $n$-gon when graphed in the comp
 This can be seen when we look at the $\text{cis}$ form of the roots of unity, as all of our points are evenly spaced around the unit circle.
 
 This visualization can help give some visual intuition towards understanding the following sum:
+
 $$
 1 + \omega + \omega^2 + ... + \omega^{n-1}
 $$
@@ -163,7 +167,7 @@ This visualization also helps with showing why the roots of unity are cyclic int
 
 <br>
 
-Consider the equation 
+Consider the equation
 $$
 x^7 + x^6 + x^5 + ... + x + 1 = 0
 $$
@@ -178,22 +182,26 @@ There are three primary ways to approach this problem:
 - The given equation may remind you of the result we derived earlier, which states that the given equation is valid for all of the $8$th roots of unity besides 1. As a result, we can immediately apply our knowledge about roots of unity and solve the problem.
 
 - However, if you do not see the above connection immediately, there are a few other ways to see the above. First, you could realize that the sum given is a geometric series, which means that it can be rewritten in the form
-    $$
-    \dfrac{x^8 - 1}{x - 1} = 0
-    $$
-    From this, it is clear that the numerator will be equal to $0$ for each of the $8$th roots of unity, while the denominator eliminates $1$ as a solution.
+
+  $$
+  \dfrac{x^8 - 1}{x - 1} = 0
+  $$
+
+  From this, it is clear that the numerator will be equal to $0$ for each of the $8$th roots of unity, while the denominator eliminates $1$ as a solution.
 
 - Another way to see the above is to multiply the entire given equation by $x$.
-    $$
-    x(x^7 + x^6 + x^5 + ... + x + 1) = x^8 + x^7 + x^6 + ... + x^2 + x
-    $$
 
-    We can then subtract the original equation from this equation to obtain:
-    $$
-    x^8 - 1 = 0
-    $$
+  $$
+  x(x^7 + x^6 + x^5 + ... + x + 1) = x^8 + x^7 + x^6 + ... + x^2 + x
+  $$
 
-    We can see that all of the $8$th roots of unity are solutions, although $1$ is an extraneous solution we obtained after multiplying everything by $x$. We can be sure there is an extraneous solution since there are 8 8th roots of unity, but the original polynomial only has degree 7.
+  We can then subtract the original equation from this equation to obtain:
+
+  $$
+  x^8 - 1 = 0
+  $$
+
+  We can see that all of the $8$th roots of unity are solutions, although $1$ is an extraneous solution we obtained after multiplying everything by $x$. We can be sure there is an extraneous solution since there are 8 8th roots of unity, but the original polynomial only has degree 7.
 
 Once we find this, we can easily calculate the 8th roots of unity because each of them will correspond to angles in increments of $\dfrac{\pi}{4}$.
 
@@ -202,7 +210,7 @@ Once we find this, we can easily calculate the 8th roots of unity because each o
 By computing the cosine (which produces the real component of the roots of unity) of all of these angles and including $\theta = 0$, we obtain the answer:
 
 $$
-\cos\left(\dfrac{\pi}{4}\right)^2 + \cos\left(\dfrac{\pi}{2}\right)^2 + \cos\left(\dfrac{3\pi}{4}\right)^2 + \cos(\pi)^2 + 
+\cos\left(\dfrac{\pi}{4}\right)^2 + \cos\left(\dfrac{\pi}{2}\right)^2 + \cos\left(\dfrac{3\pi}{4}\right)^2 + \cos(\pi)^2 +
 $$
 
 $$
@@ -246,6 +254,7 @@ Now that we have this out of the way, we can go back to the problem. We can labe
 ![ABCDEF with point P and Distances](/blog/roots-of-unity/ABCDEF-Line-P-Dist.png#300x300)
 
 We can also label our point $P$ as the complex number $P = 1 + i$. To find the product of the distances from $P$ to each of the points, we can do the following:
+
 $$
 p = |P - 1| * |P - \omega| * |P - \omega^2| * ... * |P - \omega^6|
 $$

@@ -2,7 +2,7 @@
 title: Roots of Unity Filter Part 1 - Complex Numbers
 date: '2021-04-14'
 category: Math
-excerpt: The first part of a three-part series about the roots of unity filter. Covers the basic operations associated with complex numbers.
+excerpt: The first part of a four part series about the roots of unity filter. Covers the basic operations associated with complex numbers.
 ---
 
 ## Note
@@ -31,11 +31,11 @@ If we have a complex number $z = a + bi$, then we can derive these two parameter
 ```theorem
 For a complex number $z = a + bi$, the angle $\theta$ that $z$ makes with the positive x-axis can be expressed as:
 $$
- \theta = \text{arg}(z) = \text{atan}\left( \dfrac{b}{a} \right) 
+ \theta = \text{arg}(z) = \text{atan}\left( \dfrac{b}{a} \right)
 $$
 The magnitude $r$ can be expressed as:
 $$
- r = |z| = \sqrt{a^2 + b^2} 
+ r = |z| = \sqrt{a^2 + b^2}
 $$
 ```
 
@@ -57,7 +57,7 @@ $$
 We use $\text{cis}(\theta)$ as a shorthand for writing $\cos(\theta) + i \sin(\theta)$
 ```
 
-There is one final form of a complex number, the **complex exponential form**. The proof for this relationship is beyond the scope of this document, but there are *plenty* of excellent tutorials by people like 3Blue1Brown who have covered this topic in detail.
+There is one final form of a complex number, the **complex exponential form**. The proof for this relationship is beyond the scope of this document, but there are _plenty_ of excellent tutorials by people like 3Blue1Brown who have covered this topic in detail.
 
 ```theorem
 For a complex number $z$ with argument $\theta$ and magnitude $r$ can be expressed as:
@@ -149,7 +149,6 @@ $$
 \text{arg}(z * w) = \theta_z + \theta_w = \text{arg}(z) + \text{arg}(w)
 $$
 
-
 With this theorem, we can make multiplying numbers in polar form very easy, since all we have to do is multiply the magnitudes and add the arguments.
 
 ```example
@@ -166,7 +165,7 @@ Division of complex numbers is a bit more interesting, and there are two ways to
 
 ```example
 $$
-\dfrac{1 + 2i}{3 + 4i} = \dfrac{1 + 2i}{3 + 4i} * \dfrac{3 - 4i}{3 - 4i} = \dfrac{11 + 10i}{3^2 + 4^2} = \dfrac{11 + 10i}{25} 
+\dfrac{1 + 2i}{3 + 4i} = \dfrac{1 + 2i}{3 + 4i} * \dfrac{3 - 4i}{3 - 4i} = \dfrac{11 + 10i}{3^2 + 4^2} = \dfrac{11 + 10i}{25}
 $$
 ```
 
