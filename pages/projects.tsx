@@ -25,6 +25,7 @@ import ppvThumbnail from 'public/projects/pure-pursuit-visualizer.webp'
 import { ChakraAnimate } from 'lib/animate'
 import { StaticImageData } from 'next/image'
 import { Key } from 'react'
+import Meta from 'components/meta'
 
 const Projects: NextPage = () => {
   const projects = [
@@ -62,82 +63,88 @@ const Projects: NextPage = () => {
   const cardFontColor = useColorModeValue('text-light', 'text-dark')
 
   return (
-    <MainLayout maxW="container.lg">
-      <Container maxW="container.lg">
-        <Box pt={6}>
-          <Heading
-            size="lg"
-            textAlign="center"
-            textDecoration="underline"
-            textDecorationThickness="3px"
-            textUnderlineOffset="8px"
-          >
-            Projects
-          </Heading>
-        </Box>
-        <Box mt={8}>
-          <SimpleGrid
-            columns={{ base: 1, md: 2 }}
-            spacing={{ base: 6, md: 10 }}
-            maxW="80%"
-            mx="auto"
-            alignItems="stretch"
-          >
-            {projects.map((project) => (
-              <ChakraAnimate
-                whileHover={{
-                  scale: 1.05,
-                  transition: {
-                    duration: 0.25,
-                    ease: 'easeInOut'
-                  }
-                }}
-                key={project[0] as Key}
-              >
-                <LinkBox height="100%">
-                  <Card
-                    direction="column"
-                    borderRadius={10}
-                    backgroundColor={cardColor}
-                    color={cardFontColor}
-                    height="100%"
-                    display="flex"
-                    flexDirection="column"
-                  >
-                    <CardBody>
-                      <Stack>
-                        <AspectRatio ratio={5 / 3}>
-                          <Box
-                            width="100%"
-                            borderRadius="10px"
-                            overflow="hidden"
-                            mx="auto"
-                          >
-                            <NextImage
-                              src={project[1] as StaticImageData}
-                              alt={project[0] as string}
-                              objectFit="cover"
-                            />
-                          </Box>
-                        </AspectRatio>
+    <>
+      <Meta
+        title="Ryan Chang - Projects"
+        description="Showcasing some of my personal projects I've made over the years"
+      />
+      <MainLayout maxW="container.lg">
+        <Container maxW="container.lg">
+          <Box pt={6}>
+            <Heading
+              size="lg"
+              textAlign="center"
+              textDecoration="underline"
+              textDecorationThickness="3px"
+              textUnderlineOffset="8px"
+            >
+              Projects
+            </Heading>
+          </Box>
+          <Box mt={8}>
+            <SimpleGrid
+              columns={{ base: 1, md: 2 }}
+              spacing={{ base: 6, md: 10 }}
+              maxW="80%"
+              mx="auto"
+              alignItems="stretch"
+            >
+              {projects.map((project) => (
+                <ChakraAnimate
+                  whileHover={{
+                    scale: 1.05,
+                    transition: {
+                      duration: 0.25,
+                      ease: 'easeInOut'
+                    }
+                  }}
+                  key={project[0] as Key}
+                >
+                  <LinkBox height="100%">
+                    <Card
+                      direction="column"
+                      borderRadius={10}
+                      backgroundColor={cardColor}
+                      color={cardFontColor}
+                      height="100%"
+                      display="flex"
+                      flexDirection="column"
+                    >
+                      <CardBody>
+                        <Stack>
+                          <AspectRatio ratio={5 / 3}>
+                            <Box
+                              width="100%"
+                              borderRadius="10px"
+                              overflow="hidden"
+                              mx="auto"
+                            >
+                              <NextImage
+                                src={project[1] as StaticImageData}
+                                alt={project[0] as string}
+                                objectFit="cover"
+                              />
+                            </Box>
+                          </AspectRatio>
 
-                        <Heading pt={2} size="md" textAlign="center">
-                          <NextLink href={project[2] as string} passHref>
-                            <LinkOverlay>{project[0] as string}</LinkOverlay>
-                          </NextLink>
-                        </Heading>
+                          <Heading pt={2} size="md" textAlign="center">
+                            <NextLink href={project[2] as string} passHref>
+                              <LinkOverlay>{project[0] as string}</LinkOverlay>
+                            </NextLink>
+                          </Heading>
 
-                        <Text py={0}>{project[3] as string}</Text>
-                      </Stack>
-                    </CardBody>
-                  </Card>
-                </LinkBox>
-              </ChakraAnimate>
-            ))}
-          </SimpleGrid>
-        </Box>
-      </Container>
-    </MainLayout>
+                          <Text py={0}>{project[3] as string}</Text>
+                        </Stack>
+                      </CardBody>
+                    </Card>
+                  </LinkBox>
+                </ChakraAnimate>
+              ))}
+            </SimpleGrid>
+          </Box>
+        </Container>
+      </MainLayout>
+    </>
   )
 }
 
