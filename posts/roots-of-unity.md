@@ -9,6 +9,8 @@ excerpt: The second part of a four part series about the roots of unity filter. 
 
 This is a three part series I wrote back in 2019 on a technique applicable to certain competitive math problems: roots of unity filters. The first two parts are just a recap of complex numbers and roots of unity respectively. If you're already comfortable with both of these topics, feel free to skip to Part 3.
 
+Update: in 2025 this became a four part series after I added a proof section
+
 ## Basics
 
 ```definition

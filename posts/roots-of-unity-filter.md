@@ -7,7 +7,9 @@ excerpt: The third part of a four part series about roots of unity filter. We go
 
 ## Note
 
-This is a three part series I wrote back in 2019 on a technique applicable to certain competitive math problems: roots of unity filters. See the first two parts for a recap of complex numbers and roots of unity respectively. This post will go over the technique as well as what kind of problems it can be applied to. This post will **not** go over the proof of this technique, and I've written a separate followup post going over it: [Roots of Unity Filter Proof](https://rcya1.vercel.app/posts/roots-of-unity-filter-proof).
+This is a three part series I wrote back in 2019 on a technique applicable to certain competitive math problems: roots of unity filters. See the first two parts for a recap of complex numbers and roots of unity respectively. This post will go over the technique as well as what kind of problems it can be applied to.
+
+Update: in 2025 this became a four part series after I added a proof section: [Roots of Unity Filter Proof](https://rcya1.vercel.app/posts/roots-of-unity-filter-proof).
 
 ## Guiding Problem
 
