@@ -33,6 +33,7 @@ import {
   textLight
 } from 'lib/theme'
 import { Key, useEffect, useRef, useState } from 'react'
+import Meta from 'components/meta'
 
 const Posts = ({
   allPostsData,
@@ -122,149 +123,161 @@ const Posts = ({
     })
   }
 
-  const tabHoverBg = useColorModeValue('rgb(245, 245, 245)', 'whiteAlpha.100')
+  const tabHoverBg = useColorModeValue(
+    'rgba(245, 245, 245, 0.7)',
+    'whiteAlpha.100'
+  )
   const tabSelectedBg = useColorModeValue(
-    'rgb(242, 242, 242)',
+    'rgba(245, 245, 245, 0.9)',
     'whiteAlpha.300'
   )
 
   return (
-    <MainLayout>
-      <Container>
-        <Box pt={6}>
-          <Heading
-            size="lg"
-            textAlign="center"
-            textDecoration="underline"
-            textDecorationThickness="3px"
-            textUnderlineOffset="8px"
-          >
-            Posts
-          </Heading>
-        </Box>
+    <>
+      <Meta
+        title="Ryan Chang - Posts"
+        description="Random posts about personal experiences, technology, math, and more"
+      />
+      <MainLayout>
+        <Container>
+          <Box pt={6}>
+            <Heading
+              size="lg"
+              textAlign="center"
+              textDecoration="underline"
+              textDecorationThickness="3px"
+              textUnderlineOffset="8px"
+            >
+              Posts
+            </Heading>
+          </Box>
 
-        <Tabs variant="unstyled" mt={8} mb={-2} isFitted>
-          <TabList position="relative" justifyContent="center" gap="4px">
-            {/* Sliding highlight */}
-            <Box
-              position="absolute"
-              bottom={0}
-              left={highlightStyle.left}
-              width={highlightStyle.width}
-              height="4px"
-              bg={tagColor.toString()}
-              borderRadius="2px 2px 0 0"
-              transition="left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
-              pointerEvents="none"
-              zIndex={3}
-            />
+          <Tabs variant="unstyled" mt={8} mb={-2} isFitted>
+            <TabList position="relative" justifyContent="center" gap="4px">
+              {/* Sliding highlight */}
+              <Box
+                position="absolute"
+                bottom={0}
+                left={highlightStyle.left}
+                width={highlightStyle.width}
+                height="4px"
+                bg={tagColor.toString()}
+                borderRadius="2px 2px 0 0"
+                transition="left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                pointerEvents="none"
+                zIndex={3}
+              />
 
-            {categories.map((category, idx) => {
-              return (
-                <Tab
-                  key={category as Key}
-                  ref={(el) => (tabRefs.current[idx] = el)}
-                  fontWeight="bold"
-                  borderRadius="md"
-                  transition="all 0.2s ease-in-out"
-                  _hover={{
-                    bg: tabHoverBg,
-                    boxShadow: 'sm'
-                  }}
-                  _selected={{
-                    bg: tabSelectedBg,
-                    boxShadow: 'sm'
-                  }}
-                  onClick={() => handleTabChange(category)}
-                  onMouseEnter={() => setHoverIndex(idx)}
-                  onMouseLeave={() => setHoverIndex(null)}
-                  zIndex={2}
-                  py={2}
-                  px={4}
-                  userSelect="none"
-                >
-                  {category}
-                </Tab>
-              )
-            })}
-          </TabList>
-        </Tabs>
-
-        <AnimatePresence mode="wait" initial={false}>
-          <ChakraAnimate
-            key={tabState.selectedCategory as Key} // triggers exit/enter on tab change
-            initial={{ opacity: 0, x: -40 * tabState.direction }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 40 * tabState.direction }}
-            transition={{ duration: '0.2', ease: 'easeInOut' }}
-            style={{ width: '100%' }} // needed to prevent layout shift
-          >
-            <Box>
-              {allPostsData
-                .filter(
-                  (postData) =>
-                    postData.id.charAt(0) !== '_' &&
-                    postData.category === tabState.selectedCategory
+              {categories.map((category, idx) => {
+                return (
+                  <Tab
+                    key={category as Key}
+                    ref={(el) => (tabRefs.current[idx] = el)}
+                    fontWeight="bold"
+                    borderRadius="md"
+                    transition="all 0.2s ease-in-out"
+                    _hover={{
+                      bg: tabHoverBg,
+                      boxShadow: 'sm'
+                    }}
+                    _selected={{
+                      bg: tabSelectedBg,
+                      boxShadow: 'sm'
+                    }}
+                    onClick={() => handleTabChange(category)}
+                    onMouseEnter={() => setHoverIndex(idx)}
+                    onMouseLeave={() => setHoverIndex(null)}
+                    zIndex={2}
+                    py={2}
+                    px={4}
+                    userSelect="none"
+                  >
+                    {category}
+                  </Tab>
                 )
-                .map((postData) => {
-                  const date = parseISO(postData.date)
+              })}
+            </TabList>
+          </Tabs>
 
-                  return (
-                    <LinkBox mt={8} key={postData.id}>
-                      <ChakraAnimate
-                        whileHover={{ scale: 1.04 }}
-                        transition={{ duration: '0.15' }}
-                      >
-                        <Card backgroundColor={cardColor} color={cardFontColor}>
-                          <CardHeader pb={4}>
-                            <ChakraAnimate
-                              initial={{
-                                textDecorationColor: textColor
-                                  .alpha(0)
-                                  .toString()
-                              }}
-                              whileHover={{
-                                textDecorationColor: textColor
-                                  .alpha(1)
-                                  .toString()
-                              }}
-                              transition={{ duration: '0.15' }}
-                            >
-                              <Heading
-                                size="md"
-                                fontWeight="light"
-                                _hover={{ textDecorationLine: 'underline' }}
-                                textDecorationColor="inherit"
-                              >
-                                <NextLink
-                                  href={'/posts/' + postData.id}
-                                  passHref
-                                >
-                                  <LinkOverlay>{postData.title}</LinkOverlay>
-                                </NextLink>
-                              </Heading>
-                            </ChakraAnimate>
-                            <Text fontSize="sm">
-                              <time dateTime={postData.date}>
-                                Posted {format(date, 'LLLL do, yyyy')}
-                              </time>
-                            </Text>
-                          </CardHeader>
-                          {postData.excerpt && (
-                            <CardBody pt={1}>
-                              <Text fontSize="sm">{postData.excerpt}</Text>
-                            </CardBody>
-                          )}
-                        </Card>
-                      </ChakraAnimate>
-                    </LinkBox>
+          <AnimatePresence mode="wait" initial={false}>
+            <ChakraAnimate
+              key={tabState.selectedCategory as Key} // triggers exit/enter on tab change
+              initial={{ opacity: 0, x: -40 * tabState.direction }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 40 * tabState.direction }}
+              transition={{ duration: '0.2', ease: 'easeInOut' }}
+              style={{ width: '100%' }} // needed to prevent layout shift
+            >
+              <Box>
+                {allPostsData
+                  .filter(
+                    (postData) =>
+                      postData.id.charAt(0) !== '_' &&
+                      postData.category === tabState.selectedCategory
                   )
-                })}
-            </Box>
-          </ChakraAnimate>
-        </AnimatePresence>
-      </Container>
-    </MainLayout>
+                  .map((postData) => {
+                    const date = parseISO(postData.date)
+
+                    return (
+                      <LinkBox mt={8} key={postData.id}>
+                        <ChakraAnimate
+                          whileHover={{ scale: 1.04 }}
+                          transition={{ duration: '0.15' }}
+                        >
+                          <Card
+                            backgroundColor={cardColor}
+                            color={cardFontColor}
+                          >
+                            <CardHeader pb={4}>
+                              <ChakraAnimate
+                                initial={{
+                                  textDecorationColor: textColor
+                                    .alpha(0)
+                                    .toString()
+                                }}
+                                whileHover={{
+                                  textDecorationColor: textColor
+                                    .alpha(1)
+                                    .toString()
+                                }}
+                                transition={{ duration: '0.15' }}
+                              >
+                                <Heading
+                                  size="md"
+                                  fontWeight="light"
+                                  _hover={{ textDecorationLine: 'underline' }}
+                                  textDecorationColor="inherit"
+                                >
+                                  <NextLink
+                                    href={'/posts/' + postData.id}
+                                    passHref
+                                  >
+                                    <LinkOverlay>{postData.title}</LinkOverlay>
+                                  </NextLink>
+                                </Heading>
+                              </ChakraAnimate>
+                              <Text fontSize="sm">
+                                <time dateTime={postData.date}>
+                                  Posted {format(date, 'LLLL do, yyyy')}
+                                </time>
+                              </Text>
+                            </CardHeader>
+                            {postData.excerpt && (
+                              <CardBody pt={1}>
+                                <Text fontSize="sm">{postData.excerpt}</Text>
+                              </CardBody>
+                            )}
+                          </Card>
+                        </ChakraAnimate>
+                      </LinkBox>
+                    )
+                  })}
+              </Box>
+            </ChakraAnimate>
+          </AnimatePresence>
+        </Container>
+      </MainLayout>
+    </>
   )
 }
 
