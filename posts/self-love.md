@@ -3,7 +3,7 @@ title: random thoughts on loving yourself
 date: '2025-07-28'
 toc: false
 category: Blog
-excerpt: some random yapping about self-love via some stories from my last few years
+excerpt: some yapping about self-love via stories from the few years
 ---
 
 ### introduction
@@ -58,4 +58,4 @@ additionally, this isn't saying that one shouldn't change to fit a relationship.
 
 in the end, do i regret any of the relationships i went through? every single one of them ended in heartbreak and pain, and caused me to hurt for months. but every single one of them also gave me happy memories and taught me more about not just myself, but about the beauties available in the world. from each person, i learned new perspectives, developed new interests i didn't know i had, and made memories i won't forget
 
-i once heard the phrase: "don't be sad it's over, be glad that it happened." this phrase, no matter how hard it may be, is something i try to stick by. would i have preferred to learn these lessons and all of these things without all of the pain? maybe, but that's just how life is sometimes. all we can do is keep getting up and moving forwards
+i once heard the phrase: "don't be sad it's over, be glad that it happened." this phrase, no matter how hard it may be, is something i try to stick by. would i have preferred to learn these lessons and all of these things without all of the pain? maybe, but that's just how life is sometimes. all we can do is keep getting up and moving forwards <span>🏃‍♂️‍➡️</span>
