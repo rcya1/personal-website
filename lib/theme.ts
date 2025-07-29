@@ -16,7 +16,7 @@ export const highlightLight = Color('rgb(174, 219, 233)')
 export const highlightDarkLight = highlightLight.darken(0.075)
 export const highlightDarkerLight = highlightLight.darken(0.15)
 
-export const highlightDark = Color('rgb(159, 122, 234)').darken(0.15)
+export const highlightDark = Color('rgb(159, 122, 234)').saturate(0.7)
 export const highlightDarkDark = highlightDark.darken(0.075)
 export const highlightDarkerDark = highlightDark.darken(0.15)
 
