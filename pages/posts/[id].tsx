@@ -125,7 +125,6 @@ const Post = ({
         >
           <NavButton
             href={`/posts/${prevPost?.id}`}
-            // @ts-expect-error – known issue with react-icons typing
             icon={<LuArrowLeft size="1.5em" />}
             text={prevPost ? prevPost.title : 'No Previous Post'}
             align="left"
@@ -139,7 +138,6 @@ const Post = ({
 
           <NavButton
             href="/posts/"
-            // @ts-expect-error – known issue with react-icons typing
             icon={<FaHome size="1.25em" />}
             text="Home"
             align="left"
@@ -153,7 +151,6 @@ const Post = ({
 
           <NavButton
             href={`/posts/${nextPost?.id}`}
-            // @ts-expect-error – known issue with react-icons typing
             icon={<LuArrowRight size="1.5em" />}
             text={nextPost ? nextPost.title : 'No Next Post'}
             align="right"

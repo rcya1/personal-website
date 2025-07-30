@@ -20,7 +20,6 @@ import { BasicProps } from 'lib/react-utils'
 
 import Image from 'next/image'
 import profile from 'public/profile.webp'
-import Head from 'next/head'
 import Meta from 'components/meta'
 
 const IndexHeading: FC<BasicProps> = ({ children }: BasicProps) => {
@@ -186,7 +185,6 @@ const Home: NextPage = () => {
               mt={6}
             >
               <SocialMediaButton
-                // @ts-expect-error – known issue with react-icons typing
                 icon={<AiFillGithub />}
                 href="https://github.com/rcya1"
               >
@@ -194,7 +192,6 @@ const Home: NextPage = () => {
               </SocialMediaButton>
 
               <SocialMediaButton
-                // @ts-expect-error – known issue with react-icons typing
                 icon={<AiFillLinkedin />}
                 href="https://www.linkedin.com/in/ryan-chang-105495215/"
               >
@@ -202,7 +199,6 @@ const Home: NextPage = () => {
               </SocialMediaButton>
 
               <SocialMediaButton
-                // @ts-expect-error – known issue with react-icons typing
                 icon={<AiFillInstagram />}
                 href="https://www.instagram.com/chang.ryan1/"
               >
