@@ -111,7 +111,7 @@ $$
 
 Note that we can actually separate non-homogenous recurrence relations into two parts: a homogenous part and then some polynomial $f(n)$. This will be key to solving the relation later.
 
-### What It Means to "Solve" a Linear Recurrence 
+### What It Means to "Solve" a Linear Recurrence
 
 First, we have to clarify what it even means to "solve" a linear recurrence. After all, if we're given enough initial values and the recurrence relation, we can solve for any value of the sequence through just plug and chug. However, this can be extremely slow for huge values of $n$, making an explicit formula very desirable. The idea of "solving" a recurrence relation is to find some function such as $a_n = 4^n$ that we can plug a huge value of $n$ into directly to find the value of $a_n$. This function is known as the **closed-form** expression for $a_n$.
 
@@ -171,7 +171,7 @@ In the next two sections, we'll talk about how to derive these closed form expre
 
 ## Solving Homogenous Recurrences
 
-As a recap of what it means for a linear recurrence to be homogenous, a homogenous linear recurrence does not contain any terms besides $a_n$ in its recurrence relation. In particular, this means that there can be no constant coefficients or any terms that involve $n$ directly inside of the recurrence relation. See *Homogenous vs Non-Homogenous* for more details.
+As a recap of what it means for a linear recurrence to be homogenous, a homogenous linear recurrence does not contain any terms besides $a_n$ in its recurrence relation. In particular, this means that there can be no constant coefficients or any terms that involve $n$ directly inside of the recurrence relation. See _Homogenous vs Non-Homogenous_ for more details.
 
 To solve these recurrences, we'll first construct something known as the characteristic polynomial and characteristic equation of the recurrence relation.
 
@@ -199,7 +199,7 @@ $$
 a_n = \alpha_{\small 1} r_1^n + \alpha_{\small 2} r_2^n + ... + \alpha_{\small k} r_k^n
 $$
 
-The next thing we need to do is just solve for our values of $\alpha$, which we can do by plugging in the initial conditions. See the *Homogenous Recurrence Examples* section below to see an example of this.
+The next thing we need to do is just solve for our values of $\alpha$, which we can do by plugging in the initial conditions. See the _Homogenous Recurrence Examples_ section below to see an example of this.
 
 Next, let's consider the case where the roots are not distinct. How many times a root appears as a solution to a polynomial is known as its **multiplicity**. For instance, the equation $(x-3)^2(x-2)$ has $2$ distinct roots. $2$ is a root with multiplicity $1$ while $3$ is a root with multiplicity $2$. Therefore, the idea of having non-distinct roots means that there are some characteristic roots with multiplicity greater than $1$.
 
@@ -209,7 +209,7 @@ $$
 a_n = \sum_{i=1}^{x}\sum_{j=1}^{m_i}\alpha_{\small i,j}n^{j-1}r_i^n
 $$
 
-Once again, we can just plug in the initial conditions to find our values of $\alpha$. This form is pretty hard to understand from the formula, so see the example in the *Non-Homogenous Recurrence Examples* section below. What it does is basically just adds another exponential for each copy of the characteristic root but with an extra $n$ factor tacked onto it.
+Once again, we can just plug in the initial conditions to find our values of $\alpha$. This form is pretty hard to understand from the formula, so see the example in the _Non-Homogenous Recurrence Examples_ section below. What it does is basically just adds another exponential for each copy of the characteristic root but with an extra $n$ factor tacked onto it.
 
 ### Homogenous Recurrence Examples
 
@@ -453,9 +453,10 @@ $$
 
 ## Why It Works
 
-While the above goes over how to solve these recurrences, a lot of it just seems like magic formulas. In the below sections, I will try to explain *why* these equations work and how you can reason through them to the best of my ability, although the proofs may not be perfect.
+While the above goes over how to solve these recurrences, a lot of it just seems like magic formulas. In the below sections, I will try to explain _why_ these equations work and how you can reason through them to the best of my ability, although the proofs may not be perfect.
 
 ### Homogenous Recurrences
+
 There are two key theorems that we will use while solving homogenous linear recurrence relation:
 
 ```theorem
@@ -492,7 +493,7 @@ Now that we have this, we can construct an approach to our problem. If we have a
 Now, that we have an approach, we can start finding small solutions that will fit into this recurrence equation.
 
 ```theorem
-If $a_n$ has the characteristic polynomial 
+If $a_n$ has the characteristic polynomial
 
 $$
 x^k - c_1x^{k-1} - c_2x^{k-2} - ... - c_{k-1}x - c_k
@@ -524,7 +525,7 @@ If $r$ is a solution to the characteristic polynomial of $a_n$ with a multiplici
 
 ```
 
-Proving this is pretty complicated, so I'll omit it here. If you're interested int he full details, check out page 16 of [this document](https://www.eecs.yorku.ca/course_archive/2007-08/F/1019/A/recurrence.pdf) that also includes a ton of awesome in-depth information about solving recurrences.
+Proving this is pretty complicated, so I'll omit it here. If you're interested in the full details, check out page 16 of [this document](https://www.eecs.yorku.ca/course_archive/2007-08/F/1019/A/recurrence.pdf) that also includes a ton of awesome in-depth information about solving recurrences.
 
 Once we have this theorem, we can then see that for each root $r$ with multiplicity $m$, we get $m$ sequences out of it. Since the total sum of all multiplicities is equal to $k$, we obtain our $k$ sequences that we can then create a linear combination of to match our initial conditions. With that, we have created a systematic approach towards solving linear recurrences.
 

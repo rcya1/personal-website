@@ -186,6 +186,7 @@ const Home: NextPage = () => {
               mt={6}
             >
               <SocialMediaButton
+                // @ts-expect-error – known issue with react-icons typing
                 icon={<AiFillGithub />}
                 href="https://github.com/rcya1"
               >
@@ -193,6 +194,7 @@ const Home: NextPage = () => {
               </SocialMediaButton>
 
               <SocialMediaButton
+                // @ts-expect-error – known issue with react-icons typing
                 icon={<AiFillLinkedin />}
                 href="https://www.linkedin.com/in/ryan-chang-105495215/"
               >
@@ -200,6 +202,7 @@ const Home: NextPage = () => {
               </SocialMediaButton>
 
               <SocialMediaButton
+                // @ts-expect-error – known issue with react-icons typing
                 icon={<AiFillInstagram />}
                 href="https://www.instagram.com/chang.ryan1/"
               >
