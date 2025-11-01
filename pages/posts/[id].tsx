@@ -110,7 +110,7 @@ const Post = ({
           px={8}
           py={4}
           marginTop={20}
-          boxShadow="sm"
+          boxShadow="md"
           borderRadius={7}
         >
           <Heading size="xl" textAlign="center">
