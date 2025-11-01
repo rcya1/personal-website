@@ -16,7 +16,7 @@ export const highlightLight = Color('rgb(174, 219, 233)')
 export const highlightDarkLight = highlightLight.darken(0.075)
 export const highlightDarkerLight = highlightLight.darken(0.15)
 
-export const highlightDark = Color('rgb(159, 122, 234)').saturate(0.7)
+export const highlightDark = Color('rgb(159, 122, 234)').saturate(0.3)
 export const highlightDarkDark = highlightDark.darken(0.075)
 export const highlightDarkerDark = highlightDark.darken(0.15)
 
@@ -25,6 +25,8 @@ const theme = extendTheme({
   colors: {
     'navbar-light': 'rgb(214, 237, 244)',
     'navbar-dark': 'rgb(32, 37, 44)',
+    'post-light': 'rgb(239, 252, 255)',
+    'post-dark': 'rgb(32, 37, 44)',
     'background-light': backgroundLight.string(),
     'background-dark': backgroundDark.string(),
     'text-light': textLight.string(),

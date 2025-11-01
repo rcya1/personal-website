@@ -90,6 +90,7 @@ const Post = ({
   const date = parseISO(postData.date)
 
   const normalColor = useColorModeValue('highlight-light', 'highlight-dark')
+  const postColor = useColorModeValue('post-light', 'post-dark')
   const hoverColor = useColorModeValue(
     'highlight-dark-light',
     'highlight-darker-dark'
@@ -104,7 +105,14 @@ const Post = ({
     <>
       <Meta title={postData.title} description={postData.excerpt} />
       <MainLayout key={postData.id}>
-        <Box pt={4} mb={10}>
+        <Box
+          bgColor={postColor}
+          px={8}
+          py={4}
+          marginTop={20}
+          boxShadow="sm"
+          borderRadius={7}
+        >
           <Heading size="xl" textAlign="center">
             {postData.title}
           </Heading>
@@ -115,53 +123,53 @@ const Post = ({
               </time>
             </Text>
           </Box>
+          <BlogRenderer>{postData.content}</BlogRenderer>
+          <Flex
+            mt={10}
+            textAlign="center"
+            direction="row"
+            justifyContent="space-between"
+          >
+            <NavButton
+              href={`/posts/${prevPost?.id}`}
+              icon={<LuArrowLeft size="1.5em" />}
+              text={prevPost ? prevPost.title : 'No Previous Post'}
+              align="left"
+              isDisabled={!prevPost}
+              width="15em"
+              color={normalColor}
+              hoverColor={hoverColor}
+              activeColor={activeColor}
+              fontWeight={fontWeight}
+            />
+
+            <NavButton
+              href="/posts/"
+              icon={<FaHome size="1.25em" />}
+              text="Home"
+              align="left"
+              isDisabled={false}
+              width="8em"
+              color={normalColor}
+              hoverColor={hoverColor}
+              activeColor={activeColor}
+              fontWeight={fontWeight}
+            />
+
+            <NavButton
+              href={`/posts/${nextPost?.id}`}
+              icon={<LuArrowRight size="1.5em" />}
+              text={nextPost ? nextPost.title : 'No Next Post'}
+              align="right"
+              isDisabled={!nextPost}
+              width="15em"
+              color={normalColor}
+              hoverColor={hoverColor}
+              activeColor={activeColor}
+              fontWeight={fontWeight}
+            />
+          </Flex>
         </Box>
-        <BlogRenderer>{postData.content}</BlogRenderer>
-        <Flex
-          mt={10}
-          textAlign="center"
-          direction="row"
-          justifyContent="space-between"
-        >
-          <NavButton
-            href={`/posts/${prevPost?.id}`}
-            icon={<LuArrowLeft size="1.5em" />}
-            text={prevPost ? prevPost.title : 'No Previous Post'}
-            align="left"
-            isDisabled={!prevPost}
-            width="15em"
-            color={normalColor}
-            hoverColor={hoverColor}
-            activeColor={activeColor}
-            fontWeight={fontWeight}
-          />
-
-          <NavButton
-            href="/posts/"
-            icon={<FaHome size="1.25em" />}
-            text="Home"
-            align="left"
-            isDisabled={false}
-            width="8em"
-            color={normalColor}
-            hoverColor={hoverColor}
-            activeColor={activeColor}
-            fontWeight={fontWeight}
-          />
-
-          <NavButton
-            href={`/posts/${nextPost?.id}`}
-            icon={<LuArrowRight size="1.5em" />}
-            text={nextPost ? nextPost.title : 'No Next Post'}
-            align="right"
-            isDisabled={!nextPost}
-            width="15em"
-            color={normalColor}
-            hoverColor={hoverColor}
-            activeColor={activeColor}
-            fontWeight={fontWeight}
-          />
-        </Flex>
       </MainLayout>
     </>
   )
