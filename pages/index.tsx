@@ -38,7 +38,7 @@ const IndexHeading: FC<BasicProps> = ({ children }: BasicProps) => {
 
 const Home: NextPage = () => {
   const workExperience = [
-    ['Incoming SWE at Jane Street', 'September 2025 - ?', []],
+    ['SWE at Jane Street', 'September 2025 - Current', []],
     [
       'SWE Intern at Jane Street',
       'May 2024 - August 2024',
@@ -107,7 +107,7 @@ const Home: NextPage = () => {
               <Heading size="xl" mb={2} as="h1">
                 Ryan Chang
               </Heading>
-              <p>Incoming SWE at Jane Street</p>
+              <p>SWE at Jane Street</p>
             </Box>
             <Box
               borderRadius="50px"
@@ -145,7 +145,7 @@ const Home: NextPage = () => {
             <Text>
               In high school, I competed in computer science and math
               competitions, and was also a member of my school&apos;s Science
-              Olympiad and FIRST Robotics Competition teams . While I no longer
+              Olympiad and FIRST Robotics Competition teams. While I no longer
               participate in competitions, I still enjoy solving problems and
               learning new things.
             </Text>
