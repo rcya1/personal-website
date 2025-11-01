@@ -8,7 +8,7 @@ excerpt: some yapping about self-love via stories from the few years
 
 ### introduction
 
-i'm trying a bit of a different style with this post, especially since i'm writing this with absolutely no outline or structure in mind. the intended goal is that this shouldn't be very serious and hopefully it'll be easier for me to just hit the publish button this time and not worry so much about tone / grammar (i'm already going into run on sentences and ignorign capitalization)
+i'm trying a bit of a different style with this post, especially since i'm writing this with absolutely no outline or structure in mind. the intended goal is that this shouldn't be very serious and hopefully it'll be easier for me to just hit the publish button this time and not worry so much about tone / grammar (i'm already going into run on sentences and ignoring capitalization)
 
 in the past few years, i've struggled a lot with the idea of "self-love" and what it means to be able to love yourself. over time, i've gotten a slightly better idea of it, and while i still have a long way to go, i think i'm making progress along the right direction
 
