@@ -122,11 +122,10 @@ const Home: NextPage = () => {
           <Box mb={8}>
             <IndexHeading>Background</IndexHeading>
             <Text>
-              Hi, I&apos;m Ryan! I&apos;m currently an incoming Software
-              Engineer at Jane Street. I graduated from the Massachusetts
-              Institute of Technology in 2025, with a double major in CS + Math
-              and a Master&apos;s in CS. For my Master&apos;s, I&apos;m worked
-              with{' '}
+              Hi, I&apos;m Ryan! I&apos;m currently a Software Engineer at Jane
+              Street. I graduated from the Massachusetts Institute of Technology
+              in 2025, with a double major in CS + Math and a Master&apos;s in
+              CS. For my Master&apos;s, I&apos;m worked with{' '}
               <Link href="https://people.csail.mit.edu/kaashoek/" isExternal>
                 Frans Kaashoek
               </Link>{' '}
