@@ -18,12 +18,8 @@ function App({ Component, pageProps, router }: AppProps) {
   return (
     <>
       <Head>
-        <title>Ryan Chang Personal Website</title>
-        <meta
-          name="description"
-          content="Personal website for Ryan Chang, an incoming SWE at Jane Street and former student at the MIT majoring in computer science and math"
-          key="desc"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <ChakraProvider theme={theme}>
         <AnimatePresence

@@ -29,18 +29,28 @@ export async function getPostData(id: any): Promise<PostData> {
   }
 }
 
-export async function getSortedPostsData(): Promise<PostData[]> {
-  const fileNames = fs.readdirSync(postsDirectory)
-  const allPostsData = Promise.all(fileNames.map(async (fileName) => {
-    let postData = await getPostData(fileName.replace(/\.md$/, ''))
-    postData.content = ''
-    return postData
-  }))
+let postsData: PostData[] | undefined = undefined
 
-  return (await allPostsData).sort((a, b) => {
+export async function getSortedPostsData(): Promise<PostData[]> {
+  if (postsData !== undefined) {
+    return postsData
+  }
+
+  const fileNames = fs.readdirSync(postsDirectory)
+  const allPostsData = Promise.all(
+    fileNames.map(async (fileName) => {
+      let postData = await getPostData(fileName.replace(/\.md$/, ''))
+      postData.content = ''
+      return postData
+    })
+  )
+
+  postsData = (await allPostsData).sort((a, b) => {
     if (a.date < b.date) return 1
     else return -1
   })
+
+  return postsData
 }
 
 export interface PostData {
@@ -51,5 +61,3 @@ export interface PostData {
   excerpt: string
   category: string
 }
-
-

@@ -8,7 +8,6 @@ import {
   Link,
   ListItem,
   SimpleGrid,
-  Spacer,
   Text,
   UnorderedList
 } from '@chakra-ui/react'
@@ -20,6 +19,7 @@ import { BasicProps } from 'lib/react-utils'
 
 import Image from 'next/image'
 import profile from 'public/profile.webp'
+import Meta from 'components/meta'
 
 const IndexHeading: FC<BasicProps> = ({ children }: BasicProps) => {
   return (
@@ -37,7 +37,11 @@ const IndexHeading: FC<BasicProps> = ({ children }: BasicProps) => {
 
 const Home: NextPage = () => {
   const workExperience = [
-    ['Incoming SWE at Jane Street', 'September 2025 - ?', []],
+    [
+      'SWE at Jane Street',
+      'September 2025 - Current',
+      ['Working under the Research / Trading Tools Team']
+    ],
     [
       'SWE Intern at Jane Street',
       'May 2024 - August 2024',
@@ -78,7 +82,7 @@ const Home: NextPage = () => {
       'Research Assistant at Stevens Institute of Technology',
       'June 2018 - August 2020',
       [
-        'Helped develop machine learning algorithm for processing ocean data',
+        'Helped develop machine learning algorithm for processing ocean data at the Light and Life Lab',
         // 'Optimized the runtime and memory usage to be competitive with NASA’s algorithm',
         // 'Work was eventually integrated into NASA software',
         'Coauthor of "OC-SMART: A machine learning based data analysis platform for satellite ocean color sensors, 2020"'
@@ -97,113 +101,100 @@ const Home: NextPage = () => {
   const timelineHeight = workExperience.length * itemHeight
 
   return (
-    <MainLayout>
-      <Container pt={8}>
-        <Flex direction="row" justifyContent="center" mb={12}>
-          <Box mr={12}>
-            <Heading size="xl" mb={2} as="h1">
-              Ryan Chang
-            </Heading>
-            <p>Incoming SWE at Jane Street</p>
-          </Box>
-          <Box
-            borderRadius="50px"
-            width="100px"
-            height="100px"
-            overflow="hidden"
-          >
-            <Image src={profile} alt="Profile Picture" />
-          </Box>
-        </Flex>
-
-        <Box mb={8}>
-          <IndexHeading>Background</IndexHeading>
-          <Text>
-            Hi, I&apos;m Ryan! I&apos;m currently an incoming Software Engineer
-            at Jane Street. I graduated from the Massachusetts Institute of
-            Technology in 2025, with a double major in CS + Math and a
-            Master&apos;s in CS. For my Master&apos;s, I&apos;m worked with{' '}
-            <Link href="https://people.csail.mit.edu/kaashoek/" isExternal>
-              Frans Kaashoek
-            </Link>{' '}
-            and{' '}
-            <Link href="https://arielszekely.github.io/" isExternal>
-              Ariel Szekely
-            </Link>{' '}
-            on improving{' '}
-            <Link href="https://github.com/mit-pdos/sigmaos" isExternal>
-              SigmaOS
-            </Link>
-            , a cloud operating system that provides a unified platform for
-            serverless and microservice applications.
-          </Text>
-          <Spacer h={4} />
-          <Text>
-            In high school, I competed in computer science and math
-            competitions, and was also a member of my school&apos;s Science
-            Olympiad and FIRST Robotics Competition teams . While I no longer
-            participate in competitions, I still enjoy solving problems and
-            learning new things.
-          </Text>
-          <Spacer h={4} />
-          <Text>
-            In my free time, I enjoy playing video games (particularly TFT,
-            where I hit Challenger in Set 13), watching anime (some favorites
-            include Spy x Family, Blue Lock, FMAB), eating Asian snacks
-            (anything I can find in HMart), and shopping for random things to
-            decorate my room with (a lot of Totoro + Pokemon merch).
-          </Text>
-        </Box>
-
-        <Box mb={8}>
-          <IndexHeading>Work Experience</IndexHeading>
-
-          <Box mt={2}>
-            <UnorderedList ml={5} mt={1}>
-              {workExperience.map((workExp) => {
-                return (
-                  <ListItem key={workExp[0] as string} mt={6}>
-                    <Heading size="sm">{workExp[0]}</Heading>
-                    <Text fontSize="sm">{workExp[1]}</Text>
-                  </ListItem>
-                )
-              })}
-            </UnorderedList>
-          </Box>
-        </Box>
-
-        <Box>
-          <IndexHeading>Social Media</IndexHeading>
-
-          <SimpleGrid
-            columns={{ base: 1, md: 2 }} // 1 column on small screens, 2 on medium+
-            spacing={2}
-            mt={6}
-          >
-            <SocialMediaButton
-              icon={<AiFillGithub />}
-              href="https://github.com/rcya1"
+    <>
+      <Meta />
+      <MainLayout>
+        <Container pt={8}>
+          <Flex direction="row" justifyContent="center" mb={12}>
+            <Box mr={12}>
+              <Heading size="xl" mb={2} as="h1">
+                Ryan Chang
+              </Heading>
+              <p>SWE at Jane Street</p>
+            </Box>
+            <Box
+              borderRadius="50px"
+              width="100px"
+              height="100px"
+              overflow="hidden"
             >
-              GitHub
-            </SocialMediaButton>
+              <Image src={profile} alt="Profile Picture" />
+            </Box>
+          </Flex>
 
-            <SocialMediaButton
-              icon={<AiFillLinkedin />}
-              href="https://www.linkedin.com/in/ryan-chang-105495215/"
-            >
-              LinkedIn
-            </SocialMediaButton>
+          <Box mb={8}>
+            <IndexHeading>Background</IndexHeading>
+            <Text>
+              Hi, I&apos;m Ryan! I&apos;m currently a Software Engineer at Jane
+              Street. I graduated from the MIT in 2025, with a double major in
+              CS + Math and a MEng in CS. For my MEng, I&apos;m worked with{' '}
+              <Link href="https://people.csail.mit.edu/kaashoek/" isExternal>
+                Frans Kaashoek
+              </Link>{' '}
+              and{' '}
+              <Link href="https://arielszekely.github.io/" isExternal>
+                Ariel Szekely
+              </Link>{' '}
+              on improving{' '}
+              <Link href="https://github.com/mit-pdos/sigmaos" isExternal>
+                SigmaOS
+              </Link>
+              , a cloud operating system for optimizing both serverless and
+              microservice applications. In my free time, I like playing video
+              games (esp. TFT).
+            </Text>
+          </Box>
 
-            <SocialMediaButton
-              icon={<AiFillInstagram />}
-              href="https://www.instagram.com/chang.ryan1/"
+          <Box mb={8}>
+            <IndexHeading>Work Experience</IndexHeading>
+
+            <Box mt={2}>
+              <UnorderedList ml={5} mt={1}>
+                {workExperience.map((workExp) => {
+                  return (
+                    <ListItem key={workExp[0] as string} mt={6}>
+                      <Heading size="sm">{workExp[0]}</Heading>
+                      <Text fontSize="sm">{workExp[1]}</Text>
+                    </ListItem>
+                  )
+                })}
+              </UnorderedList>
+            </Box>
+          </Box>
+
+          <Box>
+            <IndexHeading>Social Media</IndexHeading>
+
+            <SimpleGrid
+              columns={{ base: 1, md: 2 }} // 1 column on small screens, 2 on medium+
+              spacing={2}
+              mt={6}
             >
-              Instagram
-            </SocialMediaButton>
-          </SimpleGrid>
-        </Box>
-      </Container>
-    </MainLayout>
+              <SocialMediaButton
+                icon={<AiFillGithub />}
+                href="https://github.com/rcya1"
+              >
+                GitHub
+              </SocialMediaButton>
+
+              <SocialMediaButton
+                icon={<AiFillLinkedin />}
+                href="https://www.linkedin.com/in/ryan-chang-105495215/"
+              >
+                LinkedIn
+              </SocialMediaButton>
+
+              <SocialMediaButton
+                icon={<AiFillInstagram />}
+                href="https://www.instagram.com/chang.ryan1/"
+              >
+                Instagram
+              </SocialMediaButton>
+            </SimpleGrid>
+          </Box>
+        </Container>
+      </MainLayout>
+    </>
   )
 }
 
