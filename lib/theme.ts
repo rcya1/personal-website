@@ -4,7 +4,8 @@ import Color from 'color'
 
 const config: ThemeConfig = {
   initialColorMode: 'light',
-  useSystemColorMode: false
+  useSystemColorMode: false,
+  disableTransitionOnChange: false
 }
 
 export const textLight = Color('#1c1917')
