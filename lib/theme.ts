@@ -7,11 +7,9 @@ const config: ThemeConfig = {
   useSystemColorMode: false
 }
 
-// Color objects for programmatic manipulation (e.g. .alpha())
 export const textLight = Color('#1c1917')
 export const textDark = Color('#e8e4f0')
 
-// Shared glass card surface values — used across index, projects, posts
 export const glassBgLight = 'rgba(255,255,255,0.60)'
 export const glassBgDark = 'rgba(255,255,255,0.055)'
 export const glassBorderLight = 'rgba(255,255,255,0.85)'
