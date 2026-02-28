@@ -226,7 +226,9 @@ const Home: NextPage = () => {
                 </Link>
                 , a cloud operating system for optimizing both serverless and
                 microservice applications. In my free time, I like playing video
-                games (esp. TFT).
+                games (especially TFT), watching TV, learning Chinese, and
+                working on a new version of Lilypad, a note taking software
+                tailored to my preferences.
               </Text>
             </GlassCard>
           </ChakraAnimate>
