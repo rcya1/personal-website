@@ -258,11 +258,11 @@ const Home: NextPage = () => {
                         flexShrink={0}
                       />
                       <Box flex={1}>
-                        <Heading size="xs" fontWeight="semibold" mb={0.5}>
+                        <Text fontSize="sm" fontWeight="semibold" mb={0.5}>
                           {workExp[0] as string}
-                        </Heading>
+                        </Text>
                         <Text
-                          fontSize="xs"
+                          fontSize="sm"
                           color={subtitleColor}
                           fontWeight="medium"
                         >
