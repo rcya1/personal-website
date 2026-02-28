@@ -209,11 +209,10 @@ const Home: NextPage = () => {
           >
             <GlassCard mb={5}>
               <SectionHeading>Background</SectionHeading>
-              <Text mb={4} lineHeight="tall">
+              <Text lineHeight="tall">
                 Hi, I&apos;m Ryan! I&apos;m currently a Software Engineer at
-                Jane Street. I graduated from the Massachusetts Institute of
-                Technology in 2025, with a double major in CS + Math and a
-                Master&apos;s in CS. For my Master&apos;s, I worked with{' '}
+                Jane Street. I graduated from MIT in 2025, with a double major
+                in CS + Math and a MEng in CS. For my MEng, I worked with{' '}
                 <Link href="https://people.csail.mit.edu/kaashoek/" isExternal>
                   Frans Kaashoek
                 </Link>{' '}
@@ -225,23 +224,9 @@ const Home: NextPage = () => {
                 <Link href="https://github.com/mit-pdos/sigmaos" isExternal>
                   SigmaOS
                 </Link>
-                , a cloud operating system that provides a unified platform for
-                serverless and microservice applications.
-              </Text>
-              <Text mb={4} lineHeight="tall">
-                In high school, I competed in computer science and math
-                competitions, and was also a member of my school&apos;s Science
-                Olympiad and FIRST Robotics Competition teams. While I no longer
-                participate in competitions, I still enjoy solving problems and
-                learning new things.
-              </Text>
-              <Text lineHeight="tall">
-                In my free time, I enjoy playing video games (particularly TFT,
-                where I hit Challenger in Set 13), watching anime (some
-                favorites include Spy x Family, Blue Lock, FMAB), eating Asian
-                snacks (anything I can find in HMart), and shopping for random
-                things to decorate my room with (a lot of Totoro + Pokemon
-                merch).
+                , a cloud operating system for optimizing both serverless and
+                microservice applications. In my free time, I like playing video
+                games (esp. TFT).
               </Text>
             </GlassCard>
           </ChakraAnimate>
