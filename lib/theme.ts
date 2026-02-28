@@ -7,51 +7,55 @@ const config: ThemeConfig = {
   useSystemColorMode: false
 }
 
-export const backgroundLight = Color('rgb(250, 252, 253)')
-export const backgroundDark = Color('rgb(13, 17, 23)')
-export const textLight = Color('rgb(0, 0, 0)')
-export const textDark = Color('rgb(210, 217, 223)')
+// Color objects for programmatic manipulation (e.g. .alpha())
+export const textLight = Color('#1c1917')
+export const textDark = Color('#e8e4f0')
 
-export const highlightLight = Color('rgb(174, 219, 233)')
-export const highlightDarkLight = highlightLight.darken(0.075)
-export const highlightDarkerLight = highlightLight.darken(0.15)
-
-export const highlightDark = Color('rgb(159, 122, 234)').saturate(0.3)
-export const highlightDarkDark = highlightDark.darken(0.075)
-export const highlightDarkerDark = highlightDark.darken(0.15)
+// Shared glass card surface values — used across index, projects, posts
+export const glassBgLight = 'rgba(255,255,255,0.60)'
+export const glassBgDark = 'rgba(255,255,255,0.055)'
+export const glassBorderLight = 'rgba(255,255,255,0.85)'
+export const glassBorderDark = 'rgba(255,255,255,0.11)'
+export const glassShadowLight =
+  '0 4px 32px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04)'
+export const glassShadowDark =
+  '0 4px 32px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.3)'
 
 const theme = extendTheme({
   config,
   colors: {
-    'navbar-light': 'rgb(214, 237, 244)',
-    'navbar-dark': 'rgb(32, 37, 44)',
-    'post-light': 'rgb(239, 252, 255)',
-    'post-dark': 'rgb(32, 37, 44)',
-    'background-light': backgroundLight.string(),
-    'background-dark': backgroundDark.string(),
     'text-light': textLight.string(),
     'text-dark': textDark.string(),
 
-    'highlight-light': highlightLight.string(),
-    'highlight-dark-light': highlightDarkLight.string(),
-    'highlight-darker-light': highlightDarkerLight.string(),
+    // Amber accent
+    'accent-light': '#f59e0b',
+    'accent-dark': '#fbbf24',
 
-    'highlight-dark': highlightDark.string(),
-    'highlight-dark-dark': highlightDarkDark.string(),
-    'highlight-darker-dark': highlightDarkerDark.string()
+    // Navbar glass
+    'navbar-glass-light': 'rgba(254, 250, 242, 0.82)',
+    'navbar-glass-dark': 'rgba(13, 12, 20, 0.82)',
+    'navbar-border-light': 'rgba(0, 0, 0, 0.10)',
+    'navbar-border-dark': 'rgba(255, 255, 255, 0.18)'
   },
   styles: {
     global: (props: StyleFunctionProps) => ({
       body: {
-        bg: mode('background-light', 'background-dark')(props),
-        color: mode('text-light', 'text-dark')(props)
+        bg: mode('#fefcf8', '#0d0c14')(props),
+        color: mode('text-light', 'text-dark')(props),
+        backgroundImage: mode(
+          'linear-gradient(135deg, #fef9f2 0%, #fefcf8 35%, #f5f0ff 70%, #eef4ff 100%)',
+          'linear-gradient(135deg, #0d0b14 0%, #0d0c14 35%, #130d20 70%, #0d1224 100%)'
+        )(props),
+        backgroundAttachment: 'fixed',
+        WebkitFontSmoothing: 'antialiased',
+        MozOsxFontSmoothing: 'grayscale'
       }
     })
   },
   components: {
     Link: {
       baseStyle: (props: StyleFunctionProps) => ({
-        color: mode('blue.500', 'blue.300')(props)
+        color: mode('blue.600', 'blue.300')(props)
       })
     }
   },
