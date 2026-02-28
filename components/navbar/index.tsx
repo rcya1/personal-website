@@ -188,15 +188,15 @@ const Navbar: FC<NavbarProps> = ({}) => {
       direction="row"
       align="center"
       justify="center"
-      maxW="container.lg"
+      maxW="56rem"
       mx="auto"
       position="relative"
-      px={6}
+      px={4}
     >
       <Heading
         size="md"
         position="absolute"
-        left={6}
+        left={4}
         top="50%"
         transform="translateY(-50%)"
         color={nameColor}
@@ -205,7 +205,7 @@ const Navbar: FC<NavbarProps> = ({}) => {
         Ryan Chang
       </Heading>
       {desktopLinks}
-      <Box position="absolute" right="6" top="50%" transform="translateY(-50%)">
+      <Box position="absolute" right="4" top="50%" transform="translateY(-50%)">
         <ThemeToggle />
       </Box>
     </Flex>
