@@ -7,7 +7,7 @@ type MetaProps = {
 
 export default function Meta({
   title = 'Ryan Chang',
-  description = 'Personal website for Ryan Chang, an incoming SWE at Jane Street and student at MIT in CS and Math.'
+  description = 'Personal website for Ryan Chang'
 }: MetaProps) {
   return (
     <Head>
