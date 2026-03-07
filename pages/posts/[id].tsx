@@ -12,71 +12,22 @@ import {
   Text,
   Box,
   Heading,
-  Button,
+  Link,
   useColorModeValue,
-  Flex
+  Flex,
+  Icon
 } from '@chakra-ui/react'
 import { parseISO, format } from 'date-fns'
 import Meta from 'components/meta'
-import { LuArrowLeft, LuArrowRight } from 'react-icons/lu'
-import { FaHome } from 'react-icons/fa'
-
-const NavButton = ({
-  href,
-  icon,
-  text,
-  align,
-  isDisabled,
-  width,
-  color,
-  hoverColor,
-  activeColor,
-  fontWeight
-}: {
-  href: string
-  icon?: React.ReactElement
-  text: string
-  align: 'left' | 'right'
-  width: string
-  isDisabled: boolean
-  color: string
-  hoverColor: string
-  activeColor: string
-  fontWeight: string
-}) => (
-  <NextLink href={href} passHref>
-    <Button
-      as="a"
-      leftIcon={align === 'left' ? icon : undefined}
-      rightIcon={align === 'right' ? icon : undefined}
-      backgroundColor={color}
-      _hover={{
-        backgroundColor: isDisabled ? color : hoverColor
-      }}
-      _active={{
-        backgroundColor: isDisabled ? color : activeColor
-      }}
-      py={2}
-      px={4}
-      fontWeight={fontWeight}
-      width={width}
-      whiteSpace="normal"
-      wordBreak="break-word"
-      textAlign={align}
-      disabled={isDisabled}
-      height="auto"
-      onClick={(e) => {
-        if (isDisabled) {
-          e.preventDefault()
-        }
-      }}
-    >
-      <Box ml={align === 'left' ? 1 : 0} mr={align === 'right' ? 1 : 0}>
-        {text}
-      </Box>
-    </Button>
-  </NextLink>
-)
+import { LuArrowLeft, LuArrowRight, LuLayoutList } from 'react-icons/lu'
+import {
+  glassBgLight,
+  glassBgDark,
+  glassBorderLight,
+  glassBorderDark,
+  glassShadowLight,
+  glassShadowDark
+} from 'lib/theme'
 
 const Post = ({
   postData,
@@ -89,85 +40,173 @@ const Post = ({
 }) => {
   const date = parseISO(postData.date)
 
-  const normalColor = useColorModeValue('highlight-light', 'highlight-dark')
-  const postColor = useColorModeValue('post-light', 'post-dark')
-  const hoverColor = useColorModeValue(
-    'highlight-dark-light',
-    'highlight-darker-dark'
+  const glassBg = useColorModeValue(glassBgLight, glassBgDark)
+  const glassBorder = useColorModeValue(glassBorderLight, glassBorderDark)
+  const glassShadow = useColorModeValue(glassShadowLight, glassShadowDark)
+  const accentColor = useColorModeValue('#f59e0b', '#fbbf24')
+  const subtitleColor = useColorModeValue('gray.500', 'gray.400')
+  const dividerColor = useColorModeValue('rgba(0,0,0,0.07)', 'rgba(255,255,255,0.07)')
+  const hoverBorder = useColorModeValue('#f59e0b', '#fbbf24')
+  const hoverShadow = useColorModeValue(
+    '0 6px 32px rgba(245,158,11,0.15)',
+    '0 6px 32px rgba(251,191,36,0.1)'
   )
-  const activeColor = useColorModeValue(
-    'highlight-darker-light',
-    'highlight-darker-dark'
-  )
-  const fontWeight = useColorModeValue('bold', 'semibold')
+  const disabledOpacity = 0.4
+
+  const navCardBase = {
+    bg: glassBg,
+    backdropFilter: 'blur(12px)',
+    borderRadius: 'xl',
+    borderWidth: '1px',
+    borderColor: glassBorder,
+    boxShadow: glassShadow,
+    transition: 'border-color 0.2s ease, box-shadow 0.2s ease'
+  }
+
+  const PostNavCard = ({
+    post,
+    direction
+  }: {
+    post: PostData | null
+    direction: 'prev' | 'next'
+  }) => {
+    const isPrev = direction === 'prev'
+    if (!post) {
+      return (
+        <Box
+          {...navCardBase}
+          flex={1}
+          p={4}
+          opacity={disabledOpacity}
+          display="flex"
+          flexDirection="column"
+          alignItems={isPrev ? 'flex-start' : 'flex-end'}
+        >
+          <Flex align="center" gap={1.5} mb={1} color={subtitleColor}>
+            {isPrev && <Icon as={LuArrowLeft} w={3.5} h={3.5} />}
+            <Text fontSize="xs" fontWeight="medium">
+              {isPrev ? 'Previous' : 'Next'}
+            </Text>
+            {!isPrev && <Icon as={LuArrowRight} w={3.5} h={3.5} />}
+          </Flex>
+          <Text fontSize="sm" color={subtitleColor}>
+            —
+          </Text>
+        </Box>
+      )
+    }
+
+    return (
+      <NextLink href={`/posts/${post.id}`} passHref>
+        <Link
+          {...navCardBase}
+          flex={1}
+          p={4}
+          display="flex"
+          flexDirection="column"
+          alignItems={isPrev ? 'flex-start' : 'flex-end'}
+          textAlign={isPrev ? 'left' : 'right'}
+          textDecoration="none"
+          _hover={{
+            textDecoration: 'none',
+            borderColor: hoverBorder,
+            boxShadow: hoverShadow
+          }}
+        >
+          <Flex align="center" gap={1.5} mb={1} color={accentColor}>
+            {isPrev && <Icon as={LuArrowLeft} w={3.5} h={3.5} />}
+            <Text fontSize="xs" fontWeight="medium">
+              {isPrev ? 'Previous' : 'Next'}
+            </Text>
+            {!isPrev && <Icon as={LuArrowRight} w={3.5} h={3.5} />}
+          </Flex>
+          <Text fontSize="sm" fontWeight="medium" noOfLines={2}>
+            {post.title}
+          </Text>
+        </Link>
+      </NextLink>
+    )
+  }
 
   return (
     <>
       <Meta title={postData.title} description={postData.excerpt} />
-      <MainLayout key={postData.id}>
-        <Box
-          bgColor={postColor}
-          px={8}
-          py={4}
-          marginTop={20}
-          boxShadow="md"
-          borderRadius={7}
-        >
-          <Heading size="xl" textAlign="center">
-            {postData.title}
-          </Heading>
-          <Box mt={2}>
-            <Text fontSize="md" textAlign="center">
-              <time dateTime={postData.date}>
-                Posted {format(date, 'LLLL do, yyyy')}
-              </time>
-            </Text>
-          </Box>
-          <BlogRenderer>{postData.content}</BlogRenderer>
-          <Flex
-            mt={10}
-            textAlign="center"
-            direction="row"
-            justifyContent="space-between"
+      <MainLayout maxW="56rem">
+        <Box pt={6} pb={8}>
+          {/* Post card */}
+          <Box
+            bg={glassBg}
+            backdropFilter="blur(16px)"
+            borderRadius="2xl"
+            borderWidth="1px"
+            borderColor={glassBorder}
+            boxShadow={glassShadow}
+            overflow="hidden"
+            mb={4}
           >
-            <NavButton
-              href={`/posts/${prevPost?.id}`}
-              icon={<LuArrowLeft size="1.5em" />}
-              text={prevPost ? prevPost.title : 'No Previous Post'}
-              align="left"
-              isDisabled={!prevPost}
-              width="15em"
-              color={normalColor}
-              hoverColor={hoverColor}
-              activeColor={activeColor}
-              fontWeight={fontWeight}
-            />
+            {/* Header */}
+            <Box px={{ base: 6, md: 10 }} pt={8} pb={6} borderBottom="1px" borderColor={dividerColor} textAlign="center">
+              <Heading
+                size="xl"
+                letterSpacing="-0.02em"
+                mb={3}
+              >
+                {postData.title}
+              </Heading>
+              <Flex align="center" justify="center" gap={2}>
+                <Text fontSize="sm" color={subtitleColor}>
+                  <time dateTime={postData.date}>
+                    {format(date, 'LLLL do, yyyy')}
+                  </time>
+                </Text>
+                {postData.readingTime != null && (
+                  <>
+                    <Box w="3px" h="3px" borderRadius="full" bg={accentColor} flexShrink={0} />
+                    <Text fontSize="sm" color={subtitleColor}>
+                      {postData.readingTime} min read
+                    </Text>
+                  </>
+                )}
+              </Flex>
+            </Box>
 
-            <NavButton
-              href="/posts/"
-              icon={<FaHome size="1.25em" />}
-              text="Home"
-              align="left"
-              isDisabled={false}
-              width="8em"
-              color={normalColor}
-              hoverColor={hoverColor}
-              activeColor={activeColor}
-              fontWeight={fontWeight}
-            />
+            {/* Content */}
+            <Box px={{ base: 6, md: 10 }} py={8}>
+              <BlogRenderer>{postData.content}</BlogRenderer>
+            </Box>
+          </Box>
 
-            <NavButton
-              href={`/posts/${nextPost?.id}`}
-              icon={<LuArrowRight size="1.5em" />}
-              text={nextPost ? nextPost.title : 'No Next Post'}
-              align="right"
-              isDisabled={!nextPost}
-              width="15em"
-              color={normalColor}
-              hoverColor={hoverColor}
-              activeColor={activeColor}
-              fontWeight={fontWeight}
-            />
+          {/* Navigation */}
+          <Flex gap={3} align="stretch">
+            <PostNavCard post={prevPost} direction="prev" />
+
+            <NextLink href="/posts" passHref>
+              <Link
+                {...navCardBase}
+                px={4}
+                py={3}
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                gap={1}
+                textDecoration="none"
+                color={subtitleColor}
+                _hover={{
+                  textDecoration: 'none',
+                  borderColor: hoverBorder,
+                  boxShadow: hoverShadow,
+                  color: accentColor
+                }}
+              >
+                <Icon as={LuLayoutList} w={4} h={4} />
+                <Text fontSize="xs" fontWeight="medium" whiteSpace="nowrap">
+                  All Posts
+                </Text>
+              </Link>
+            </NextLink>
+
+            <PostNavCard post={nextPost} direction="next" />
           </Flex>
         </Box>
       </MainLayout>

@@ -18,9 +18,11 @@ import {
 import ThemeToggle from 'components/theme-toggle'
 import { HamburgerIcon } from '@chakra-ui/icons'
 
-interface NavbarProps {}
+interface NavbarProps {
+  scrolled?: boolean
+}
 
-const Navbar: FC<NavbarProps> = ({}) => {
+const Navbar: FC<NavbarProps> = ({ scrolled = false }) => {
   const router = useRouter()
   const navbarBg = useColorModeValue('navbar-glass-light', 'navbar-glass-dark')
   const navbarBorder = useColorModeValue('navbar-border-light', 'navbar-border-dark')
@@ -173,9 +175,13 @@ const Navbar: FC<NavbarProps> = ({}) => {
       mx="auto"
       px={4}
     >
-      <Heading as="p" size="md" color={nameColor} letterSpacing="tight">
-        Ryan Chang
-      </Heading>
+      <NextLink href="/" passHref>
+        <Link textDecoration="none" _hover={{ textDecoration: 'none' }}>
+          <Heading as="p" size="md" color={nameColor} letterSpacing="tight">
+            Ryan Chang
+          </Heading>
+        </Link>
+      </NextLink>
       <HStack spacing={2}>
         <ThemeToggle />
         {mobileMenu}
@@ -193,17 +199,20 @@ const Navbar: FC<NavbarProps> = ({}) => {
       position="relative"
       px={4}
     >
-      <Heading
-        size="md"
-        position="absolute"
-        left={4}
-        top="50%"
-        transform="translateY(-50%)"
-        color={nameColor}
-        letterSpacing="tight"
-      >
-        Ryan Chang
-      </Heading>
+      <NextLink href="/" passHref>
+        <Link
+          position="absolute"
+          left={4}
+          top="50%"
+          transform="translateY(-50%)"
+          textDecoration="none"
+          _hover={{ textDecoration: 'none' }}
+        >
+          <Heading size="md" color={nameColor} letterSpacing="tight">
+            Ryan Chang
+          </Heading>
+        </Link>
+      </NextLink>
       {desktopLinks}
       <Box position="absolute" right="4" top="50%" transform="translateY(-50%)">
         <ThemeToggle />
@@ -217,7 +226,8 @@ const Navbar: FC<NavbarProps> = ({}) => {
       top="0"
       w="100%"
       as="nav"
-      py={{ base: 3, md: 4 }}
+      py={{ base: scrolled ? 2 : 3, md: scrolled ? 2 : 4 }}
+      transition="padding 0.3s ease"
       backgroundColor={navbarBg}
       backdropFilter="blur(16px)"
       borderBottomWidth="1px"

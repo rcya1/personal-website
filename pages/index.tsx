@@ -114,15 +114,19 @@ const Home: NextPage = () => {
     '0 0 0 4px rgba(245,158,11,0.15), 0 8px 32px rgba(0,0,0,0.12)',
     '0 0 0 4px rgba(251,191,36,0.12), 0 8px 32px rgba(0,0,0,0.5)'
   )
+  const photoGlowPeak = useColorModeValue(
+    '0 0 0 4px rgba(245,158,11,0.22), 0 8px 32px rgba(0,0,0,0.12), 0 0 14px rgba(245,158,11,0.1)',
+    '0 0 0 4px rgba(251,191,36,0.18), 0 8px 32px rgba(0,0,0,0.5), 0 0 14px rgba(251,191,36,0.07)'
+  )
   const subtitleColor = useColorModeValue('gray.600', 'gray.400')
   const dotColor = useColorModeValue('accent-light', 'accent-dark')
   const dotGlow = useColorModeValue(
     '0 0 8px rgba(245,158,11,0.5)',
     '0 0 8px rgba(251,191,36,0.4)'
   )
-  const dividerColor = useColorModeValue(
-    'rgba(0,0,0,0.08)',
-    'rgba(255,255,255,0.08)'
+  const timelineLineColor = useColorModeValue(
+    'rgba(245,158,11,0.3)',
+    'rgba(251,191,36,0.25)'
   )
 
   return (
@@ -148,8 +152,14 @@ const Home: NextPage = () => {
                   mb={5}
                   borderWidth="3px"
                   borderColor={photoBorderColor}
-                  boxShadow={photoGlow}
                   flexShrink={0}
+                  sx={{
+                    '@keyframes glowPulse': {
+                      '0%, 100%': { boxShadow: photoGlow },
+                      '50%': { boxShadow: photoGlowPeak }
+                    },
+                    animation: 'glowPulse 3s ease-in-out infinite'
+                  }}
                 >
                   <Image src={profile} alt="Profile Picture" />
                 </Box>
@@ -245,35 +255,47 @@ const Home: NextPage = () => {
 
               <Box>
                 {workExperience.map((workExp, i) => (
-                  <Box key={workExp[0] as string}>
-                    <Flex gap={4} align="flex-start" py={4}>
-                      {/* Amber dot indicator */}
-                      <Box
-                        w="8px"
-                        h="8px"
-                        borderRadius="full"
-                        bg={dotColor}
-                        boxShadow={dotGlow}
-                        mt="6px"
-                        flexShrink={0}
-                      />
-                      <Box flex={1}>
+                  <ChakraAnimate
+                    key={workExp[0] as string}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    // @ts-ignore
+                    transition={{ duration: 0.35, delay: 0.38 + i * 0.08, ease: 'easeOut' }}
+                  >
+                    <Flex gap={4} align="stretch">
+                      {/* Timeline dot + connecting line */}
+                      <Flex direction="column" align="center" width="8px" flexShrink={0}>
+                        <Box
+                          w="8px"
+                          h="8px"
+                          borderRadius="full"
+                          bg={dotColor}
+                          boxShadow={dotGlow}
+                          mt="18px"
+                          flexShrink={0}
+                        />
+                        {i < workExperience.length - 1 && (
+                          <Box
+                            w="1.5px"
+                            flex={1}
+                            minH="12px"
+                            bg={timelineLineColor}
+                            mt="5px"
+                            borderRadius="full"
+                          />
+                        )}
+                      </Flex>
+                      {/* Content */}
+                      <Box flex={1} pt={3} pb={3}>
                         <Text fontSize="sm" fontWeight="semibold" mb={0.5}>
                           {workExp[0] as string}
                         </Text>
-                        <Text
-                          fontSize="sm"
-                          color={subtitleColor}
-                          fontWeight="medium"
-                        >
+                        <Text fontSize="sm" color={subtitleColor} fontWeight="medium">
                           {workExp[1] as string}
                         </Text>
                       </Box>
                     </Flex>
-                    {i < workExperience.length - 1 && (
-                      <Box h="1px" bg={dividerColor} ml="20px" />
-                    )}
-                  </Box>
+                  </ChakraAnimate>
                 ))}
               </Box>
             </GlassCard>

@@ -2,7 +2,9 @@ import type { NextPage } from 'next'
 import {
   Box,
   Container,
+  Flex,
   Heading,
+  Icon,
   LinkBox,
   Text,
   LinkOverlay,
@@ -10,6 +12,7 @@ import {
   AspectRatio,
   SimpleGrid
 } from '@chakra-ui/react'
+import { LuExternalLink } from 'react-icons/lu'
 import NextLink from 'next/link'
 import NextImage from 'next/image'
 
@@ -111,6 +114,7 @@ const Projects: NextPage = () => {
                 >
                   <LinkBox height="100%">
                     <Box
+                      role="group"
                       height="100%"
                       display="flex"
                       flexDirection="column"
@@ -140,17 +144,30 @@ const Projects: NextPage = () => {
 
                       {/* Card content */}
                       <Box p={5} flex={1} display="flex" flexDirection="column">
-                        <Heading
-                          size="sm"
-                          fontWeight="semibold"
-                          mb={2}
-                          color={headingColor}
-                          letterSpacing="-0.01em"
-                        >
-                          <NextLink href={project[2] as string} passHref>
-                            <LinkOverlay>{project[0] as string}</LinkOverlay>
-                          </NextLink>
-                        </Heading>
+                        <Flex align="flex-start" justify="space-between" mb={2}>
+                          <Heading
+                            size="sm"
+                            fontWeight="semibold"
+                            color={headingColor}
+                            letterSpacing="-0.01em"
+                            flex={1}
+                          >
+                            <NextLink href={project[2] as string} passHref>
+                              <LinkOverlay>{project[0] as string}</LinkOverlay>
+                            </NextLink>
+                          </Heading>
+                          <Box
+                            opacity={0}
+                            transition="opacity 0.2s ease"
+                            _groupHover={{ opacity: 1 }}
+                            color={accentColor}
+                            flexShrink={0}
+                            ml={2}
+                            mt="2px"
+                          >
+                            <Icon as={LuExternalLink} w={3.5} h={3.5} />
+                          </Box>
+                        </Flex>
 
                         <Text
                           fontSize="sm"

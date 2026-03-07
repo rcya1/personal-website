@@ -10,7 +10,7 @@ import Scrollbars from 'react-custom-scrollbars'
 const variants = {
   hidden: { opacity: 0, x: 0, y: 20 },
   enter: { opacity: 1, x: 0, y: 0 },
-  exit: { opacity: 0, x: 0, y: 20 }
+  exit: { opacity: 0, x: 0, y: -20 }
 }
 
 interface Props extends BasicProps {
@@ -19,6 +19,7 @@ interface Props extends BasicProps {
 
 const MainLayout: FC<Props> = ({ children, maxW }) => {
   const [isClient, setIsClient] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   useEffect(() => {
     setIsClient(true)
   }, [])
@@ -27,7 +28,7 @@ const MainLayout: FC<Props> = ({ children, maxW }) => {
 
   const content = (
     <Box as="main" pb={8}>
-      <Navbar />
+      <Navbar scrolled={scrolled} />
 
       <Container maxW={maxW ? maxW : 'container.md'} mt={16}>
         <ChakraAnimate
@@ -56,6 +57,7 @@ const MainLayout: FC<Props> = ({ children, maxW }) => {
       autoHeight
       autoHeightMax={height}
       autoHeightMin={height}
+      onScrollFrame={(values: any) => setScrolled(values.scrollTop > 10)}
     >
       {content}
     </Scrollbars>

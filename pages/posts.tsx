@@ -235,13 +235,34 @@ const Posts = ({
               style={{ width: '100%' }}
             >
               <Box>
-                {allPostsData
-                  .filter(
+                {(() => {
+                  const filtered = allPostsData.filter(
                     (postData) =>
                       postData.id.charAt(0) !== '_' &&
                       postData.category === tabState.selectedCategory
                   )
-                  .map((postData) => {
+
+                  if (filtered.length === 0) {
+                    return (
+                      <Box
+                        mt={4}
+                        bg={glassBg}
+                        backdropFilter="blur(16px)"
+                        borderRadius="xl"
+                        borderWidth="1px"
+                        borderColor={glassBorder}
+                        boxShadow={glassShadow}
+                        p={10}
+                        textAlign="center"
+                      >
+                        <Text color={subtitleColor} fontSize="sm">
+                          No posts yet in this category.
+                        </Text>
+                      </Box>
+                    )
+                  }
+
+                  return filtered.map((postData) => {
                     const date = parseISO(postData.date)
 
                     return (
@@ -314,6 +335,8 @@ const Posts = ({
                                 <time dateTime={postData.date}>
                                   {format(date, 'LLLL do, yyyy')}
                                 </time>
+                                {postData.readingTime != null &&
+                                  ` · ${postData.readingTime} min read`}
                               </Text>
                             </Flex>
 
@@ -330,7 +353,8 @@ const Posts = ({
                         </ChakraAnimate>
                       </LinkBox>
                     )
-                  })}
+                  })
+                })()}
               </Box>
             </ChakraAnimate>
           </AnimatePresence>

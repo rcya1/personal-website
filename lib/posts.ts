@@ -22,9 +22,13 @@ export async function getPostData(id: any): Promise<PostData> {
   const matterResult = matter(fileContents)
   const content = matterResult.content
 
+  const wordCount = content.trim().split(/\s+/).filter(Boolean).length
+  const readingTime = Math.max(1, Math.round(wordCount / 200))
+
   return {
     id,
     content,
+    readingTime,
     ...matterResult.data
   }
 }
@@ -60,4 +64,5 @@ export interface PostData {
   id: string
   excerpt: string
   category: string
+  readingTime?: number
 }
