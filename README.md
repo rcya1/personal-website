@@ -1,6 +1,6 @@
 ## Personal Website
 
-Personal website for Ryan Chang hosted at https://rcya1.vercel.app
+Personal website for Ryan Chang hosted at [rcya1.dev](https://rcya1.dev/)
 
 ### Stack
 
