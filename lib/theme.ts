@@ -11,14 +11,14 @@ const config: ThemeConfig = {
 export const textLight = Color('#1c1917')
 export const textDark = Color('#e8e4f0')
 
-export const glassBgLight = 'rgba(255,255,255,0.60)'
-export const glassBgDark = 'rgba(255,255,255,0.055)'
-export const glassBorderLight = 'rgba(255,255,255,0.85)'
-export const glassBorderDark = 'rgba(255,255,255,0.11)'
+export const glassBgLight = 'rgba(255,255,255,0.62)'
+export const glassBgDark = 'rgba(255,255,255,0.05)'
+export const glassBorderLight = 'rgba(20,16,12,0.08)'
+export const glassBorderDark = 'rgba(255,255,255,0.10)'
 export const glassShadowLight =
-  '0 4px 32px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04)'
+  '0 1px 3px rgba(20,16,12,0.04), 0 8px 24px rgba(20,16,12,0.05)'
 export const glassShadowDark =
-  '0 4px 32px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.3)'
+  '0 1px 3px rgba(0,0,0,0.30), 0 10px 28px rgba(0,0,0,0.32)'
 
 const theme = extendTheme({
   config,
@@ -54,7 +54,14 @@ const theme = extendTheme({
   components: {
     Link: {
       baseStyle: (props: StyleFunctionProps) => ({
-        color: mode('blue.600', 'blue.300')(props)
+        color: mode('#b45309', '#fbbf24')(props),
+        fontWeight: 'medium',
+        textUnderlineOffset: '2px',
+        transition: 'color 0.15s ease',
+        _hover: {
+          textDecoration: 'underline',
+          color: mode('#92400e', '#fcd34d')(props)
+        }
       })
     }
   },

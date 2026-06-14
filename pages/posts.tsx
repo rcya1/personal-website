@@ -55,10 +55,10 @@ const Posts = ({
   const glassBg = useColorModeValue(glassBgLight, glassBgDark)
   const glassBorder = useColorModeValue(glassBorderLight, glassBorderDark)
   const glassShadow = useColorModeValue(glassShadowLight, glassShadowDark)
-  const hoverBorder = useColorModeValue('#f59e0b', '#fbbf24')
+  const hoverBorder = useColorModeValue('rgba(245,158,11,0.55)', 'rgba(251,191,36,0.5)')
   const hoverShadow = useColorModeValue(
-    '0 6px 32px rgba(245,158,11,0.15)',
-    '0 6px 32px rgba(251,191,36,0.1)'
+    '0 2px 6px rgba(20,16,12,0.05), 0 10px 28px rgba(20,16,12,0.08)',
+    '0 2px 6px rgba(0,0,0,0.3), 0 10px 28px rgba(0,0,0,0.4)'
   )
   const subtitleColor = useColorModeValue('gray.500', 'gray.400')
   const tabBg = useColorModeValue(

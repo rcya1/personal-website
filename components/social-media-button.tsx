@@ -13,13 +13,13 @@ const SocialMediaButton: FC<SocialMediaButtonProps> = ({
   href,
   children
 }: SocialMediaButtonProps) => {
-  const bg = useColorModeValue('rgba(255,255,255,0.55)', 'rgba(255,255,255,0.07)')
-  const border = useColorModeValue('rgba(255,255,255,0.8)', 'rgba(255,255,255,0.12)')
-  const hoverBg = useColorModeValue('rgba(245,158,11,0.12)', 'rgba(251,191,36,0.12)')
-  const hoverBorder = useColorModeValue('#f59e0b', '#fbbf24')
+  const bg = useColorModeValue('rgba(255,255,255,0.7)', 'rgba(255,255,255,0.05)')
+  const border = useColorModeValue('rgba(20,16,12,0.14)', 'rgba(255,255,255,0.14)')
+  const hoverBg = useColorModeValue('rgba(245,158,11,0.10)', 'rgba(251,191,36,0.10)')
+  const hoverBorder = useColorModeValue('rgba(245,158,11,0.6)', 'rgba(251,191,36,0.55)')
   const hoverShadow = useColorModeValue(
-    '0 4px 16px rgba(245,158,11,0.2)',
-    '0 4px 16px rgba(251,191,36,0.15)'
+    '0 4px 14px rgba(20,16,12,0.08)',
+    '0 4px 14px rgba(0,0,0,0.3)'
   )
   const textColor = useColorModeValue('#1c1917', '#e8e4f0')
   const iconColor = useColorModeValue('#f59e0b', '#fbbf24')

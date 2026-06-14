@@ -107,23 +107,15 @@ const Home: NextPage = () => {
   ]
 
   const photoBorderColor = useColorModeValue(
-    'rgba(245,158,11,0.5)',
+    'rgba(245,158,11,0.55)',
     'rgba(251,191,36,0.4)'
   )
-  const photoGlow = useColorModeValue(
-    '0 0 0 4px rgba(245,158,11,0.15), 0 8px 32px rgba(0,0,0,0.12)',
-    '0 0 0 4px rgba(251,191,36,0.12), 0 8px 32px rgba(0,0,0,0.5)'
-  )
-  const photoGlowPeak = useColorModeValue(
-    '0 0 0 4px rgba(245,158,11,0.22), 0 8px 32px rgba(0,0,0,0.12), 0 0 14px rgba(245,158,11,0.1)',
-    '0 0 0 4px rgba(251,191,36,0.18), 0 8px 32px rgba(0,0,0,0.5), 0 0 14px rgba(251,191,36,0.07)'
+  const photoShadow = useColorModeValue(
+    '0 6px 20px rgba(20,16,12,0.10)',
+    '0 6px 22px rgba(0,0,0,0.45)'
   )
   const subtitleColor = useColorModeValue('gray.600', 'gray.400')
   const dotColor = useColorModeValue('accent-light', 'accent-dark')
-  const dotGlow = useColorModeValue(
-    '0 0 8px rgba(245,158,11,0.5)',
-    '0 0 8px rgba(251,191,36,0.4)'
-  )
   const timelineLineColor = useColorModeValue(
     'rgba(245,158,11,0.3)',
     'rgba(251,191,36,0.25)'
@@ -152,14 +144,8 @@ const Home: NextPage = () => {
                   mb={5}
                   borderWidth="3px"
                   borderColor={photoBorderColor}
+                  boxShadow={photoShadow}
                   flexShrink={0}
-                  sx={{
-                    '@keyframes glowPulse': {
-                      '0%, 100%': { boxShadow: photoGlow },
-                      '50%': { boxShadow: photoGlowPeak }
-                    },
-                    animation: 'glowPulse 3s ease-in-out infinite'
-                  }}
                 >
                   <Image src={profile} alt="Profile Picture" />
                 </Box>
@@ -270,7 +256,6 @@ const Home: NextPage = () => {
                           h="8px"
                           borderRadius="full"
                           bg={dotColor}
-                          boxShadow={dotGlow}
                           mt="18px"
                           flexShrink={0}
                         />
