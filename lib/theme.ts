@@ -33,8 +33,8 @@ const theme = extendTheme({
     // Navbar glass
     'navbar-glass-light': 'rgba(254, 250, 242, 0.82)',
     'navbar-glass-dark': 'rgba(13, 12, 20, 0.82)',
-    'navbar-border-light': 'rgba(0, 0, 0, 0.10)',
-    'navbar-border-dark': 'rgba(255, 255, 255, 0.18)'
+    'navbar-border-light': 'rgba(0, 0, 0, 0.006)',
+    'navbar-border-dark': 'rgba(255, 255, 255, 0.012)'
   },
   styles: {
     global: (props: StyleFunctionProps) => ({

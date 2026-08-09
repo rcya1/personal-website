@@ -62,12 +62,16 @@ const Posts = ({
   )
   const subtitleColor = useColorModeValue('gray.500', 'gray.400')
   const tabBg = useColorModeValue(
-    'rgba(255,255,255,0.45)',
-    'rgba(255,255,255,0.04)'
+    'rgba(255,255,255,0.6)',
+    'rgba(255,255,255,0.05)'
   )
   const tabBorder = useColorModeValue(
-    'rgba(255,255,255,0.7)',
-    'rgba(255,255,255,0.08)'
+    'rgba(28,25,23,0.1)',
+    'rgba(255,255,255,0.12)'
+  )
+  const pillBorder = useColorModeValue(
+    'rgba(245,158,11,0.45)',
+    'rgba(251,191,36,0.4)'
   )
 
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
@@ -171,7 +175,9 @@ const Posts = ({
                   width={`${highlightStyle.width}px`}
                   bg={accentColor}
                   borderRadius="xl"
-                  opacity={0.15}
+                  opacity={0.16}
+                  borderWidth="1px"
+                  borderColor={pillBorder}
                   transition="left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
                   pointerEvents="none"
                   zIndex={1}
@@ -181,11 +187,12 @@ const Posts = ({
                 {highlightStyle.textWidth > 0 && (
                   <Box
                     position="absolute"
-                    bottom="2px"
+                    bottom="5px"
                     left={`${highlightStyle.left + (highlightStyle.width - highlightStyle.textWidth) / 2}px`}
                     width={`${highlightStyle.textWidth}px`}
-                    height="2.5px"
+                    height="1.5px"
                     bg={accentColor}
+                    opacity={0.7}
                     borderRadius="full"
                     transition="left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
                     pointerEvents="none"

@@ -34,6 +34,7 @@ const Navbar: FC<NavbarProps> = ({ scrolled = false }) => {
   const textColor = useColorModeValue('text-light', 'text-dark')
   const accentColor = useColorModeValue('#f59e0b', '#fbbf24')
   const hoverBg = useColorModeValue('rgba(245,158,11,0.08)', 'rgba(251,191,36,0.08)')
+  const highlightBorder = useColorModeValue('rgba(245,158,11,0.45)', 'rgba(251,191,36,0.4)')
 
   const links: Record<string, string> = {
     'About Me': '/',
@@ -47,30 +48,40 @@ const Navbar: FC<NavbarProps> = ({ scrolled = false }) => {
     href === '/' ? router.asPath === href : router.asPath.startsWith(href)
   )
 
-  // Underline state
+  // Underline + pill state
   const [hoveredNavIdx, setHoveredNavIdx] = useState<number | null>(null)
   const [navUnderline, setNavUnderline] = useState({ left: 0, width: 0, visible: false })
+  const [navPill, setNavPill] = useState({ left: 0, width: 0, visible: false })
   const navContainerRef = useRef<HTMLDivElement>(null)
   const navTextRefs = useRef<(HTMLSpanElement | null)[]>([])
+  const navLinkRefs = useRef<(HTMLAnchorElement | null)[]>([])
 
   const targetNavIdx = hoveredNavIdx !== null ? hoveredNavIdx : activeNavIdx
 
   useEffect(() => {
     if (targetNavIdx < 0 || !navContainerRef.current) {
       setNavUnderline((s) => ({ ...s, visible: false }))
+      setNavPill((s) => ({ ...s, visible: false }))
       return
     }
     const container = navContainerRef.current
     const textEl = navTextRefs.current[targetNavIdx]
-    if (!textEl) return
+    const linkEl = navLinkRefs.current[targetNavIdx]
+    if (!textEl || !linkEl) return
 
     const containerRect = container.getBoundingClientRect()
     const textRect = textEl.getBoundingClientRect()
+    const linkRect = linkEl.getBoundingClientRect()
     if (textRect.width === 0) return
 
     setNavUnderline({
       left: textRect.left - containerRect.left,
       width: textRect.width,
+      visible: true
+    })
+    setNavPill({
+      left: linkRect.left - containerRect.left,
+      width: linkRect.width,
       visible: true
     })
   }, [targetNavIdx, router.asPath])
@@ -87,6 +98,7 @@ const Navbar: FC<NavbarProps> = ({ scrolled = false }) => {
             <Box key={title} px={1}>
               <NextLink href={href} passHref>
                 <Link
+                  ref={(el: HTMLAnchorElement | null) => (navLinkRefs.current[idx] = el)}
                   display="block"
                   fontWeight={isActive ? 'semibold' : 'normal'}
                   fontSize="sm"
@@ -95,8 +107,9 @@ const Navbar: FC<NavbarProps> = ({ scrolled = false }) => {
                   px={4}
                   py={2}
                   borderRadius="lg"
-                  transition="color 0.2s ease, background 0.2s ease"
-                  bg={isHighlighted ? hoverBg : 'transparent'}
+                  position="relative"
+                  zIndex={2}
+                  transition="color 0.2s ease"
                   _hover={{ textDecoration: 'none' }}
                   onMouseEnter={() => setHoveredNavIdx(idx)}
                   onMouseLeave={() => setHoveredNavIdx(null)}
@@ -109,18 +122,38 @@ const Navbar: FC<NavbarProps> = ({ scrolled = false }) => {
         })}
       </HStack>
 
+      {/* Sliding pill — morphs width and position between words */}
+      {navPill.visible && (
+        <Box
+          position="absolute"
+          top="0"
+          bottom="0"
+          left={`${navPill.left}px`}
+          width={`${navPill.width}px`}
+          bg={hoverBg}
+          borderWidth="1px"
+          borderColor={highlightBorder}
+          borderRadius="lg"
+          transition="left 0.25s cubic-bezier(0.4, 0, 0.2, 1), width 0.25s cubic-bezier(0.4, 0, 0.2, 1)"
+          pointerEvents="none"
+          zIndex={1}
+        />
+      )}
+
       {/* Sliding underline — morphs width and position between words */}
       {navUnderline.visible && (
         <Box
           position="absolute"
-          bottom="3px"
+          bottom="6px"
           left={`${navUnderline.left}px`}
           width={`${navUnderline.width}px`}
-          height="2.5px"
+          height="1.5px"
           bg={accentColor}
+          opacity={0.7}
           borderRadius="full"
           transition="left 0.25s cubic-bezier(0.4, 0, 0.2, 1), width 0.25s cubic-bezier(0.4, 0, 0.2, 1)"
           pointerEvents="none"
+          zIndex={2}
         />
       )}
     </Box>
