@@ -204,19 +204,18 @@ Some examples of consistency models in transactional systems are:
 These consistency models can be placed on a chart, where the models go from strongest (left) to weakest (right) and every model on the left is a strict subset of all models on the right. This means that all linearizable systems are sequentially consistent, all sequentially consistent systems are causally consistent, etc.
 
 ```mermaid
-flowchart TB
-    subgraph noTxn ["Without transactions"]
-        direction LR
-        L["Linearizable"] --> S["Sequentially<br/>consistent"] --> C["Causally<br/>consistent"]
-    end
-    subgraph txn ["With transactions"]
-        direction LR
-        SS["Strict<br/>serializability"] --> SER["Serializability"] --> SI["Snapshot<br/>isolation"] --> RR["Repeatable<br/>read"] --> RC["Read<br/>committed"] --> RU["Read<br/>uncommitted"]
-    end
-    noTxn ~~~ txn
+flowchart LR
+    L["Linearizable"] --> S["Sequentially<br/>consistent"] --> C["Causally<br/>consistent"]
 ```
 
-_Each model is a strict subset of everything to its right_
+_Without transactions, where each model is a strict subset of everything to its right_
+
+```mermaid
+flowchart LR
+    SS["Strict<br/>serializability"] --> SER["Serializability"] --> SI["Snapshot<br/>isolation"] --> RR["Repeatable<br/>read"] --> RC["Read<br/>committed"] --> RU["Read<br/>uncommitted"]
+```
+
+_With transactions_
 
 For now, we focus on non-transaction systems, but we'll discuss transaction systems more in [Challenge 6](#challenge-6-totally-available-transactions).
 
@@ -287,7 +286,7 @@ For linearizable systems, the real-time constraint is quite expensive since once
 - Single designated leader
   - All writes go through one node, and it only acks once all reader servers have applied that write.
   - This bottlenecks the throughput to that of one node and leads to issues if that node crashes
-- Consensus protocols like [**Raft**](https://raft.github.io/raft.pdf)
+- Consensus protocols like [Raft](https://raft.github.io/raft.pdf)
   - A leader is elected and writes are replicated to a log that all nodes agree on
   - Reads can be served by the leader (this comes with some complications involving ensuring that the leader is still the leader when answering read requests, but it is doable)
 - TrueTime ([Google Spanner](https://research.google/pubs/spanner-googles-globally-distributed-database-2/))

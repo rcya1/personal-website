@@ -13,7 +13,9 @@ const loadMermaid = () => {
   return mermaidPromise
 }
 
-const FONT_FAMILY = '"Kalam", "Comic Sans MS", cursive'
+const FONT_FAMILY = '"Excalifont", "Comic Sans MS", cursive'
+
+const HALO_COLOR = { light: '#fdfaf5', dark: '#15131f' }
 
 const themeVariables = {
   light: {
@@ -118,7 +120,13 @@ const MermaidDiagram = ({ chart }: { chart: string }) => {
       overflowX="auto"
       sx={{
         '& svg': { maxWidth: '100%', height: 'auto' },
-        '& svg text, & svg span': { fontFamily: `${FONT_FAMILY} !important` }
+        '& svg text, & svg span': { fontFamily: `${FONT_FAMILY} !important` },
+        '& svg .messageText, & svg .loopText, & svg .labelText': {
+          paintOrder: 'stroke fill',
+          stroke: `${HALO_COLOR[colorMode]} !important`,
+          strokeWidth: '5px !important',
+          strokeLinejoin: 'round'
+        }
       }}
       dangerouslySetInnerHTML={{ __html: svg }}
     />
