@@ -453,7 +453,7 @@ There are still other real-world, useful systems that don't provide sequential c
   - Uses a quorum system to provide better latency / availability by only replicating to a subset of other nodes
   - Relies on eventual propagation / convergence via its vector clock, last-write-wins conflict handling
 
-## The Actual Challenge
+## Challenge
 
 There are two approaches we can take to solve the global counter problem.
 
