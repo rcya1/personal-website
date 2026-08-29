@@ -1,8 +1,9 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import { Box, Container } from '@chakra-ui/react'
 import useWindowDimensions, { BasicProps } from 'lib/react-utils'
 import Navbar from 'components/navbar'
 import Footer from 'components/footer'
+import ScrollToTop from 'components/scroll-to-top'
 import { ChakraAnimate } from 'lib/animate'
 // @ts-ignore
 import Scrollbars from 'react-custom-scrollbars'
@@ -20,6 +21,8 @@ interface Props extends BasicProps {
 const MainLayout: FC<Props> = ({ children, maxW }) => {
   const [isClient, setIsClient] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [showScrollToTop, setShowScrollToTop] = useState(false)
+  const scrollbarsRef = useRef<any>(null)
   useEffect(() => {
     setIsClient(true)
   }, [])
@@ -50,6 +53,7 @@ const MainLayout: FC<Props> = ({ children, maxW }) => {
 
   return isClient ? (
     <Scrollbars
+      ref={scrollbarsRef}
       universal={true}
       autoHide
       autoHideTimeout={1000}
@@ -57,9 +61,20 @@ const MainLayout: FC<Props> = ({ children, maxW }) => {
       autoHeight
       autoHeightMax={height}
       autoHeightMin={height}
-      onScrollFrame={(values: any) => setScrolled(values.scrollTop > 10)}
+      onScrollFrame={(values: any) => {
+        setScrolled(values.scrollTop > 10)
+        setShowScrollToTop(values.scrollTop > height / 2)
+      }}
     >
       {content}
+
+      <ScrollToTop
+        visible={showScrollToTop}
+        onClick={() => {
+          const view = scrollbarsRef.current?.view
+          if (view) view.scrollTo({ top: 0, behavior: 'smooth' })
+        }}
+      />
     </Scrollbars>
   ) : (
     <div>{content} </div>

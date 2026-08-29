@@ -73,6 +73,10 @@ const Posts = ({
     'rgba(245,158,11,0.45)',
     'rgba(251,191,36,0.4)'
   )
+  const pillBg = useColorModeValue(
+    'rgba(245,158,11,0.10)',
+    'rgba(251,191,36,0.09)'
+  )
 
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
   const textRefs = useRef<(HTMLSpanElement | null)[]>([])
@@ -173,9 +177,8 @@ const Posts = ({
                   bottom={0}
                   left={`${highlightStyle.left}px`}
                   width={`${highlightStyle.width}px`}
-                  bg={accentColor}
+                  bg={pillBg}
                   borderRadius="xl"
-                  opacity={0.16}
                   borderWidth="1px"
                   borderColor={pillBorder}
                   transition="left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)"

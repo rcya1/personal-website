@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import NextLink from 'next/link'
 import NextImage from 'next/image'
 import ReactMarkdown from 'react-markdown'
@@ -9,7 +9,12 @@ import {
   Flex,
   Heading,
   Icon,
+  Image as ChakraImage,
   Link,
+  Modal,
+  ModalCloseButton,
+  ModalContent,
+  ModalOverlay,
   ListItem,
   OrderedList,
   Table,
@@ -20,9 +25,12 @@ import {
   Tr,
   UnorderedList,
   useColorModeValue,
+  useDisclosure,
   VStack
 } from '@chakra-ui/react'
 import useWindowDimensions, { BasicProps } from 'lib/react-utils'
+import { slugify } from 'lib/slug'
+import MermaidDiagram from 'components/mermaid-diagram'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
@@ -38,7 +46,7 @@ import {
 } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 // @ts-ignore
 
-import { HiOutlineBookmark } from 'react-icons/hi'
+import { HiOutlineBookmark, HiOutlineClipboardList } from 'react-icons/hi'
 import { TbBook2 } from 'react-icons/tb'
 import { FiEdit } from 'react-icons/fi'
 import { BiNote } from 'react-icons/bi'
@@ -51,10 +59,29 @@ import { AiOutlineWarning } from 'react-icons/ai'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
+const headingText = (children: React.ReactNode): string => {
+  if (typeof children === 'string' || typeof children === 'number') {
+    return String(children)
+  }
+  if (Array.isArray(children)) {
+    return children.map(headingText).join('')
+  }
+  if (React.isValidElement(children)) {
+    return headingText(children.props.children)
+  }
+  return ''
+}
+
 const CreateHeadingWrapper = (size: string) => {
   const HeadingWrapper = ({ children }: BasicProps) => {
     return (
-      <Heading size={size} mt={8} mb={2}>
+      <Heading
+        size={size}
+        mt={8}
+        mb={2}
+        id={slugify(headingText(children))}
+        scrollMarginTop="90px"
+      >
         {children}
       </Heading>
     )
@@ -168,6 +195,23 @@ const PDFWrapper = ({ children }: BasicProps) => {
   )
 }
 
+const HorizontalRuleWrapper = () => {
+  const accent = useColorModeValue('accent-light', 'accent-dark')
+
+  return (
+    <Box
+      as="hr"
+      border="none"
+      height="3px"
+      width="72px"
+      mx="auto"
+      my={10}
+      borderRadius="full"
+      bg={accent}
+    />
+  )
+}
+
 const CreateCustomBlockQuoteWrapper = (heading: string, icon: IconType) => {
   const CustomBlockQuoteWrapper = (contents: string) => (
     <BlockquoteWrapper>
@@ -187,6 +231,71 @@ const CreateCustomBlockQuoteWrapper = (heading: string, icon: IconType) => {
   return CustomBlockQuoteWrapper
 }
 
+type ZoomableImageProps = {
+  src: string
+  width: number
+  height: number
+  caption?: string
+}
+
+const ZoomableImage = ({ src, width, height, caption }: ZoomableImageProps) => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  return (
+    <VStack as="span">
+      <Flex as="span" justify="center">
+        <Box
+          as="span"
+          display="inline-block"
+          lineHeight={0}
+          cursor="pointer"
+          transition="transform 0.2s ease"
+          _hover={{ transform: 'scale(1.03)' }}
+          onClick={onOpen}
+        >
+          <NextImage src={src} alt="" width={width} height={height} />
+        </Box>
+      </Flex>
+      <Text as="span" fontStyle="italic">
+        {' '}
+        {caption}
+      </Text>
+      <Modal isOpen={isOpen} onClose={onClose} size="full" motionPreset="scale">
+        <ModalOverlay bg="blackAlpha.800" backdropFilter="blur(8px)" />
+        <ModalContent
+          bg="transparent"
+          boxShadow="none"
+          m={0}
+          cursor="pointer"
+          onClick={onClose}
+        >
+          <ModalCloseButton
+            color="white"
+            zIndex={1}
+            _hover={{ bg: 'whiteAlpha.300' }}
+          />
+          <Flex
+            align="center"
+            justify="center"
+            h="100vh"
+            px={{ base: 3, md: 6 }}
+            py={{ base: 12, md: 6 }}
+          >
+            <ChakraImage
+              src={src}
+              alt={caption}
+              maxH="100%"
+              maxW="100%"
+              objectFit="contain"
+              borderRadius="md"
+            />
+          </Flex>
+        </ModalContent>
+      </Modal>
+    </VStack>
+  )
+}
+
 const languageComponentMap = {
   pdf: (contents: string) => {
     return <PDFWrapper>{contents.replace('\n', '')}</PDFWrapper>
@@ -204,10 +313,17 @@ const languageComponentMap = {
       </AspectRatio>
     )
   },
+  mermaid: (contents: string) => {
+    return <MermaidDiagram chart={contents} />
+  },
   definition: CreateCustomBlockQuoteWrapper('Definition', TbBook2),
   example: CreateCustomBlockQuoteWrapper('Example', FiEdit),
   theorem: CreateCustomBlockQuoteWrapper('Theorem', HiOutlineBookmark),
   note: CreateCustomBlockQuoteWrapper('Note', BiNote),
+  problem: CreateCustomBlockQuoteWrapper(
+    'Problem Statement',
+    HiOutlineClipboardList
+  ),
   warning: CreateCustomBlockQuoteWrapper('Warning', AiOutlineWarning)
 }
 
@@ -229,6 +345,7 @@ const BlogRenderer = ({ children }: { children: string }) => {
         tr: TrWrapper,
         td: TdWrapper,
         blockquote: BlockquoteWrapper,
+        hr: HorizontalRuleWrapper,
         ul: UnorderedListWrapper,
         ol: OrderedListWrapper,
         li: ListItemWrapper,
@@ -251,21 +368,32 @@ const BlogRenderer = ({ children }: { children: string }) => {
           }
 
           return (
-            <VStack as="span">
-              <Flex as="span" justify="center">
-                <NextImage
-                  src={actualSource}
-                  alt=""
-                  width={width}
-                  height={height}
-                />
-              </Flex>
-              <Text as="span"> {alt}</Text>
-            </VStack>
+            <ZoomableImage
+              src={actualSource}
+              width={width}
+              height={height}
+              caption={alt}
+            />
           )
         },
         a({ href, children }) {
           if (!href) return <Text>{children}</Text>
+
+          if (href.startsWith('#')) {
+            return (
+              <Link
+                href={href}
+                onClick={(event) => {
+                  event.preventDefault()
+                  document
+                    .getElementById(href.slice(1))
+                    ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }}
+              >
+                {children}
+              </Link>
+            )
+          }
 
           return (
             <NextLink href={href} passHref>

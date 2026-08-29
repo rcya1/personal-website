@@ -20,6 +20,7 @@
     "framer-motion": "^7.10.2",
     "gray-matter": "^4.0.3",
     "katex": "^0.16.4",
+    "mermaid": "^11.17.2",
     "next": "12.2.3",
     "react": "18.2.0",
     "react-custom-scrollbars": "^4.2.1",
@@ -42,6 +43,6 @@
     "@types/react-dom": "18.0.6",
     "eslint": "8.20.0",
     "eslint-config-next": "12.2.3",
-    "typescript": "4.7.4"
+    "typescript": "5.4.5"
   }
 }

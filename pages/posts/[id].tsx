@@ -19,6 +19,7 @@ import {
 } from '@chakra-ui/react'
 import { parseISO, format } from 'date-fns'
 import Meta from 'components/meta'
+import TableOfContents from 'components/table-of-contents'
 import { LuArrowLeft, LuArrowRight, LuLayoutList } from 'react-icons/lu'
 import {
   glassBgLight,
@@ -172,6 +173,9 @@ const Post = ({
 
             {/* Content */}
             <Box px={{ base: 6, md: 10 }} py={8}>
+              {postData.toc && postData.headings && (
+                <TableOfContents headings={postData.headings} />
+              )}
               <BlogRenderer>{postData.content}</BlogRenderer>
             </Box>
           </Box>
