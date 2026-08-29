@@ -31,8 +31,8 @@ const theme = extendTheme({
     'accent-dark': '#fbbf24',
 
     // Navbar glass
-    'navbar-glass-light': 'rgba(254, 250, 242, 0.82)',
-    'navbar-glass-dark': 'rgba(13, 12, 20, 0.82)',
+    'navbar-glass-light': 'rgba(254, 250, 242, 0.62)',
+    'navbar-glass-dark': 'rgba(13, 12, 20, 0.62)',
     'navbar-border-light': 'rgba(0, 0, 0, 0.006)',
     'navbar-border-dark': 'rgba(255, 255, 255, 0.012)'
   },

@@ -6,9 +6,10 @@
   font-weight: 400;
   font-display: swap;
   src: url('/fonts/Excalifont-Regular-latin.woff2') format('woff2');
-  unicode-range: U+20-7e, U+a0-a3, U+a5-a6, U+a8-ab, U+ad-b1, U+b4, U+b6-b8,
-    U+ba-ff, U+131, U+152-153, U+2013-2014, U+2018-201a, U+201c-201e, U+2020,
-    U+2022, U+2024-2026, U+2030, U+2039-203a, U+20ac, U+2122, U+2212;
+  unicode-range:
+    U+20-7e, U+a0-a3, U+a5-a6, U+a8-ab, U+ad-b1, U+b4, U+b6-b8, U+ba-ff, U+131,
+    U+152-153, U+2013-2014, U+2018-201a, U+201c-201e, U+2020, U+2022,
+    U+2024-2026, U+2030, U+2039-203a, U+20ac, U+2122, U+2212;
 }
 
 @font-face {
@@ -17,8 +18,9 @@
   font-weight: 400;
   font-display: swap;
   src: url('/fonts/Excalifont-Regular-latin-ext.woff2') format('woff2');
-  unicode-range: U+100-130, U+132-137, U+139-149, U+14c-151, U+154-17e, U+192,
-    U+1fc-1ff, U+218-21b, U+237, U+1e80-1e85, U+1ef2-1ef3, U+2113;
+  unicode-range:
+    U+100-130, U+132-137, U+139-149, U+14c-151, U+154-17e, U+192, U+1fc-1ff,
+    U+218-21b, U+237, U+1e80-1e85, U+1ef2-1ef3, U+2113;
 }
 
 .katex-display {
@@ -28,4 +30,155 @@
 
 body {
   overflow: hidden;
+}
+
+.history-figure {
+  width: 100%;
+  height: auto;
+  margin: 1.5rem 0;
+  font-family: 'Excalifont', 'Comic Sans MS', cursive;
+}
+
+.history-figure text {
+  paint-order: stroke fill;
+  stroke: #fdfaf5;
+  stroke-width: 5px;
+  stroke-linejoin: round;
+}
+
+[data-theme='dark'] .history-figure text {
+  stroke: #15131f;
+}
+
+.history-figure .client {
+  fill: currentColor;
+}
+
+.history-figure .bar {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.history-figure .key-a {
+  stroke: #e03131;
+}
+
+.history-figure .key-b {
+  stroke: #1971c2;
+}
+
+.history-figure .key-a-label {
+  fill: #e03131;
+}
+
+.history-figure .key-b-label {
+  fill: #1971c2;
+}
+
+[data-theme='dark'] .history-figure .key-a {
+  stroke: #ff8787;
+}
+
+[data-theme='dark'] .history-figure .key-b {
+  stroke: #74c0fc;
+}
+
+[data-theme='dark'] .history-figure .key-a-label {
+  fill: #ff8787;
+}
+
+[data-theme='dark'] .history-figure .key-b-label {
+  fill: #74c0fc;
+}
+
+.history-figure .muted {
+  fill: currentColor;
+  opacity: 0.6;
+}
+
+.history-figure .box {
+  fill: none;
+  stroke: currentColor;
+  stroke-opacity: 0.3;
+  stroke-width: 2;
+}
+
+.history-figure .step {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-opacity: 0.75;
+}
+
+.history-figure .arrow-head {
+  fill: currentColor;
+  fill-opacity: 0.75;
+}
+
+.history-figure .dot {
+  fill: currentColor;
+}
+
+.history-figure .step-bad {
+  fill: none;
+  stroke: #b45309;
+  stroke-width: 3;
+  stroke-dasharray: 8 5;
+}
+
+.history-figure .arrow-head-bad,
+.history-figure .bad-label {
+  fill: #b45309;
+}
+
+[data-theme='dark'] .history-figure .step-bad {
+  stroke: #fbbf24;
+}
+
+[data-theme='dark'] .history-figure .arrow-head-bad,
+[data-theme='dark'] .history-figure .bad-label {
+  fill: #fbbf24;
+}
+
+.history-figure .box-bad {
+  stroke: #b45309;
+  stroke-opacity: 1;
+}
+
+.history-figure .ghost {
+  stroke: #b45309;
+  stroke-opacity: 0.9;
+  stroke-dasharray: 7 5;
+}
+
+[data-theme='dark'] .history-figure .box-bad,
+[data-theme='dark'] .history-figure .ghost {
+  stroke: #fbbf24;
+}
+
+.history-figure .guide {
+  fill: none;
+  stroke: currentColor;
+  stroke-opacity: 0.3;
+  stroke-width: 1.5;
+  stroke-dasharray: 4 5;
+}
+
+.history-figure .guide-a {
+  stroke: #e03131;
+  stroke-opacity: 0.55;
+}
+
+.history-figure .guide-b {
+  stroke: #1971c2;
+  stroke-opacity: 0.55;
+}
+
+[data-theme='dark'] .history-figure .guide-a {
+  stroke: #ff8787;
+}
+
+[data-theme='dark'] .history-figure .guide-b {
+  stroke: #74c0fc;
 }

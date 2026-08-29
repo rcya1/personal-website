@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { CSSProperties, useState } from 'react'
 import NextLink from 'next/link'
 import NextImage from 'next/image'
 import ReactMarkdown from 'react-markdown'
@@ -90,9 +90,17 @@ const CreateHeadingWrapper = (size: string) => {
   return HeadingWrapper
 }
 
-const TextWrapper = ({ children }: BasicProps) => {
+const TextWrapper = ({ children, node }: BasicProps & { node?: any }) => {
+  const isCaption =
+    node?.children?.length === 1 && node.children[0].tagName === 'em'
+
   return (
-    <Text mb={4} fontSize="md" lineHeight="6">
+    <Text
+      mb={4}
+      fontSize="md"
+      lineHeight="6"
+      textAlign={isCaption ? 'center' : undefined}
+    >
       {children}
     </Text>
   )
@@ -118,11 +126,18 @@ const TheadWrapper = ({ children }: BasicProps) => {
   )
 }
 
-const ThWrapper = ({ children }: BasicProps) => {
+type CellProps = BasicProps & { style?: CSSProperties }
+
+const ThWrapper = ({ children, style }: CellProps) => {
   const color = useColorModeValue('text-light', 'text-dark')
 
   return (
-    <Th py={2} color={color} textTransform="none">
+    <Th
+      py={2}
+      color={color}
+      textTransform="none"
+      textAlign={style?.textAlign as any}
+    >
       {children}
     </Th>
   )
@@ -132,8 +147,22 @@ const TrWrapper = ({ children }: BasicProps) => {
   return <Tr>{children}</Tr>
 }
 
-const TdWrapper = ({ children }: BasicProps) => {
-  return <Td>{children}</Td>
+const MARKS = ['X', '✓']
+
+const TdWrapper = ({ children, style }: CellProps) => {
+  const contents = Array.isArray(children) ? children[0] : children
+  const isMark =
+    typeof contents === 'string' && MARKS.indexOf(contents.trim()) !== -1
+
+  return (
+    <Td
+      textAlign={(style?.textAlign as any) ?? (isMark ? 'center' : undefined)}
+      fontSize={isMark ? 'lg' : undefined}
+      lineHeight={isMark ? 1 : undefined}
+    >
+      {children}
+    </Td>
+  )
 }
 
 const BlockquoteWrapper = ({ children }: BasicProps) => {

@@ -33,7 +33,8 @@ const themeVariables = {
     textColor: '#1c1917',
     noteBkgColor: '#fef3c7',
     noteBorderColor: '#b45309',
-    noteTextColor: '#1c1917'
+    noteTextColor: '#1c1917',
+    edgeLabelBackground: '#fdfaf5'
   },
   dark: {
     background: 'transparent',
@@ -50,7 +51,8 @@ const themeVariables = {
     textColor: '#e8e4f0',
     noteBkgColor: '#2b2137',
     noteBorderColor: '#fbbf24',
-    noteTextColor: '#e8e4f0'
+    noteTextColor: '#e8e4f0',
+    edgeLabelBackground: '#15131f'
   }
 }
 

@@ -1,16 +1,16 @@
 ---
-title: A dive back into distributed systems
-date: '2026-08-08'
+title: Solving the fly.io distributed systems challenges (while learning about consistency mdoels)
+date: '2026-08-29'
 toc: true
 category: Tech
-excerpt: Some exploration of distributed systems via the fly-io distributed systems challenges. Covers my solutions + analysis + some yapping about consistency models.
+excerpt: Some exploration of distributed systems via the fly-io distributed systems challenges. Covers my full solutions with pseudocode + discussion about consistency models.
 ---
 
 I recently spent some time working on the [fly.io distributed systems challenges](https://fly.io/dist-sys/). I mostly used this as a chance to write some more Rust code and also relive one of my favorite classes at MIT (6.824 Distributed Systems). While the scale of these challenges was definitely a lot smaller than that project, it was definitely still some fun to think about the problems and learn a bit more about different consistency models! My full code for these challenges is located [here](https://github.com/rcya1/dist-sys-challenges). In this explainer I'll be using some Python-esque pseudocode to explain my solutions
 
 Each challenge consists of writing a program that will be run on one or more "nodes", each of which is an independent copy of your program that can receive user requests and communicate with each other via the [Maelstrom framework](https://github.com/jepsen-io/maelstrom/tree/main). I'll discuss some of the more interesting challenges + any difficulties I came across while implementing them.
 
-One curious thing I discovered during all of these is that these tests only exercise network partitions and never node crashes. This makes the task simpler in that we don't have to worry about persisting state to disk and the associated race conditions. It was a bit disappointing to see, but fwiw I think handling it mostly requires just being careful about persisting certain local state to disk before acking to the user. Even without this, attempting to achieve total availability in the face of network partitions is still an interesting challenge.
+One curious thing I discovered during all of these is that these tests only exercise network partitions and never node crashes. This makes the task simpler in that we don't have to worry about persisting state to disk and the associated race conditions. It was a bit disappointing to see, but for what its worth I think handling it mostly requires just being careful about persisting certain local state to disk before acking to the user. Even without this, attempting to achieve total availability in the face of network partitions is still an interesting challenge.
 
 # Challenge 1: Echo
 
@@ -25,7 +25,7 @@ def on_echo(msg):
     reply(msg, "echo_ok", echo = msg.echo)
 ```
 
-# Challenge 2: Unique Ids
+# Challenge 2: Unique Id literally all the other singulin bossess
 
 ```problem
 Each node will receive a `generate` RPC and should respond with a globally unique ID (no other node should have generated it before). The service should be totally available.
@@ -71,7 +71,7 @@ flowchart TD
     A --> F(("Node F"))
 ```
 
-_`Node A` sends its gossip to everyone_
+_Node A sends its gossip to everyone_
 
 This is obviously pretty terrible for the network card for `Node A`. Additionally, it doesn't take into account network topology at all, which might have the `A -> C` path involve the `A -> B` hop. In that case, we would rather `Node A` just send a message to `Node B` and then `Node B` forwards that to `Node C`.
 
@@ -80,7 +80,7 @@ flowchart LR
     A(("Node A")) --> B(("Node B")) --> C(("Node C"))
 ```
 
-_`Node B` should forward the message to `Node C`_
+_Node B should forward the message to Node C_
 
 While Maelstrom does give us a topology, it's actually optional and following it will result in latencies worse than the goal latencies. Instead, I just implemented the "star" pattern where `Node A` gossips to everyone to achieve the optimal latency.
 
@@ -88,18 +88,39 @@ For Objective 2, we want to minimize the number of messages transmitted across o
 
 Buffering increases the latency though, introducing a natural tradeoff between minimizing network traffic and minimizing latency.
 
+Without buffering, every write immediately fans out to each peer, so 2 writes cost 4 messages:
+
 ```mermaid
 sequenceDiagram
     participant A as Node A
     participant B as Node B
     participant C as Node C
-    Note over A: writes 1, 2, 3 arrive
-    A->>B: gossip [1, 2, 3]
-    A->>C: gossip [1, 2, 3]
-    Note over A,C: one flush, 2 messages instead of 6
+    Note over A: write 1 arrives
+    A->>B: gossip [1]
+    A->>C: gossip [1]
+    Note over A: write 2 arrives
+    A->>B: gossip [2]
+    A->>C: gossip [2]
 ```
 
-My final code:
+With a flush every 100ms, all of the writes that arrive inside the same window go out together, the same 4 messages can carry more writes:
+
+```mermaid
+sequenceDiagram
+    participant A as Node A
+    participant B as Node B
+    participant C as Node C
+    Note over A: writes 1, 2, 3, 4 arrive
+    Note over A: 100ms passes
+    A->>B: gossip [1, 2, 3, 4]
+    A->>C: gossip [1, 2, 3, 4]
+    Note over A: write 5 arrives
+    Note over A: 100ms passes
+    A->>B: gossip [5]
+    A->>C: gossip [5]
+```
+
+Final pseudocode:
 
 ```python
 seen = set()
@@ -158,27 +179,25 @@ First, it's good to be precise about what a "consistency model" really is.
 A **history** is a set of operations each with an invocation time, a response time, a client that issued it, and results.
 ```
 
-```mermaid
-sequenceDiagram
-    participant C1 as Client 1
-    participant C2 as Client 2
-    participant C3 as Client 3
-    participant S as System
-    C1->>S: read key A
-    C2->>S: write key A = 3
-    S-->>C1: A = 1
-    C1->>S: read key B
-    S-->>C2: ok
-    C2->>S: write key B = 4
-    S-->>C1: B = 2
-    C3->>S: read key B
-    S-->>C2: ok
-    C1->>S: read key A
-    S-->>C3: B = 4
-    S-->>C1: A = 3
-```
+<svg class="history-figure" viewBox="0 0 900 320" role="img">
+  <text class="client" x="95" y="96" text-anchor="end" font-size="20">client 1:</text>
+  <text class="key-a-label" x="212" y="76" text-anchor="middle" font-size="17">read key A = 1</text>
+  <path class="bar key-a" d="M148 91 C 190 88.5, 235 90.5, 277 89" />
+  <text class="key-b-label" x="380" y="76" text-anchor="middle" font-size="17">read key B = 2</text>
+  <path class="bar key-b" d="M308 90 C 350 87.5, 410 91, 452 89.5" />
+  <text class="key-a-label" x="566" y="76" text-anchor="middle" font-size="17">read key A = 3</text>
+  <path class="bar key-a" d="M490 91 C 540 88, 600 91.5, 642 89" />
+  <text class="client" x="95" y="196" text-anchor="end" font-size="20">client 2:</text>
+  <text class="key-a-label" x="300" y="176" text-anchor="middle" font-size="17">write key A = 3</text>
+  <path class="bar key-a" d="M186 191 C 250 188, 350 191.5, 414 189.5" />
+  <text class="key-b-label" x="740" y="176" text-anchor="middle" font-size="17">write key B = 4</text>
+  <path class="bar key-b" d="M672 190.5 C 710 188, 770 191, 809 189" />
+  <text class="client" x="95" y="286" text-anchor="end" font-size="20">client 3:</text>
+  <text class="key-b-label" x="589" y="266" text-anchor="middle" font-size="17">read key B = 4</text>
+  <path class="bar key-b" d="M338 281 C 450 278, 700 281.5, 840 279" />
+</svg>
 
-_An example history with three clients, where time runs downwards_
+_An example history with three clients, where each bar runs from an operation's invocation to its response_
 
 ```definition
 A **consistency model** is a predicate over histories, or a rule that says which histories are "legal".
@@ -208,7 +227,7 @@ flowchart LR
     L["Linearizable"] --> S["Sequentially<br/>consistent"] --> C["Causally<br/>consistent"]
 ```
 
-_Without transactions, where each model is a strict subset of everything to its right_
+_Without transactions_
 
 ```mermaid
 flowchart LR
@@ -227,12 +246,42 @@ In both **linearizable** and **sequentially consistent** systems, there must be 
 
 For instance, in this sample history from before, we can define the following order which satisfies that reads observe every write.
 
-1. Client 1 reads key A = 1
-2. Client 2 writes key A = 3
-3. Client 1 reads key B = 2
-4. Client 2 writes key B = 4
-5. Client 3 reads key B = 4
-6. Client 1 reads key A = 3
+<svg class="history-figure" viewBox="0 0 900 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The six operations laid out in a single total order">
+<text class="muted" x="85" y="34" text-anchor="middle" font-size="15">1</text>
+<rect class="box" x="22" y="46" width="126" height="62" rx="8" />
+<text class="muted" x="85" y="70" text-anchor="middle" font-size="13">client 1</text>
+<text class="key-a-label" x="85" y="94" text-anchor="middle" font-size="16">read A = 1</text>
+<path class="step" d="M154 77 L162 77" />
+<path class="arrow-head" d="M160 72 L167 77 L160 82 Z" />
+<text class="muted" x="231" y="34" text-anchor="middle" font-size="15">2</text>
+<rect class="box" x="168" y="46" width="126" height="62" rx="8" />
+<text class="muted" x="231" y="70" text-anchor="middle" font-size="13">client 2</text>
+<text class="key-a-label" x="231" y="94" text-anchor="middle" font-size="16">write A = 3</text>
+<path class="step" d="M300 77 L308 77" />
+<path class="arrow-head" d="M306 72 L313 77 L306 82 Z" />
+<text class="muted" x="377" y="34" text-anchor="middle" font-size="15">3</text>
+<rect class="box" x="314" y="46" width="126" height="62" rx="8" />
+<text class="muted" x="377" y="70" text-anchor="middle" font-size="13">client 1</text>
+<text class="key-b-label" x="377" y="94" text-anchor="middle" font-size="16">read B = 2</text>
+<path class="step" d="M446 77 L454 77" />
+<path class="arrow-head" d="M452 72 L459 77 L452 82 Z" />
+<text class="muted" x="523" y="34" text-anchor="middle" font-size="15">4</text>
+<rect class="box" x="460" y="46" width="126" height="62" rx="8" />
+<text class="muted" x="523" y="70" text-anchor="middle" font-size="13">client 2</text>
+<text class="key-b-label" x="523" y="94" text-anchor="middle" font-size="16">write B = 4</text>
+<path class="step" d="M592 77 L600 77" />
+<path class="arrow-head" d="M598 72 L605 77 L598 82 Z" />
+<text class="muted" x="669" y="34" text-anchor="middle" font-size="15">5</text>
+<rect class="box" x="606" y="46" width="126" height="62" rx="8" />
+<text class="muted" x="669" y="70" text-anchor="middle" font-size="13">client 3</text>
+<text class="key-b-label" x="669" y="94" text-anchor="middle" font-size="16">read B = 4</text>
+<path class="step" d="M738 77 L746 77" />
+<path class="arrow-head" d="M744 72 L751 77 L744 82 Z" />
+<text class="muted" x="815" y="34" text-anchor="middle" font-size="15">6</text>
+<rect class="box" x="752" y="46" width="126" height="62" rx="8" />
+<text class="muted" x="815" y="70" text-anchor="middle" font-size="13">client 1</text>
+<text class="key-a-label" x="815" y="94" text-anchor="middle" font-size="16">read A = 3</text>
+</svg>
 
 Note that neither consistency model gives a procedure for how to come up with such ordering. Instead, it just demands that it is possible to pick out **a** valid ordering subject to the following constraints.
 
@@ -244,10 +293,30 @@ Under **program order**, each client's operations must appear in the total order
 
 For instance, the following total order would be invalid:
 
-1. Client 1 reads key A = 1
-2. Client 2 writes key A = 3
-3. Client 1 reads key A = 3
-4. ...
+<svg class="history-figure" viewBox="0 0 900 166" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A total order that skips one of client 1 operations">
+<text class="bad-label" x="231" y="34" text-anchor="middle" font-size="15">1</text>
+<rect class="box box-bad" x="168" y="46" width="126" height="62" rx="8" />
+<text class="muted" x="231" y="70" text-anchor="middle" font-size="13">client 1</text>
+<text class="key-a-label" x="231" y="94" text-anchor="middle" font-size="16">read A = 1</text>
+<path class="step" d="M300 77 L308 77" />
+<path class="arrow-head" d="M306 72 L313 77 L306 82 Z" />
+<text class="muted" x="377" y="34" text-anchor="middle" font-size="15">2</text>
+<rect class="box" x="314" y="46" width="126" height="62" rx="8" />
+<text class="muted" x="377" y="70" text-anchor="middle" font-size="13">client 2</text>
+<text class="key-a-label" x="377" y="94" text-anchor="middle" font-size="16">write A = 3</text>
+<path class="step" d="M446 77 L454 77" />
+<path class="arrow-head" d="M452 72 L459 77 L452 82 Z" />
+<text class="bad-label" x="523" y="34" text-anchor="middle" font-size="15">3</text>
+<rect class="box box-bad" x="460" y="46" width="126" height="62" rx="8" />
+<text class="muted" x="523" y="70" text-anchor="middle" font-size="13">client 1</text>
+<text class="key-a-label" x="523" y="94" text-anchor="middle" font-size="16">read A = 3</text>
+<path class="step" d="M592 77 L600 77" />
+<path class="arrow-head" d="M598 72 L605 77 L598 82 Z" />
+<text class="muted" x="669" y="34" text-anchor="middle" font-size="15">4</text>
+<rect class="box" x="606" y="46" width="126" height="62" rx="8" />
+<text class="muted" x="669" y="94" text-anchor="middle" font-size="16">...</text>
+<text class="bad-label" x="450" y="152" text-anchor="middle" font-size="15">client 1 issued read B = 2 between these two, so the order cannot jump straight to read A = 3</text>
+</svg>
 
 We cannot have our total order skip client 1's read for B. Note that this makes no restriction over the order _across clients_.
 
@@ -259,14 +328,87 @@ Under **real time**, if operation X finishes before operation Y begins, then ope
 
 Note that this implies program order. Under this, the following total order would be invalid:
 
-1. Client 1 reads key A = 1
-2. Client 1 reads key B = 2
-3. Client 2 writes key A = 3
-4. Client 2 writes key B = 4
-5. Client 1 reads key A = 3
-6. ...
+<svg class="history-figure" viewBox="0 0 900 168" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The order places client 2 write before client 1 final read">
+<text class="muted" x="85" y="34" text-anchor="middle" font-size="15">1</text>
+<rect class="box" x="22" y="46" width="126" height="62" rx="8" />
+<text class="muted" x="85" y="70" text-anchor="middle" font-size="13">client 1</text>
+<text class="key-a-label" x="85" y="94" text-anchor="middle" font-size="16">read A = 1</text>
+<path class="step" d="M154 77 L162 77" />
+<path class="arrow-head" d="M160 72 L167 77 L160 82 Z" />
+<text class="muted" x="231" y="34" text-anchor="middle" font-size="15">2</text>
+<rect class="box" x="168" y="46" width="126" height="62" rx="8" />
+<text class="muted" x="231" y="70" text-anchor="middle" font-size="13">client 1</text>
+<text class="key-b-label" x="231" y="94" text-anchor="middle" font-size="16">read B = 2</text>
+<path class="step" d="M300 77 L308 77" />
+<path class="arrow-head" d="M306 72 L313 77 L306 82 Z" />
+<text class="muted" x="377" y="34" text-anchor="middle" font-size="15">3</text>
+<rect class="box" x="314" y="46" width="126" height="62" rx="8" />
+<text class="muted" x="377" y="70" text-anchor="middle" font-size="13">client 2</text>
+<text class="key-a-label" x="377" y="94" text-anchor="middle" font-size="16">write A = 3</text>
+<path class="step" d="M446 77 L454 77" />
+<path class="arrow-head" d="M452 72 L459 77 L452 82 Z" />
+<text class="bad-label" x="523" y="34" text-anchor="middle" font-size="15">4</text>
+<rect class="box box-bad" x="460" y="46" width="126" height="62" rx="8" />
+<text class="muted" x="523" y="70" text-anchor="middle" font-size="13">client 2</text>
+<text class="key-b-label" x="523" y="94" text-anchor="middle" font-size="16">write B = 4</text>
+<path class="step" d="M592 77 L600 77" />
+<path class="arrow-head" d="M598 72 L605 77 L598 82 Z" />
+<text class="bad-label" x="669" y="34" text-anchor="middle" font-size="15">5</text>
+<rect class="box box-bad" x="606" y="46" width="126" height="62" rx="8" />
+<text class="muted" x="669" y="70" text-anchor="middle" font-size="13">client 1</text>
+<text class="key-a-label" x="669" y="94" text-anchor="middle" font-size="16">read A = 3</text>
+<path class="step" d="M738 77 L746 77" />
+<path class="arrow-head" d="M744 72 L751 77 L744 82 Z" />
+<text class="muted" x="815" y="34" text-anchor="middle" font-size="15">6</text>
+<rect class="box" x="752" y="46" width="126" height="62" rx="8" />
+<text class="muted" x="815" y="94" text-anchor="middle" font-size="16">...</text>
+<path class="step-bad" d="M460 116 L460 126 L732 126 L732 116" />
+<text class="bad-label" x="596" y="146" text-anchor="middle" font-size="15">these two are the wrong way around</text>
+</svg>
 
 The total order must have client 2's write come after client 1's final read since client 1's read finished before client 2's write began.
+
+<svg class="history-figure" viewBox="0 0 900 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The same history with the proposed total order drawn on top of it">
+<text class="client" x="95" y="96" text-anchor="end" font-size="20">client 1:</text>
+<text class="key-a-label" x="212" y="76" text-anchor="middle" font-size="17">read key A = 1</text>
+<path class="bar key-a" d="M148 91 C 190 88.5, 235 90.5, 277 89" />
+<text class="key-b-label" x="380" y="76" text-anchor="middle" font-size="17">read key B = 2</text>
+<path class="bar key-b" d="M308 90 C 350 87.5, 410 91, 452 89.5" />
+<text class="key-a-label" x="566" y="76" text-anchor="middle" font-size="17">read key A = 3</text>
+<path class="bar key-a" d="M490 91 C 540 88, 600 91.5, 642 89" />
+<text class="client" x="95" y="196" text-anchor="end" font-size="20">client 2:</text>
+<text class="key-a-label" x="300" y="176" text-anchor="middle" font-size="17">write key A = 3</text>
+<path class="bar key-a" d="M186 191 C 250 188, 350 191.5, 414 189.5" />
+<text class="key-b-label" x="740" y="176" text-anchor="middle" font-size="17">write key B = 4</text>
+<path class="bar key-b" d="M672 190.5 C 710 188, 770 191, 809 189" />
+<text class="client" x="95" y="286" text-anchor="end" font-size="20">client 3:</text>
+<path class="bar key-b" d="M338 281 C 450 278, 700 281.5, 840 279" />
+<path class="guide guide-a" d="M642 58 L642 306" />
+<path class="guide guide-b" d="M672 58 L672 306" />
+<text class="key-a-label" x="642" y="322" text-anchor="middle" font-size="14">latest point for the read</text>
+<text class="key-b-label" x="672" y="42" text-anchor="middle" font-size="14">earliest point for the write</text>
+<path class="step" d="M216 88 Q 295 64, 372 84" />
+<path class="arrow-head" d="M366 78 L376 86 L364 88 Z" />
+<path class="step" d="M384 96 Q 402 140, 398 180" />
+<path class="arrow-head" d="M392 174 L398 186 L404 174 Z" />
+<path class="step" d="M406 196 Q 540 228, 664 196" />
+<path class="arrow-head" d="M659 190 L670 192 L662 202 Z" />
+<path class="step-bad" d="M678 181 C 722 148, 706 106, 654 95" />
+<path class="arrow-head-bad" d="M655 88 L642 94 L654 101 Z" />
+<circle class="dot" cx="210" cy="90" r="6" />
+<circle class="dot" cx="380" cy="90" r="6" />
+<circle class="dot" cx="400" cy="190" r="6" />
+<circle class="dot" cx="672" cy="190" r="6" />
+<circle class="dot" cx="642" cy="90" r="6" />
+<text class="muted" x="210" y="112" text-anchor="middle" font-size="15">1</text>
+<text class="muted" x="380" y="112" text-anchor="middle" font-size="15">2</text>
+<text class="muted" x="400" y="212" text-anchor="middle" font-size="15">3</text>
+<text class="muted" x="686" y="212" text-anchor="middle" font-size="15">4</text>
+<text class="muted" x="628" y="112" text-anchor="middle" font-size="15">5</text>
+<text class="bad-label" x="790" y="128" text-anchor="middle" font-size="16">backwards in time</text>
+</svg>
+
+_Walking the order operation by operation, step 4 to step 5 has to run backwards along the history_
 
 ---
 
@@ -416,7 +558,7 @@ sequenceDiagram
     participant KV as lin-KV
     participant B as Node B
     A->>KV: cas(offset, 5, 6)
-    KV-->>A: ok (lost)
+    KV-->>A: ok
     B->>KV: cas(offset, 5, 6)
     KV-->>B: failed, offset is already 6
     Note over B: B sees the value it wanted<br/>and thinks it reserved 6
@@ -468,10 +610,24 @@ def read_message(key, offset):
 
 This works, but it's pretty inefficient since on every `poll` that returns $n$ messages, we need to do $n$ calls to the linearizable KV store. To make this more efficient, we don't use a single key-value pair for each message and instead store messages in **segments** (I chose `SEGMENT_SIZE=32`) where each segment is a batch of offsets stored in the same KV store. The max segment size is the same as the max amount of messages that can be buffered before triggering a flush (so each flush publishes exactly one segment). This means when reading and writing a large number of values in the same flush, we can cut down the number of reads / writes to the KV store by up to a factor of 32. This does introduce some sparsity where we can potentially reserve `SEGMENT_SIZE - 1` more offsets than we need (i.e. in the case where a flush just pushes one value), but this is always strictly better than storing each message individually.
 
-```mermaid
-flowchart LR
-    S0["segment 0<br/>offsets 0-31<br/>32 messages"] --> S1["segment 1<br/>offsets 32-63<br/>reserved by one CAS"] --> S2["segment 2<br/>offsets 64-95<br/>28 messages + 4 padding"]
-```
+<svg class="history-figure" viewBox="0 0 900 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Messages stored in fixed size segments">
+<text class="client" x="196" y="34" text-anchor="middle" font-size="18">segment 0</text>
+<rect class="box" x="86" y="46" width="220" height="66" rx="8" />
+<text class="muted" x="196" y="74" text-anchor="middle" font-size="16">offsets 0-31</text>
+<text class="muted" x="196" y="98" text-anchor="middle" font-size="15">32 messages</text>
+<path class="step" d="M314 79 L326 79" />
+<path class="arrow-head" d="M324 74 L332 79 L324 84 Z" />
+<text class="client" x="450" y="34" text-anchor="middle" font-size="18">segment 1</text>
+<rect class="box" x="340" y="46" width="220" height="66" rx="8" />
+<text class="muted" x="450" y="74" text-anchor="middle" font-size="16">offsets 32-63</text>
+<text class="muted" x="450" y="98" text-anchor="middle" font-size="15">reserved (not yet written)</text>
+<path class="step" d="M568 79 L580 79" />
+<path class="arrow-head" d="M578 74 L586 79 L578 84 Z" />
+<text class="client" x="704" y="34" text-anchor="middle" font-size="18">segment 2</text>
+<rect class="box" x="594" y="46" width="220" height="66" rx="8" />
+<text class="muted" x="704" y="74" text-anchor="middle" font-size="16">offsets 64-95</text>
+<text class="muted" x="704" y="98" text-anchor="middle" font-size="15">28 messages + 4 padding</text>
+</svg>
 
 _One CAS reserves a whole segment, so a flush costs one read and one write_
 
@@ -479,7 +635,7 @@ One natural question is: why choose a fixed segment size over just variable-leng
 
 `poll` is more straightforward to implement. We read the latest offset and then read in parallel all segments between the requested offset and the latest offset. There is a cache on top of the segments since they are immutable once written, so we don't have to reread segments we already know about. When we process `send`, we also write to this cache so that if we `poll` from the same node we did `send` from, we don't have to round trip to the KV store. Finally, as briefly described above, if we see an empty segment, we block until a timeout has passed. If the timeout has passed, we attempt to CAS in an `abandoned` message and then continue.
 
-Here's my final solution (with the committed offsets code from earlier as well):
+Here's my final pseudocode (with the committed offsets code from earlier as well):
 
 ```python
 def on_send(msg):

@@ -43,7 +43,7 @@ const Posts = ({
   const router = useRouter()
   const { category } = router.query
 
-  const initialCategory = typeof category === 'string' ? category : 'Blog'
+  const initialCategory = typeof category === 'string' ? category : 'All'
 
   const [tabState, setTabState] = useState({
     selectedCategory: initialCategory,
@@ -62,8 +62,8 @@ const Posts = ({
   )
   const subtitleColor = useColorModeValue('gray.500', 'gray.400')
   const tabBg = useColorModeValue(
-    'rgba(255,255,255,0.6)',
-    'rgba(255,255,255,0.05)'
+    'rgba(255,255,255,0.36)',
+    'rgba(255,255,255,0.022)'
   )
   const tabBorder = useColorModeValue(
     'rgba(28,25,23,0.1)',
@@ -88,7 +88,7 @@ const Posts = ({
   const [hoverIndex, setHoverIndex] = useState<number | null>(null)
 
   useEffect(() => {
-    const categoryFromURL = typeof category === 'string' ? category : 'Blog'
+    const categoryFromURL = typeof category === 'string' ? category : 'All'
     if (categoryFromURL !== tabState.selectedCategory) {
       setTabState((prev) => ({ ...prev, selectedCategory: categoryFromURL }))
     }
@@ -249,7 +249,8 @@ const Posts = ({
                   const filtered = allPostsData.filter(
                     (postData) =>
                       postData.id.charAt(0) !== '_' &&
-                      postData.category === tabState.selectedCategory
+                      (tabState.selectedCategory === 'All' ||
+                        postData.category === tabState.selectedCategory)
                   )
 
                   if (filtered.length === 0) {
@@ -376,9 +377,12 @@ const Posts = ({
 
 export const getStaticProps: GetStaticProps = async () => {
   const allPostsData = await getSortedPostsData()
-  const categories = Array.from(
-    new Set(allPostsData.map((postData) => postData.category))
-  ).sort()
+  const categories = [
+    'All',
+    ...Array.from(
+      new Set(allPostsData.map((postData) => postData.category))
+    ).sort()
+  ]
 
   return {
     props: {
