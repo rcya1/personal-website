@@ -1,16 +1,16 @@
 ---
-title: Solving the fly.io distributed systems challenges (while learning about consistency mdoels)
+title: Solving the fly.io distributed systems challenges (while learning about consistency models)
 date: '2026-08-29'
 toc: true
 category: Tech
-excerpt: Some exploration of distributed systems via the fly-io distributed systems challenges. Covers my full solutions with pseudocode + discussion about consistency models.
+excerpt: Some exploration of distributed systems via the fly.io distributed systems challenges. Covers my full solutions with pseudocode + discussion about consistency models.
 ---
 
-I recently spent some time working on the [fly.io distributed systems challenges](https://fly.io/dist-sys/). I mostly used this as a chance to write some more Rust code and also relive one of my favorite classes at MIT (6.824 Distributed Systems). While the scale of these challenges was definitely a lot smaller than that project, it was definitely still some fun to think about the problems and learn a bit more about different consistency models! My full code for these challenges is located [here](https://github.com/rcya1/dist-sys-challenges). In this explainer I'll be using some Python-esque pseudocode to explain my solutions
+I recently spent some time working on the [fly.io distributed systems challenges](https://fly.io/dist-sys/). I mostly used this as a chance to write some more Rust code and also relive one of my favorite classes at MIT (6.824 Distributed Systems). While the scale of these challenges was definitely a lot smaller than that project, it was definitely still some fun to think about the problems and learn a bit more about different consistency models! My full code for these challenges is located [here](https://github.com/rcya1/dist-sys-challenges). In this explainer I'll be using some Python-esque pseudocode to explain my solutions.
 
 Each challenge consists of writing a program that will be run on one or more "nodes", each of which is an independent copy of your program that can receive user requests and communicate with each other via the [Maelstrom framework](https://github.com/jepsen-io/maelstrom/tree/main). I'll discuss some of the more interesting challenges + any difficulties I came across while implementing them.
 
-One curious thing I discovered during all of these is that these tests only exercise network partitions and never node crashes. This makes the task simpler in that we don't have to worry about persisting state to disk and the associated race conditions. It was a bit disappointing to see, but for what its worth I think handling it mostly requires just being careful about persisting certain local state to disk before acking to the user. Even without this, attempting to achieve total availability in the face of network partitions is still an interesting challenge.
+One curious thing I discovered during all of these is that these tests only exercise network partitions and never node crashes. This makes the task simpler in that we don't have to worry about persisting state to disk and the associated race conditions. It was a bit disappointing to see, but for what it's worth I think handling it mostly requires just being careful about persisting certain local state to disk before acking to the user. Even without this, attempting to achieve total availability in the face of network partitions is still an interesting challenge.
 
 # Challenge 1: Echo
 
@@ -25,7 +25,7 @@ def on_echo(msg):
     reply(msg, "echo_ok", echo = msg.echo)
 ```
 
-# Challenge 2: Unique Id literally all the other singulin bossess
+# Challenge 2: Unique Ids
 
 ```problem
 Each node will receive a `generate` RPC and should respond with a globally unique ID (no other node should have generated it before). The service should be totally available.
@@ -58,7 +58,7 @@ This is the first task that has a significantly larger potential design space an
 1. Write-to-read latency
 2. Messages sent per user request
 
-The core of this challenge is to implement **gossiping**, where when one node receives a write, it gossips that new value to all of the other nodes. Crucially, we _don't_ wait for a response to your gossips before acking the user, sacrificing some consistency for latency. The challenge just asks for _eventual consistency_, and as long as we implement retries for our gossiping, this is satisfied even in the face of network partitions. This is done by storing a table of all non-acked gossips, and periodically retrying any entries in that table that have passed a timeout.
+The core of this challenge is to implement **gossiping**, where when one node receives a write, it gossips that new value to all of the other nodes. Crucially, we _don't_ wait for a response to our gossips before acking the user, sacrificing some consistency for latency. The challenge just asks for _eventual consistency_, and as long as we implement retries for our gossiping, this is satisfied even in the face of network partitions. This is done by storing a table of all non-acked gossips, and periodically retrying any entries in that table that have passed a timeout.
 
 For Objective 1, we want to minimize the write-to-read latency across different nodes (i.e. we write to `Node A` and read from `Node B`). For purely optimizing the write-to-read latency, it makes sense for `Node A` to send a message to all other $n - 1$ nodes. That way, for any other node, write-to-read latency is equal to just the worst network latency which can't be improved.
 
@@ -103,7 +103,7 @@ sequenceDiagram
     A->>C: gossip [2]
 ```
 
-With a flush every 100ms, all of the writes that arrive inside the same window go out together, the same 4 messages can carry more writes:
+With a flush every 100ms, all of the writes that arrive inside the same window go out together, so the same 4 messages can carry more writes:
 
 ```mermaid
 sequenceDiagram
@@ -159,7 +159,7 @@ def retry_gossips():
 scheduleEvery(retry_gossips, RETRY_INTERVAL)
 ```
 
-# Challenge 4: Grow Only Counter
+# Challenge 4: Grow-Only Counter
 
 ```problem
 Each node should handle two RPCs:
@@ -169,7 +169,7 @@ Each node should handle two RPCs:
 The system should be sequentially consistent.
 ```
 
-This was the first challenge that made use of Maelstrom's KV stores, which are totally available services offering varying levels of consistency models.
+This was the first challenge that made use of Maelstrom's KV stores, which are totally available services offering different consistency models.
 
 ## Consistency Models
 
@@ -240,7 +240,7 @@ For now, we focus on non-transaction systems, but we'll discuss transaction syst
 
 ### Linearizable vs Sequential Consistency
 
-Maelstrom offers three KV store services in total: a linearizable one, a sequential one, and last-write-wins ones. Here I won't talk about the last one since by Maelstrom's docs own words, it is an "intentionally pathological... key-value store". It doesn't provide any useful consistency guarantees. Instead, we focus on the first two.
+Maelstrom offers three KV store services in total: a linearizable one, a sequential one, and a last-write-wins one. Here I won't talk about the last one since in the Maelstrom docs' own words, it is an "intentionally pathological... key-value store". It doesn't provide any useful consistency guarantees. Instead, we focus on the first two.
 
 In both **linearizable** and **sequentially consistent** systems, there must be a single total order across all operations. That is, we can place every operation across all clients into an ordered list and pretend as if they all occurred in exactly that order. Then, both consistency models demand that every read reflects the results of all previous writes.
 
@@ -283,7 +283,7 @@ For instance, in this sample history from before, we can define the following or
 <text class="key-a-label" x="815" y="94" text-anchor="middle" font-size="16">read A = 3</text>
 </svg>
 
-Note that neither consistency model gives a procedure for how to come up with such ordering. Instead, it just demands that it is possible to pick out **a** valid ordering subject to the following constraints.
+Note that neither consistency model gives a procedure for how to come up with such an ordering. Instead, it just demands that it is possible to pick out **a** valid ordering subject to the following constraints.
 
 For sequentially consistent systems, the total order must also respect **program order**.
 
@@ -318,7 +318,7 @@ For instance, the following total order would be invalid:
 <text class="bad-label" x="450" y="152" text-anchor="middle" font-size="15">client 1 issued read B = 2 between these two, so the order cannot jump straight to read A = 3</text>
 </svg>
 
-We cannot have our total order skip client 1's read for B. Note that this makes no restriction over the order _across clients_.
+We cannot have our total order skip client 1's read of B. Note that this makes no restriction over the order _across clients_.
 
 For linearizable systems, we have a stronger constraint: the total order must respect **real time**.
 
@@ -417,7 +417,7 @@ Linearizable systems have the strongest constraints that are what one might typi
 One particular quirk about these consistency models is that they only provide guarantees on the **safety / ordering axis** and not on the **liveness axis**.
 The distinction is apparent when considering **eventual consistency**, or the idea that any write you make will _eventually_ be seen by every other client. Despite how strong sequential consistency is, it does **not** provide eventual consistency! This is because there are no guarantees between clients, so if client 1 does a write and client 2 repeatedly reads it until the end of time, a valid sequentially consistent ordering would be to put all of those reads before the write.
 
-As an extreme example, consider a KV store that shards users based on their client ID. We can completely separate all users and serve each user their own view of the KV store with absolutely no synchronization, and this provides sequential, but not eventual, consistency! While every practical real world application will provide eventual consistency as well, it is worth noting that this technically does not work.
+As an extreme example, consider a KV store that shards users based on their client ID. We can completely separate all users and serve each user their own view of the KV store with absolutely no synchronization, and this provides sequential, but not eventual, consistency! While every practical real world application will provide eventual consistency as well, it is worth noting that this is technically not guaranteed.
 
 Why would anyone want sequentially consistent systems? The short answer is performance. Providing linearizable systems requires a lot of synchronization because you have to make sure that writes to a key are completely flushed to every reader server before you can serve a read for any client. For sequentially consistent systems, you only have to worry about that for one client, and you can do some work to manage which reader servers / caches that client will connect to.
 
@@ -499,7 +499,7 @@ def on_read(msg):
     reply(msg, "read_ok", value = total)
 ```
 
-# Challenge 5: Kafka
+# Challenge 5: Kafka-Style Log
 
 ```problem
 Implement a Kafka-style append-only log. Each log is identified by a key and contains a series of messages, each of which is identified by an integer offset. Offsets can be sparse (i.e. every offset does not have to have an associated message). Offsets must be unique across logs. This involves two RPCs:
@@ -513,7 +513,7 @@ Clients can also commit offsets, indicating that they have successfully processe
 There is no recency requirement, but updates should never be lost as we read the log.
 ```
 
-For this challenge, the easier part is to consider committing offsets. From the requirements, we know there is no recency requirement, and we need to ensure that if a user commits an offset, we don't ever cause them to miss a read by giving them back an offset they committed. Giving a stale offset that is **lower** is fine, since this just causes re-reading updates.
+For this challenge, the easier part is to consider committing offsets. From the requirements, we know there is no recency requirement, and we need to ensure that if a user commits an offset, we don't ever cause them to miss a read by giving them back an offset higher than the one they committed. Giving a stale offset that is **lower** is fine, since this just causes re-reading updates.
 
 As a result, the bounds are pretty loose and we can simply use the sequential KV store to store the committed offsets. The only optimization I did on top of the naive put and read was to add a caching layer on top of the sequential KV store with a short TTL. The reads are already potentially stale, so adding 200ms of staleness works fine and helps reduce the messages per user operation (the main metric I optimized for in this challenge).
 
@@ -530,7 +530,7 @@ def on_list_committed_offsets(msg):
     reply(msg, "list_committed_offsets_ok", offsets = result)
 ```
 
-Handling `send` and `poll` were a bit more tricky, since we have to assign a globally unique offset. The simplest way to do this is to use the linearizable KV store and its CAS functionality. With this, we can atomically set `offset := offset + 1` and assign `offset` to the message just received. Specifically, the uniqueness constraint requires us to use the linearizable KV store since two clients talking to different nodes must not receive the same offset, requiring linearity.
+Handling `send` and `poll` was a bit trickier, since we have to assign a globally unique offset. The simplest way to do this is to use the linearizable KV store and its CAS functionality. With this, we can atomically set `offset := offset + 1` and assign `offset` to the message just received. Specifically, the uniqueness constraint requires us to use the linearizable KV store since two clients talking to different nodes must not receive the same offset, requiring linearity.
 
 To improve this solution, we can also implement a bit of caching. A typical CAS loop looks like:
 
@@ -564,11 +564,11 @@ sequenceDiagram
     Note over B: B sees the value it wanted<br/>and thinks it reserved 6
 ```
 
-Another way we can save messages on the `send` message is once again through batching. When we receive `send` messages, similar to Challenge 3, we batch them and only flush when either our batch is large enough or a timeout has passed. We then do a single CAS loop to add every buffered message at once, allocating a range of offsets instead of just a single offset.
+Another way we can save messages on `send` is once again through batching. When we receive `send` messages, similar to Challenge 3, we batch them and only flush when either our batch is large enough or a timeout has passed. We then do a single CAS loop to add every buffered message at once, allocating a range of offsets instead of just a single offset.
 
 This handles the offsets, but how do we store the actual log of values and keep it atomically consistent with the offset? In my initial implementation I did the simplest thing where rather than just storing the offset, I stored the entire log + offset together as a single value. This pretty obviously doesn't scale, especially since many databases have limits on how big the values you store are (on the order of O(10) MB). However, if we store them in separate KV pairs, then we can't atomically store the new offset + data at the same time, meaning there is a point in time where people can interleave operations between us setting the new offset + storing the messages.
 
-The key is that we don't need to store these atomically with the reservation. We can first do a CAS operation on the linearizable KV store to reserve up to an offset. Then, we can store each individual offset's message separately and without worry about other clients using the same offset since we already reserved it with the CAS.
+The key is that we don't need to store these atomically with the reservation. We can first do a CAS operation on the linearizable KV store to reserve up to an offset. Then, we can store each individual offset's message separately and without worrying about other clients using the same offset since we already reserved it with the CAS.
 
 This leads to some tricky challenges though now that we have separated offset from message storage. Consider what happens when you read that offsets have been reserved up to 30, and then you attempt to read message 25 in the KV store and you see nothing. Is it safe to assume this is just the KV store being stale / the writer is slow and just wait for this data to eventually show up? In our world where we assume no permanent node failures / network partitions, we could, but if there is a writer experiencing a long network partition, then this could block the entire system for that key. Instead, we should just skip them rather than stalling for that writer to recover.
 
@@ -608,7 +608,7 @@ def read_message(key, offset):
     return m
 ```
 
-This works, but it's pretty inefficient since on every `poll` that returns $n$ messages, we need to do $n$ calls to the linearizable KV store. To make this more efficient, we don't use a single key-value pair for each message and instead store messages in **segments** (I chose `SEGMENT_SIZE=32`) where each segment is a batch of offsets stored in the same KV store. The max segment size is the same as the max amount of messages that can be buffered before triggering a flush (so each flush publishes exactly one segment). This means when reading and writing a large number of values in the same flush, we can cut down the number of reads / writes to the KV store by up to a factor of 32. This does introduce some sparsity where we can potentially reserve `SEGMENT_SIZE - 1` more offsets than we need (i.e. in the case where a flush just pushes one value), but this is always strictly better than storing each message individually.
+This works, but it's pretty inefficient since on every `poll` that returns $n$ messages, we need to do $n$ calls to the linearizable KV store. To make this more efficient, we don't use a single key-value pair for each message and instead store messages in **segments** (I chose `SEGMENT_SIZE=32`) where each segment is a batch of offsets stored in the same KV store. The max segment size is the same as the max number of messages that can be buffered before triggering a flush (so each flush publishes exactly one segment). This means when reading and writing a large number of values in the same flush, we can cut down the number of reads / writes to the KV store by up to a factor of 32. This does introduce some sparsity where we can potentially reserve `SEGMENT_SIZE - 1` more offsets than we need (i.e. in the case where a flush just pushes one value), but this is always strictly better than storing each message individually.
 
 <svg class="history-figure" viewBox="0 0 900 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Messages stored in fixed size segments">
 <text class="client" x="196" y="34" text-anchor="middle" font-size="18">segment 0</text>
@@ -631,7 +631,7 @@ This works, but it's pretty inefficient since on every `poll` that returns $n$ m
 
 _One CAS reserves a whole segment, so a flush costs one read and one write_
 
-One natural question is: why choose a fixed segment size over just variable-length segments? I.e. if we were flushing `28` values, why reserve + publish a full segment of size `32` instead of just writing a segment of size `28`? I chose not to do this because this would mean when we read from an offset, we won't know what's the offset to look up for the second segment until we know the length of the first one. This means we would have to wait until the read for the first segment succeeds. Also, if the user provides an offset `> 0` we would have to read all segments starting at offset `0` to figure out what the segment boundaries are. This could be solved by storing an index, but then that would have to be stored somewhere and read in whenever we do a write / read.
+One natural question is: why choose a fixed segment size over just variable-length segments? I.e. if we were flushing `28` values, why reserve + publish a full segment of size `32` instead of just writing a segment of size `28`? I chose not to do this because this would mean when we read from an offset, we won't know what offset to look up for the second segment until we know the length of the first one. This means we would have to wait until the read for the first segment succeeds. Also, if the user provides an offset `> 0` we would have to read all segments starting at offset `0` to figure out what the segment boundaries are. This could be solved by storing an index, but then that would have to be stored somewhere and read in whenever we do a write / read.
 
 `poll` is more straightforward to implement. We read the latest offset and then read in parallel all segments between the requested offset and the latest offset. There is a cache on top of the segments since they are immutable once written, so we don't have to reread segments we already know about. When we process `send`, we also write to this cache so that if we `poll` from the same node we did `send` from, we don't have to round trip to the KV store. Finally, as briefly described above, if we see an empty segment, we block until a timeout has passed. If the timeout has passed, we attempt to CAS in an `abandoned` message and then continue.
 
@@ -711,17 +711,17 @@ As a reminder, here are some of the transaction consistency models in order from
 - Read committed
 - Read uncommitted
 
-**Strict serializability** and **serializability** are two of the strongest models, and both of them say that all transactions must appear as if they all ran one at a time in some order. Strict serializability has an extra condition, which is that this transaction order must follow real world time semantics (very similar to linearizable vs sequential when talking about non-transaction consistency models). The easiest way to implement this is to have a single global coordinator that orders these transactions.
+**Strict serializability** and **serializability** are two of the strongest models, and both of them say that all transactions must appear as if they all ran one at a time in some order. Strict serializability has an extra condition, which is that this transaction order must follow real-world time semantics (very similar to linearizable vs sequential when talking about non-transaction consistency models). The easiest way to implement this is to have a single global coordinator that orders these transactions.
 
 **Snapshot isolation** says that every read in the transaction will be done from a consistent snapshot taken at some point in time before the transaction started. When it is time to make writes, it is checked that the values in those keys are consistent with the original snapshot. This is vulnerable to "write skew", which is when two concurrent transactions both read the same data (i.e. that a conference room is free) and then both book it for two different people in a separate table. As long as both transactions write to disjoint areas in the database, they can both succeed and double book the room.
 
 **Repeatable read** can vary based on the database engine you use, but the core idea is that once the transaction has read a row, it is guaranteed that it will read the same value if it re-reads that row within the same transaction (so the read is repeatable). This is typically done via row locks or by using some kind of versioning so the transaction can serve old versions of a row if they are concurrently edited. This can lead to write skew and also "phantom reads", where if the transaction includes range queries (i.e. get all rows between yesterday and today), then new rows will not be locked. Therefore when we redo our range query, we can get brand new rows that we didn't previously see in the transaction.
 
-**Read committed** is the default in PostgreSQL and SQL Server, and it says that you will never get "dirty reads", which are reads that a concurrent transaction has written but not committed.That is, all reads you make will only be of values that have been committed by some transaction. So if concurrently running transactions commit, you can see those effects as you progress through the operations of your transaction. This means you can get non-repeatable reads, which means you can read key `x` at the beginning of the transaction and then re-read it at the end of the transaction and see different results.
+**Read committed** is the default in PostgreSQL and SQL Server, and it says that you will never get "dirty reads", which are reads that a concurrent transaction has written but not committed. That is, all reads you make will only be of values that have been committed by some transaction. So if concurrently running transactions commit, you can see those effects as you progress through the operations of your transaction. This means you can get non-repeatable reads, which means you can read key `x` at the beginning of the transaction and then re-read it at the end of the transaction and see different results.
 
 **Read uncommitted** gives almost no isolation guarantees at all and is rarely used today. It only prohibits "dirty writes", which is where two transactions modify the same object concurrently. For instance, if key `x` holds an array, `Transaction A` appends `1`, then `Transaction B` concurrently appends `2`, and finally `Transaction A` appends `3`, then a resulting value of `[1, 2, 3]` would be illegal.
 
-As a summary, there are various anomalies, each of which are prevented by certain consistency models:
+As a summary, there are various anomalies, each of which is prevented by certain consistency models:
 
 - Dirty writes: Transactions `A` and `B` modify the same object concurrently
 - Dirty reads: Transaction `A` reads a value that has not been committed yet by any transaction
@@ -748,9 +748,9 @@ Luckily, this challenge only requires us to implement the second-to-weakest cons
 
 We do this by making each node process transactions it receives sequentially and then having each node apply the results of its transactions to its local cache. This way, there is no chance for having dirty reads or writes before we commit the transaction because every node runs only one transaction at a time, and the nodes do not communicate while in the middle of running a transaction.
 
-Then when we do commit, we respond to the client and gossip the transaction results to the rest of the cluster. There is no latency requirement, so even if this gossip gets lost and has to be retransmitted, we can afford to ack the client before guaranteeing that all other nodes have seen this transaction's result. There is also no guarantees that the ordering of the transactions has to be consistent across nodes, so each node just adopts a "last write received wins" policy where it just takes the latest write it saw for a key as its value.
+Then when we do commit, we respond to the client and gossip the transaction results to the rest of the cluster. There is no latency requirement, so even if this gossip gets lost and has to be retransmitted, we can afford to ack the client before guaranteeing that all other nodes have seen this transaction's result. There are also no guarantees that the ordering of the transactions has to be consistent across nodes, so each node just adopts a "last write received wins" policy where it just takes the latest write it saw for a key as its value.
 
-To handle if a node gets partitioned / if a node is added / if a node is restarted, we also add some anti-entropy syncs. A node on startup and periodically will pull a full snapshot of the KV store from its peer and then merge it into its own. This way, if a gossip gets lost, we can over time converge towards a state where all nodes know about all writes.
+To handle if a node gets partitioned / if a node is added / if a node is restarted, we also add some anti-entropy syncs. On startup and then periodically, a node will pull a full snapshot of the KV store from its peer and then merge it into its own. This way, if a gossip gets lost, we can over time converge towards a state where all nodes know about all writes.
 
 There is one subtle issue with this, and that's that this system does not eventually converge (aka is not eventually consistent). Say `Node 1` handles a transaction writing `x = 5` and at the same time `Node 2` handles a transaction writing `x = 7`. They then both gossip to each other and they write each other's results as the source of truth. Then, the anti-entropy continually runs and if they are synced up / due to poor network conditions, they can constantly just swap the values back and forth. While this could be solved practically by jittering the anti-entropy syncs, a better solution is to be able to globally order the writes so we can reject writes that are "older". Since timestamps can conflict, we combine both the timestamp and node id. If a write is received with an earlier timestamp, or the same timestamp but a lower node id, we don't take the new write. This way, the state of our system will converge to all of the versions of values with the highest timestamp + node id.
 
@@ -807,15 +807,15 @@ flowchart TB
 
 _Without a global order the two nodes swap values forever, so writes carry a stamp_
 
-With that, we're done! This was comparatively **much** simpler than the Kafka challenge which was a bit of a let down since this was the last challenge. But I still learned a lot about the different transaction consistency models.
+With that, we're done! This was comparatively **much** simpler than the Kafka challenge which was a bit of a letdown since this was the last challenge. But I still learned a lot about the different transaction consistency models.
 
 # Final Thoughts
 
 Overall, I thought these challenges were quite fun to think through.
 
-In particular, I didn't really have a good grasp of consistency models and felt that thinking through these (and the process of writing this blog) really helped solidify that understanding! I especially enjoyed Challenge #5: Kafka-Style Log. Starting off with the simplest implementation of keeping the entire log in a single key and then slowly separating out the message storage into individual keys and then implementing segmentation was quite a fun process (albeit with some painful debugging).
+In particular, I didn't really have a good grasp of consistency models and felt that thinking through these (and the process of writing this blog) really helped solidify that understanding! I especially enjoyed Challenge 5: Kafka-Style Log. Starting off with the simplest implementation of keeping the entire log in a single key and then slowly separating out the message storage into individual keys and then implementing segmentation was quite a fun process (albeit with some painful debugging).
 
-Some of the specifications in the challenges were a bit loose, and it would've been nicer to have more concrete explanations. For instance, I felt the explanation of the committed offsets in the Challenge #5: Kafka-Style Log was quite confusing and took me a while to figure out what was going on. Also, it looks like `-nemesis partition` in the challenge doesn't do anything and so it doesn't actually really test your app in the face of partitions from the KV store. I ended up coding as if this was the case, but since I wasn't able to run it maybe there are race conditions I don't know about T_T. But regardless, thinking about them and pretending they were there was definitely a rewarding exercise!
+Some of the specifications in the challenges were a bit loose, and it would've been nicer to have more concrete explanations. For instance, I felt the explanation of the committed offsets in Challenge 5: Kafka-Style Log was quite confusing and took me a while to figure out what was going on. Also, it looks like `-nemesis partition` in the challenge doesn't do anything and so it doesn't actually really test your app in the face of partitions from the KV store. I ended up coding as if partitions could happen anyway, but since I wasn't able to run it maybe there are race conditions I don't know about T_T. But regardless, thinking about them and pretending they were there was definitely a rewarding exercise!
 
 I also found it fun to build my own framework for writing Maelstrom apps in Rust without using an existing API. It definitely took a bit of time to parse through the Maelstrom specification and it didn't help that this was the first time I was using Rust in 2 years and the first time I ever did async rust code, but it was definitely a rewarding experience (albeit a bit painful that it took so long to get through just the first exercise).
 
