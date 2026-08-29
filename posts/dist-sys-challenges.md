@@ -1,5 +1,5 @@
 ---
-title: Solving the fly.io distributed systems challenges (while learning about consistency models)
+title: Solving the fly.io distributed systems challenges (and learning about consistency models along the way)
 date: '2026-08-29'
 toc: true
 category: Tech
