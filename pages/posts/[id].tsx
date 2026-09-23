@@ -46,11 +46,14 @@ const Post = ({
   const glassShadow = useColorModeValue(glassShadowLight, glassShadowDark)
   const accentColor = useColorModeValue('#f59e0b', '#fbbf24')
   const subtitleColor = useColorModeValue('gray.500', 'gray.400')
-  const dividerColor = useColorModeValue('rgba(0,0,0,0.07)', 'rgba(255,255,255,0.07)')
+  const dividerColor = useColorModeValue(
+    'rgba(0,0,0,0.07)',
+    'rgba(255,255,255,0.07)'
+  )
   const hoverBorder = useColorModeValue('#f59e0b', '#fbbf24')
   const hoverShadow = useColorModeValue(
-    '0 6px 32px rgba(245,158,11,0.15)',
-    '0 6px 32px rgba(251,191,36,0.1)'
+    '0 2px 8px rgba(245,158,11,0.10)',
+    '0 2px 8px rgba(251,191,36,0.08)'
   )
   const disabledOpacity = 0.4
 
@@ -146,12 +149,15 @@ const Post = ({
             mb={4}
           >
             {/* Header */}
-            <Box px={{ base: 6, md: 10 }} pt={8} pb={6} borderBottom="1px" borderColor={dividerColor} textAlign="center">
-              <Heading
-                size="xl"
-                letterSpacing="-0.02em"
-                mb={3}
-              >
+            <Box
+              px={{ base: 6, md: 10 }}
+              pt={8}
+              pb={6}
+              borderBottom="1px"
+              borderColor={dividerColor}
+              textAlign="center"
+            >
+              <Heading size="xl" letterSpacing="-0.02em" mb={3}>
                 {postData.title}
               </Heading>
               <Flex align="center" justify="center" gap={2}>
@@ -162,7 +168,13 @@ const Post = ({
                 </Text>
                 {postData.readingTime != null && (
                   <>
-                    <Box w="3px" h="3px" borderRadius="full" bg={accentColor} flexShrink={0} />
+                    <Box
+                      w="3px"
+                      h="3px"
+                      borderRadius="full"
+                      bg={accentColor}
+                      flexShrink={0}
+                    />
                     <Text fontSize="sm" color={subtitleColor}>
                       {postData.readingTime} min read
                     </Text>
@@ -184,7 +196,7 @@ const Post = ({
           <Flex gap={3} align="stretch">
             <PostNavCard post={prevPost} direction="prev" />
 
-            <NextLink href="/posts" passHref>
+            <NextLink href="/#posts" passHref>
               <Link
                 {...navCardBase}
                 px={4}

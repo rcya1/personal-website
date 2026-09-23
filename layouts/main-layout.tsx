@@ -1,10 +1,11 @@
-import React, { FC, useEffect, useRef, useState } from 'react'
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { Box, Container } from '@chakra-ui/react'
 import useWindowDimensions, { BasicProps } from 'lib/react-utils'
-import Navbar from 'components/navbar'
 import Footer from 'components/footer'
 import ScrollToTop from 'components/scroll-to-top'
+import ThemeToggle from 'components/theme-toggle'
 import { ChakraAnimate } from 'lib/animate'
+import { ScrollViewContext } from 'lib/scroll'
 // @ts-ignore
 import Scrollbars from 'react-custom-scrollbars'
 
@@ -20,7 +21,6 @@ interface Props extends BasicProps {
 
 const MainLayout: FC<Props> = ({ children, maxW }) => {
   const [isClient, setIsClient] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
   const [showScrollToTop, setShowScrollToTop] = useState(false)
   const scrollbarsRef = useRef<any>(null)
   useEffect(() => {
@@ -29,11 +29,14 @@ const MainLayout: FC<Props> = ({ children, maxW }) => {
 
   const { height } = useWindowDimensions()
 
+  const getScrollView = useCallback(
+    () => (scrollbarsRef.current?.view as HTMLElement) ?? null,
+    []
+  )
+
   const content = (
     <Box as="main" pb={8}>
-      <Navbar scrolled={scrolled} />
-
-      <Container maxW={maxW ? maxW : 'container.md'} mt={16}>
+      <Container maxW={maxW ? maxW : 'container.md'} mt={{ base: 16, md: 20 }}>
         <ChakraAnimate
           initial="hidden"
           animate="enter"
@@ -51,33 +54,38 @@ const MainLayout: FC<Props> = ({ children, maxW }) => {
     </Box>
   )
 
-  return isClient ? (
-    <Scrollbars
-      ref={scrollbarsRef}
-      universal={true}
-      autoHide
-      autoHideTimeout={1000}
-      autoHideDuration={200}
-      autoHeight
-      autoHeightMax={height}
-      autoHeightMin={height}
-      onScrollFrame={(values: any) => {
-        setScrolled(values.scrollTop > 10)
-        setShowScrollToTop(values.scrollTop > height / 2)
-      }}
-    >
-      {content}
+  return (
+    <ScrollViewContext.Provider value={getScrollView}>
+      <ThemeToggle />
 
-      <ScrollToTop
-        visible={showScrollToTop}
-        onClick={() => {
-          const view = scrollbarsRef.current?.view
-          if (view) view.scrollTo({ top: 0, behavior: 'smooth' })
-        }}
-      />
-    </Scrollbars>
-  ) : (
-    <div>{content} </div>
+      {isClient ? (
+        <Scrollbars
+          ref={scrollbarsRef}
+          universal={true}
+          autoHide
+          autoHideTimeout={1000}
+          autoHideDuration={200}
+          autoHeight
+          autoHeightMax={height}
+          autoHeightMin={height}
+          onScrollFrame={(values: any) => {
+            setShowScrollToTop(values.scrollTop > height / 2)
+          }}
+        >
+          {content}
+
+          <ScrollToTop
+            visible={showScrollToTop}
+            onClick={() => {
+              const view = getScrollView()
+              if (view) view.scrollTo({ top: 0, behavior: 'smooth' })
+            }}
+          />
+        </Scrollbars>
+      ) : (
+        <div>{content}</div>
+      )}
+    </ScrollViewContext.Provider>
   )
 }
 

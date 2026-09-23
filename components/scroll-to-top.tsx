@@ -21,8 +21,8 @@ const ScrollToTop = ({
   const glassShadow = useColorModeValue(glassShadowLight, glassShadowDark)
   const accentColor = useColorModeValue('#f59e0b', '#fbbf24')
   const hoverShadow = useColorModeValue(
-    '0 6px 32px rgba(245,158,11,0.20)',
-    '0 6px 32px rgba(251,191,36,0.15)'
+    '0 2px 8px rgba(245,158,11,0.10)',
+    '0 2px 8px rgba(251,191,36,0.08)'
   )
 
   return (
